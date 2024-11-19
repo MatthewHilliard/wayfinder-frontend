@@ -96,16 +96,16 @@ export default function TipsFromLocalsArea() {
         <Marquee className="[--duration:40s]">
           <div className="flex gap-6">
             {tips.map((tip, index) => (
-              <Card key={index} className="flex-shrink-0 w-64">
+              <Card key={index} className="flex-shrink-0 w-96">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <Avatar>
                       <AvatarImage src={tip.avatar} alt={tip.name} />
-                      <AvatarFallback>{tip.name[0]}</AvatarFallback>
+                      <AvatarFallback className="bg-accent">{tip.name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
                       <CardTitle className="text-lg">{tip.name}</CardTitle>
-                      <CardDescription>{tip.location}</CardDescription>
+                      <CardDescription className="text-muted">{tip.location}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>

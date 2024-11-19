@@ -25,8 +25,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between py-4 px-6">
           <div className="flex justify-start pl-4">
             <Link href="/" className="flex items-center">
-              <Compass className="h-8 w-8 text-primary" />
-              <span className="ml-2 text-2xl font-bold text-primary">
+              <Compass className="h-8 w-8 text-primary-foreground" />
+              <span className="ml-2 text-2xl font-bold text-primary-foreground">
                 Wayfinder
               </span>
             </Link>
@@ -86,7 +86,7 @@ export default function Navbar() {
                         src="/placeholder-avatar.jpg"
                         alt="User avatar"
                       />
-                      <AvatarFallback>U</AvatarFallback>
+                      <AvatarFallback className="bg-accent">U</AvatarFallback>
                     </Avatar>
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>

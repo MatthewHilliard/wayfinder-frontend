@@ -11,16 +11,16 @@ export default function HomePageSearchArea() {
           className="mb-6"
           words="Discover Unique Local Experiences"
         />
-        <p className="text-xl mb-8">
+        <p className="text-xl mb-8 text-secondary-foreground">
           Explore the world through the eyes of locals
         </p>
         <div className="max-w-md mx-auto flex">
           <Input
             placeholder="Where are you going?"
-            className="rounded-r-none"
+            className="rounded-r-none border border-border bg-card text-card-foreground placeholder:text-muted focus:ring focus:ring-ring"
           />
-          <Button className="rounded-l-none">
-            <Search className="h-4 w-4 mr-2" />
+          <Button className="rounded-l-none bg-secondary text-secondary-foreground hover:bg-secondary/80">
+            <Search className="h-4 w-4 mr-2 text-secondary-foreground" />
             Search
           </Button>
         </div>
