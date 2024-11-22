@@ -1,14 +1,14 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 const categories = [
-  { name: "Adventure", icon: "🏔️" },
-  { name: "Art & Culture", icon: "🎨" },
-  { name: "Food & Drink", icon: "🍽️" },
-  { name: "History", icon: "🏛️" },
-  { name: "Music", icon: "🎵" },
-  { name: "Nature", icon: "🌿" },
-  { name: "Nightlife", icon: "🍾" },
-  { name: "Shopping", icon: "🛍️" },
+  { name: "adventure", icon: "🏔️" },
+  { name: "art and culture", icon: "🎨" },
+  { name: "food and drink", icon: "🍽️" },
+  { name: "history", icon: "🏛️" },
+  { name: "music", icon: "🎵" },
+  { name: "nature", icon: "🌿" },
+  { name: "nightlife", icon: "🍾" },
+  { name: "shopping", icon: "🛍️" },
 ];
 
 export default function ExploreByCategoryArea() {

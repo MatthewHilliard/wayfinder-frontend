@@ -93,7 +93,7 @@ export default function TipsFromLocalsArea() {
           Tips from Locals
         </h2>
 
-        <Marquee className="[--duration:40s]">
+        <Marquee className="[--duration:80s]">
           <div className="flex gap-6">
             {tips.map((tip, index) => (
               <Card key={index} className="flex-shrink-0 w-96">
