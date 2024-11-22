@@ -11,6 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Compass, MapPin, MessageCircle, User, Menu } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   const navigationItems = [
@@ -25,7 +26,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between py-4 px-6">
           <div className="flex justify-start pl-4">
             <Link href="/" className="flex items-center">
-              <Compass className="h-8 w-8 text-primary-foreground" />
+              <Image src="/wayfinder_logo.png" alt="Wayfinder logo" width={48} height={48}/>
               <span className="ml-2 text-2xl font-bold text-primary-foreground">
                 Wayfinder
               </span>
@@ -44,7 +45,7 @@ export default function Navbar() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900"
+                      className="flex items-center px-4 py-2 text-sm font-medium rounded-md"
                     >
                       <item.icon className="mr-3 h-6 w-6" />
                       {item.name}
@@ -52,7 +53,7 @@ export default function Navbar() {
                   ))}
                   <Link
                     href="/profile"
-                    className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 hover:text-gray-900"
+                    className="flex items-center px-4 py-2 text-sm font-medium rounded-md"
                   >
                     <User className="mr-3 h-6 w-6" />
                     Profile
@@ -67,7 +68,7 @@ export default function Navbar() {
                 <NavigationMenuItem key={item.name}>
                   <NavigationMenuLink
                     href={item.href}
-                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary hover:text-secondary-foreground"
                   >
                     <item.icon className="mr-2 h-4 w-4" />
                     {item.name}
