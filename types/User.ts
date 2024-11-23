@@ -8,9 +8,10 @@ export interface User {
   is_staff: boolean;
   is_superuser: boolean;
   date_joined: Date
-  profile_picture?: string | null
+  profile_picture?: string
+  profile_picture_url?: string
   bio?: string
-  country?: string | null
-  city?: string | null
+  country?: string
+  city?: string
   last_login?: Date
 }

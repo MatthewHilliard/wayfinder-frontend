@@ -5,7 +5,7 @@ export default function ExperienceSearch() {
     <Input
       type="text"
       placeholder="What do you want to do?"
-      className="mb-4 text-card-foreground placeholder:text-muted"
+      className="mb-4 h-10 text-card-foreground placeholder:text-muted"
     />
   );
 }
