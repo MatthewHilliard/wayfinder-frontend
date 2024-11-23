@@ -1,31 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Tag } from "@/types/Tag";
 import TagsAPI from "@/api/TagsAPI";
 import { Experience } from "@/types/Experience";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
 import ExperienceCard from "@/components/pages/experiences/browse/ExperienceCard";
+import LocationSearch from "@/components/universal/LocationSearch";
+import ExperienceSearch from "@/components/pages/experiences/browse/ExperienceSearch";
+import TagFilter from "@/components/pages/experiences/browse/TagFilter";
+import { Label } from "@radix-ui/react-label";
 
 export default function BrowseExperiences() {
   // State variable to store experiences loading state
@@ -37,7 +22,9 @@ export default function BrowseExperiences() {
   // State variable to store selected tags
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
+  // UseEffect hook to run on component mount
   useEffect(() => {
+    // Function to fetch tags from the API
     const fetchTags = async () => {
       try {
         const fetchedTags = await TagsAPI.getAllTags();
@@ -47,6 +34,7 @@ export default function BrowseExperiences() {
       }
     };
 
+    // Function to fetch experiences from the API
     const fetchExperiences = async () => {
       try {
         setExperiencesLoading(true);
@@ -62,6 +50,7 @@ export default function BrowseExperiences() {
     void fetchExperiences();
   }, []);
 
+  // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
@@ -72,27 +61,30 @@ export default function BrowseExperiences() {
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Browse Experiences</h1>
 
-      <div className="mb-6">
-        <Input
-          type="text"
-          placeholder="Search experiences or locations..."
-          // onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4 text-card-foreground placeholder:text-muted"
-        />
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag) => (
-            <Badge
-              key={tag.tag_id}
-              variant={selectedTags.includes(tag) ? "secondary" : "outline"}
-              className="cursor-pointer"
-              onClick={() => toggleTag(tag)}
-            >
-              {tag.name}
-            </Badge>
-          ))}
+      {/* Flex container for aligned searches */}
+      <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
+        <div className="w-full">
+          <Label htmlFor="location-search" className="block mb-2 text-sm font-medium">
+            Search by Location
+          </Label>
+          <LocationSearch />
+        </div>
+        <div className="w-full">
+          <Label htmlFor="experience-search" className="block mb-2 text-sm font-medium">
+            Search by Experience
+          </Label>
+          <ExperienceSearch />
         </div>
       </div>
 
+      {/* TagFilter Component */}
+      <TagFilter
+        tags={tags}
+        selectedTags={selectedTags}
+        onToggleTag={toggleTag}
+      />
+
+      {/* Container for  */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {experiences.map((experience) => (
           <ExperienceCard
@@ -101,31 +93,6 @@ export default function BrowseExperiences() {
           />
         ))}
       </div>
-
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
     </div>
   );
 }

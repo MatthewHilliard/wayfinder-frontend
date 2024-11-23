@@ -16,7 +16,6 @@ import Image from "next/image";
 export default function Navbar() {
   const navigationItems = [
     { name: "Experiences", href: "/experiences/browse", icon: Compass },
-    { name: "Destinations", href: "/destinations/browse", icon: MapPin },
     { name: "Tips & Advice", href: "/tips/browse", icon: MessageCircle },
   ];
 
@@ -57,7 +56,7 @@ export default function Navbar() {
                   >
                     <User className="mr-3 h-6 w-6" />
                     Profile
-                  </Link>
+                  </Link> 
                 </nav>
               </SheetContent>
             </Sheet>

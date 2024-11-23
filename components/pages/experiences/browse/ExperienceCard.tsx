@@ -11,15 +11,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
+import { useRouter } from "next/navigation";
 
+// ExperienceCardProps interface
 type ExperienceCardProps = {
   experience: Experience;
 };
 
+// ExperienceCard component
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
+  const router = useRouter(); // Initialize useRouter
+
+  const handleCardClick = () => {
+    // Open the dynamic route in a new tab
+    window.open(`/experiences/${experience.experience_id}`, "_blank");  };
+
   return (
     <Card
       key={experience.experience_id}
+      onClick={handleCardClick}
       className="flex flex-col cursor-pointer transition-transform transform hover:scale-105"
     >
       {experience.image_url && (

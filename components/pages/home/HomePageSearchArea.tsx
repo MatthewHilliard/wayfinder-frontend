@@ -1,7 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import WordFadeIn from "@/components/ui/word-fade-in";
+import LocationSearch from "@/components/universal/LocationSearch";
 
 export default function HomePageSearchArea() {
   return (
@@ -15,14 +18,7 @@ export default function HomePageSearchArea() {
           Explore the world through the eyes of locals
         </p>
         <div className="max-w-md mx-auto flex">
-          <Input
-            placeholder="Where are you going?"
-            className="rounded-r-none border border-border bg-card text-card-foreground placeholder:text-muted focus:ring focus:ring-ring"
-          />
-          <Button className="rounded-l-none bg-secondary text-secondary-foreground hover:bg-secondary/80">
-            <Search className="h-4 w-4 mr-2 text-secondary-foreground" />
-            Search
-          </Button>
+          <LocationSearch />
         </div>
       </div>
     </section>
