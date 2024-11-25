@@ -23,7 +23,6 @@ export default function HomePageSearchArea() {
         {/* Search bar */}
         <div className="max-w-md mx-auto flex">
           <LocationSearch
-            value={location}
             onChange={(newLocation) => setLocation(newLocation)}
           />
         </div>

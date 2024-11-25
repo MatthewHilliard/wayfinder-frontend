@@ -92,7 +92,7 @@ export function ExperienceForm({
               <FormLabel>Experience Title</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Give your experience a catchy title"
+                  placeholder="What is the name of this experience?"
                   {...field}
                 />
               </FormControl>
@@ -125,7 +125,7 @@ export function ExperienceForm({
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about your amazing experience"
+                  placeholder="Tell us about this amazing experience"
                   className="min-h-[100px]"
                   {...field}
                 />
@@ -134,7 +134,7 @@ export function ExperienceForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="ml-auto">
+        <Button type="submit" className="ml-auto bg-secondary">
           Submit Experience
         </Button>
       </form>

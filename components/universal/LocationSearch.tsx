@@ -1,3 +1,4 @@
+import LocationsAPI from "@/api/LocationsAPI";
 import {
   Command,
   CommandEmpty,
@@ -6,38 +7,28 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { City } from "@/types/City";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-const locations = [
-  "New York, NY",
-  "Los Angeles, CA",
-  "Chicago, IL",
-  "San Francisco, CA",
-  "Miami, FL",
-  "Seattle, WA",
-  "Boston, MA",
-  "Austin, TX",
-  "Nashville, TN",
-];
-
 interface LocationSearchProps {
   isForForm?: boolean; // Determines if this component is being used in a form
-  value: string; // Default value for the input
-  onChange: (value: string) => void; // For controlled input
+  defaultValue?: string; // Default value for the input
+  onSelect: (value: string) => void; // For controlled input
 }
 
 export default function LocationSearch({
   isForForm = false,
-  value,
-  onChange,
+  defaultValue = "",
+  onSelect,
 }: LocationSearchProps) {
-  // State to manage the dropdown open
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  // Ref to the command dropdown
-  const commandRef = useRef<HTMLDivElement | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false); // State to manage dropdown visibility
+  const [cities, setCities] = useState<City[]>([]); // State to hold fetched cities
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
+  const [searchValue, setSearchValue] = useState<string>(defaultValue); // Local state for search input
+  const commandRef = useRef<HTMLDivElement | null>(null); // Ref to the command dropdown
 
-  // Use ffect to close dropdown when clicking outside
+  // Use effect to close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -54,9 +45,28 @@ export default function LocationSearch({
     };
   }, []);
 
+  // Fetch cities from the backend when the input value changes
+  useEffect(() => {
+    setLoading(true);
+    const fetchCities = async () => {
+      try {
+        const fetchedCities = await LocationsAPI.citySearch(searchValue);
+        setCities(fetchedCities);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+        setCities([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const debounceFetch = setTimeout(fetchCities, 300); // Debounce API calls
+    return () => clearTimeout(debounceFetch);
+  }, [searchValue]);
+
   // Determine placeholder text based on whether it's for a form
   const placeholderText = isForForm
-    ? "Where is this for?"
+    ? "Where is this located?"
     : "Where are you going?";
 
   return (
@@ -64,9 +74,8 @@ export default function LocationSearch({
       <Command className="rounded-lg border shadow-md">
         <CommandInput
           placeholder={placeholderText}
-          value={value} // Controlled input
           onValueChange={(input) => {
-            onChange(input);
+            setSearchValue(input);
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
@@ -76,22 +85,18 @@ export default function LocationSearch({
           <CommandList className="absolute top-full mt-2 w-full z-10 bg-background rounded-lg border shadow-md">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {locations
-                .filter((loc) =>
-                  loc.toLowerCase().includes(value.toLowerCase())
-                )
-                .map((location) => (
-                  <CommandItem
-                    key={location}
-                    onSelect={() => {
-                      onChange(location);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <MapPin className="mr-2 h-4 w-4" />
-                    {location}
-                  </CommandItem>
-                ))}
+              {cities.map((city) => (
+                <CommandItem
+                  key={city.city_id}
+                  onSelect={() => {
+                    onSelect(`${city.name}, ${city.region}, ${city.country}`);
+                    setIsOpen(false);
+                  }}
+                >
+                  <MapPin className="mr-2 h-4 w-4" />
+                  {`${city.name}, ${city.region}, ${city.country}`}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         )}
