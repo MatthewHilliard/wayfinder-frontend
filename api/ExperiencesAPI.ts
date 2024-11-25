@@ -1,7 +1,6 @@
 import apiService from "@/services/apiService";
 import { Experience } from "@/types/Experience";
 import { UUID } from "crypto";
-import { get } from "http";
 
 const ExperiencesAPI = {
   /*
@@ -15,6 +14,31 @@ const ExperiencesAPI = {
       return experiences;
     } catch (error) {
       console.error("Error fetching experiences:", error);
+      throw error;
+    }
+  },
+  getExperiencesWithFilters: async (tags?: string[]): Promise<Experience[]> => {
+    /*
+     * Fetches experiences with optional filters
+     * @param tags - Optional array of tag names
+     * @returns array of filtered experiences
+     */
+    try {
+      // Construct query string dynamically
+      const queryParams = new URLSearchParams();
+
+      // Append tags if provided
+      if (tags) {
+        tags.forEach((tag) => queryParams.append("tags", tag));
+      }
+
+      const queryString = queryParams.toString();
+      const response = await apiService.get(
+        `/experiences/get_experiences_with_filters/?${queryString}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching experiences with filters:", error);
       throw error;
     }
   },

@@ -20,6 +20,8 @@ export default function BrowseExperiences() {
   const [tags, setTags] = useState<Tag[]>([]);
   // State variable to store selected tags
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  // State variable to store search query for location
+  const [locationSearch, setLocationSearch] = useState<string>("");
 
   // UseEffect hook to run on component mount
   useEffect(() => {
@@ -49,6 +51,28 @@ export default function BrowseExperiences() {
     void fetchExperiences();
   }, []);
 
+  // Fetch experiences whenever one of the search filters change
+  useEffect(() => {
+    // Define function to fetch experiences with search filters
+    const fetchFilteredExperiences = async () => {
+      try {
+        setExperiencesLoading(true);
+        const tagNames = selectedTags.map((tag) => tag.name); // Extract tag names
+        const fetchedExperiences =
+          await ExperiencesAPI.getExperiencesWithFilters(tagNames);
+        setExperiences(fetchedExperiences);
+      } catch (error) {
+        console.error("Failed to fetch filtered experiences:", error);
+      } finally {
+        setExperiencesLoading(false);
+      }
+    };
+
+    if (selectedTags.length > 0) {
+      void fetchFilteredExperiences();
+    }
+  }, [selectedTags]);
+
   // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
     setSelectedTags((prev) =>
@@ -69,7 +93,10 @@ export default function BrowseExperiences() {
           >
             Search by Location
           </Label>
-          <LocationSearch />
+          <LocationSearch
+            value={locationSearch}
+            onChange={(newLocation) => setLocationSearch(newLocation)}
+          />
         </div>
         <div className="w-full">
           <Label
