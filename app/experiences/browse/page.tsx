@@ -68,9 +68,7 @@ export default function BrowseExperiences() {
       }
     };
 
-    if (selectedTags.length > 0) {
-      void fetchFilteredExperiences();
-    }
+    void fetchFilteredExperiences();
   }, [selectedTags]);
 
   // Function to toggle a tag
