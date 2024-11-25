@@ -98,7 +98,6 @@ export default function Navbar() {
                   <NavigationMenuTrigger className="h-10 w-10 rounded-full">
                     <Avatar>
                       <AvatarImage
-                        src="/placeholder-avatar.jpg"
                         alt="User avatar"
                       />
                       <AvatarFallback className="bg-accent">U</AvatarFallback>

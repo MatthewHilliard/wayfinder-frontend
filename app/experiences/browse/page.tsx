@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/types/Tag";
 import TagsAPI from "@/api/TagsAPI";
 import { Experience } from "@/types/Experience";

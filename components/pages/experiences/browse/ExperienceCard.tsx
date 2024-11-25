@@ -18,8 +18,6 @@ type ExperienceCardProps = {
 };
 
 export default function ExperienceCard({ experience }: ExperienceCardProps) {
-  const router = useRouter(); // Initialize useRouter
-
   const handleCardClick = () => {
     // Open the dynamic route in a new tab
     window.open(`/experiences/${experience.experience_id}`, "_blank");

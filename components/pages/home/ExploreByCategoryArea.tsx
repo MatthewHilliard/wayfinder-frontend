@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { MagicCard } from "@/components/ui/magic-card";
 
 // Declare the popular categories
 const categories = [
@@ -21,18 +21,20 @@ export default function ExploreByCategoryArea() {
         <h2 className="mb-8 text-3xl font-bold text-center text-primary-foreground">
           Explore by Popular Categories
         </h2>
-        {/* Map through the categories and display them in Cards */}
+
+        {/* Map through the categories and display them in Magic Cards */}
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {categories.map((category, index) => (
-            <Card
+            <MagicCard
               key={index}
-              className="hover:shadow-lg cursor-pointer transition-shadow bg-card text-card-foreground"
+              className="bg-card text-card-foreground cursor-pointer flex flex-col items-center justify-center shadow-2xl text-center h-40 transition-transform hover:scale-105"
+              gradientColor="#D9D9D955"
             >
-              <CardHeader className="flex items-center justify-center h-24">
-                <span className="text-3xl mr-2">{category.icon}</span>
-                <CardTitle className="text-lg">{category.name}</CardTitle>
-              </CardHeader>
-            </Card>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl mb-2">{category.icon}</span>
+                <span className="text-lg font-bold">{category.name}</span>
+              </div>
+            </MagicCard>
           ))}
         </div>
       </div>

@@ -2,10 +2,13 @@
 
 import WordFadeIn from "@/components/ui/word-fade-in";
 import LocationSearch from "@/components/universal/LocationSearch";
+import { useState } from "react";
 
 export default function HomePageSearchArea() {
+  const [location, setLocation] = useState<string>("");
+
   return (
-    <section className="bg-primary text-primary-foreground py-20">
+    <section className="bg-background-colored text-primary-foreground py-20">
       {/* Container for the search area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Text for this area */}
@@ -19,7 +22,10 @@ export default function HomePageSearchArea() {
 
         {/* Search bar */}
         <div className="max-w-md mx-auto flex">
-          <LocationSearch />
+          <LocationSearch
+            value={location}
+            onChange={(newLocation) => setLocation(newLocation)}
+          />
         </div>
       </div>
     </section>

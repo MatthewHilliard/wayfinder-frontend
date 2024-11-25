@@ -21,10 +21,19 @@ const locations = [
   "Nashville, TN",
 ];
 
-export default function LocationSearch() {
-  const [searchInput, setSearchInput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+interface LocationSearchProps {
+  isForForm?: boolean; // Determines if this component is being used in a form
+  value: string; // Default value for the input
+  onChange: (value: string) => void; // For controlled input
+}
 
+export default function LocationSearch({
+  isForForm = false,
+  value,
+  onChange,
+}: LocationSearchProps) {
+  // State to manage the dropdown open
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   // Ref to the command dropdown
   const commandRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,38 +54,44 @@ export default function LocationSearch() {
     };
   }, []);
 
+  // Determine placeholder text based on whether it's for a form
+  const placeholderText = isForForm
+    ? "Where is this for?"
+    : "Where are you going?";
+
   return (
     <div className="relative w-full" ref={commandRef}>
-      {/* Command dropdown menu */}
       <Command className="rounded-lg border shadow-md">
-        {/* Command input for text from user */}
         <CommandInput
-          className="placeholder:text-muted"
-          placeholder="Where are you going?"
-          value={searchInput}
-          onValueChange={setSearchInput}
+          placeholder={placeholderText}
+          value={value} // Controlled input
+          onValueChange={(input) => {
+            onChange(input);
+            setIsOpen(true);
+          }}
           onFocus={() => setIsOpen(true)}
         />
 
-        {/* Command list for results, if the command is open */}
         {isOpen && (
           <CommandList className="absolute top-full mt-2 w-full z-10 bg-background rounded-lg border shadow-md">
             <CommandEmpty>No results found.</CommandEmpty>
-
-            {/* Command groups for each location matching the search query */}
             <CommandGroup>
-              {locations.map((location) => (
-                <CommandItem
-                  key={location}
-                  onSelect={() => {
-                    setSearchInput(location);
-                    setIsOpen(false);
-                  }}
-                >
-                  <MapPin className="mr-2 h-4 w-4" />
-                  {location}
-                </CommandItem>
-              ))}
+              {locations
+                .filter((loc) =>
+                  loc.toLowerCase().includes(value.toLowerCase())
+                )
+                .map((location) => (
+                  <CommandItem
+                    key={location}
+                    onSelect={() => {
+                      onChange(location);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <MapPin className="mr-2 h-4 w-4" />
+                    {location}
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </CommandList>
         )}
