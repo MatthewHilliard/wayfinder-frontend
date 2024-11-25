@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, MapPin, MessageCircle, User, Menu } from "lucide-react";
+import { Compass, MessageCircle, User, Menu } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -23,14 +23,22 @@ export default function Navbar() {
     <header className="shadow-sm">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4 px-6">
+          {/* Top Left Text with Logo */}
           <div className="flex justify-start pl-4">
             <Link href="/" className="flex items-center">
-              <Image src="/wayfinder_logo.png" alt="Wayfinder logo" width={48} height={48}/>
+              <Image
+                src="/wayfinder_logo.png"
+                alt="Wayfinder logo"
+                width={48}
+                height={48}
+              />
               <span className="ml-2 text-2xl font-bold text-primary-foreground">
                 Wayfinder
               </span>
             </Link>
           </div>
+
+          {/* Navigation Items for sheet, shown when screen is condensed */}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -40,6 +48,7 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col gap-4">
+                  {/* Map Navigation Items */}
                   {navigationItems.map((item) => (
                     <Link
                       key={item.name}
@@ -50,17 +59,21 @@ export default function Navbar() {
                       {item.name}
                     </Link>
                   ))}
+
+                  {/* Profile Navigation Item */}
                   <Link
                     href="/profile"
                     className="flex items-center px-4 py-2 text-sm font-medium rounded-md"
                   >
                     <User className="mr-3 h-6 w-6" />
                     Profile
-                  </Link> 
+                  </Link>
                 </nav>
               </SheetContent>
             </Sheet>
           </div>
+
+          {/* Navigation Items for when screen is not condensed */}
           <NavigationMenu className="hidden md:flex ml-auto mr-6">
             <NavigationMenuList>
               {navigationItems.map((item) => (
@@ -76,6 +89,8 @@ export default function Navbar() {
               ))}
             </NavigationMenuList>
           </NavigationMenu>
+
+          {/* Profile Avatar to be shown in the top left */}
           <div className="hidden md:flex items-center">
             <NavigationMenu>
               <NavigationMenuList>
@@ -89,6 +104,8 @@ export default function Navbar() {
                       <AvatarFallback className="bg-accent">U</AvatarFallback>
                     </Avatar>
                   </NavigationMenuTrigger>
+
+                  {/* Profile Dropdown */}
                   <NavigationMenuContent>
                     <ul className="grid w-[200px] gap-3 p-4">
                       <li>

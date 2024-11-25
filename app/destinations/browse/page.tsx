@@ -1,3 +1,3 @@
 export default function BrowseDestinationsPage() {
-    return <div>Browse  destinations</div>
+    return <div>Browse destinations</div>
 }

@@ -4,10 +4,13 @@ import TipsFromLocalsArea from "@/components/pages/home/TipsFromLocalsArea";
 
 export default function Home() {
   return (
-    <main className="flex-grow">
-      <HomePageSearchArea />
-      <ExploreByCategoryArea />
-      <TipsFromLocalsArea />
-    </main>
+    <>
+      {/* Home Page with All the Components */}
+      <main className="flex-grow">
+        <HomePageSearchArea />
+        <ExploreByCategoryArea />
+        <TipsFromLocalsArea />
+      </main>
+    </>
   );
 }

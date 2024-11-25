@@ -87,35 +87,50 @@ const tips = [
 // Create the TipsFromLocalsArea component to display the tips
 export default function TipsFromLocalsArea() {
   return (
-    <section className="py-16">
-      <div className="container mx-auto">
+    <section className="py-16 relative">
+      <div className="container mx-auto relative">
+        {/* Section Title */}
         <h2 className="mb-8 text-3xl font-bold text-center">
           Tips from Locals
         </h2>
 
-        <Marquee className="[--duration:80s]">
-          <div className="flex gap-6">
-            {tips.map((tip, index) => (
-              <Card key={index} className="flex-shrink-0 w-96">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src={tip.avatar} alt={tip.name} />
-                      <AvatarFallback className="bg-accent">{tip.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-lg">{tip.name}</CardTitle>
-                      <CardDescription className="text-muted">{tip.location}</CardDescription>
+        {/* Marquee Container */}
+        <div className="relative overflow-hidden">
+          <Marquee className="[--duration:80s]">
+            <div className="flex gap-6">
+              {/* Map each tip to a Card component displayed in the marquee */}
+              {tips.map((tip, index) => (
+                <Card key={index} className="flex-shrink-0 w-96">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <Avatar>
+                        <AvatarImage src={tip.avatar} alt={tip.name} />
+                        <AvatarFallback className="bg-accent">
+                          {tip.name[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className="text-lg">{tip.name}</CardTitle>
+                        <CardDescription className="text-muted">
+                          {tip.location}
+                        </CardDescription>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p>{tip.tip}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </Marquee>
+                  </CardHeader>
+                  <CardContent>
+                    <p>{tip.tip}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </Marquee>
+
+          {/* Left Gradient */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background via-background/50 to-transparent dark:from-background dark:via-background/50"></div>
+
+          {/* Right Gradient */}
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background via-background/50 to-transparent dark:from-background dark:via-background/50"></div>
+        </div>
       </div>
     </section>
   );

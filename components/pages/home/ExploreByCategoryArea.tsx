@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
+// Declare the popular categories
 const categories = [
   { name: "adventure", icon: "🏔️" },
   { name: "art and culture", icon: "🎨" },
@@ -14,10 +15,13 @@ const categories = [
 export default function ExploreByCategoryArea() {
   return (
     <section className="py-16 bg-background">
+      {/* Popular Categories Container */}
       <div className="container mx-auto">
+        {/* Popular Categories Title */}
         <h2 className="mb-8 text-3xl font-bold text-center text-primary-foreground">
           Explore by Popular Categories
         </h2>
+        {/* Map through the categories and display them in Cards */}
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {categories.map((category, index) => (
             <Card

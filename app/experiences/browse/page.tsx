@@ -64,13 +64,19 @@ export default function BrowseExperiences() {
       {/* Flex container for aligned searches */}
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
         <div className="w-full">
-          <Label htmlFor="location-search" className="block mb-2 text-sm font-medium">
+          <Label
+            htmlFor="location-search"
+            className="block mb-2 text-sm font-medium"
+          >
             Search by Location
           </Label>
           <LocationSearch />
         </div>
         <div className="w-full">
-          <Label htmlFor="experience-search" className="block mb-2 text-sm font-medium">
+          <Label
+            htmlFor="experience-search"
+            className="block mb-2 text-sm font-medium"
+          >
             Search by Experience
           </Label>
           <ExperienceSearch />
@@ -84,7 +90,7 @@ export default function BrowseExperiences() {
         onToggleTag={toggleTag}
       />
 
-      {/* Container for  */}
+      {/* Container for Resulting Experiences */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         {experiences.map((experience) => (
           <ExperienceCard
