@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
-import { useRouter } from "next/navigation";
 
 type ExperienceCardProps = {
   experience: Experience;
