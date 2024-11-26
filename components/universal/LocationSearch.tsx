@@ -8,13 +8,13 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { City } from "@/types/City";
-import { Loader, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface LocationSearchProps {
   isForForm?: boolean; // Determines if this component is being used in a form
   defaultValue?: string; // Default value for the input
-  onSelect: (value: string) => void; // For controlled input
+  onSelect: (city: City) => void; // For controlled input
 }
 
 export default function LocationSearch({
@@ -48,7 +48,6 @@ export default function LocationSearch({
     try {
       const fetchedCities = await LocationsAPI.citySearch(searchValue);
       setCities(fetchedCities);
-      console.log(fetchedCities);
     } catch (error) {
       console.error("Error fetching locations:", error);
       setCities([]);
@@ -57,6 +56,7 @@ export default function LocationSearch({
 
   // Fetch cities from the backend when the component mounts
   useEffect(() => {
+    console.log(defaultValue);
     void fetchCities();
   }, []);
 
@@ -98,7 +98,7 @@ export default function LocationSearch({
                     key={city.city_id}
                     value={city.city_id}
                     onSelect={() => {
-                      onSelect(`${city.name}, ${city.region}, ${city.country}`);
+                      onSelect(city);
                       setIsOpen(false);
                     }}
                   >

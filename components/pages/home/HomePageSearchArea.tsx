@@ -2,14 +2,22 @@
 
 import WordFadeIn from "@/components/ui/word-fade-in";
 import LocationSearch from "@/components/universal/LocationSearch";
-import { useEffect, useState } from "react";
+import { City } from "@/types/City";
+import { useRouter, useParams } from "next/navigation";
 
 export default function HomePageSearchArea() {
-  const [location, setLocation] = useState<string>("");
+  const router = useRouter();
 
-  useEffect(() => {
+  // Function to handle city selection
+  const handleCitySelect = (city: City) => {
+    // Navigate to the browse page with city info as search parameters
+    const query = new URLSearchParams({
+      city: city.name || "",
+      country: city.country || "",
+    }).toString();
 
-  }, [location]);
+    router.push(`/experiences/browse?${query}`);
+  };
 
   return (
     <section className="bg-background-colored text-primary-foreground py-20">
@@ -26,9 +34,7 @@ export default function HomePageSearchArea() {
 
         {/* Search bar */}
         <div className="max-w-md mx-auto flex">
-          <LocationSearch
-            onSelect={(newLocation) => setLocation(newLocation)}
-          />
+          <LocationSearch onSelect={handleCitySelect} />
         </div>
       </div>
     </section>

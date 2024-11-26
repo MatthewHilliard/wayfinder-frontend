@@ -10,6 +10,8 @@ import LocationSearch from "@/components/universal/LocationSearch";
 import ExperienceSearch from "@/components/pages/experiences/browse/ExperienceSearch";
 import TagFilter from "@/components/pages/experiences/browse/TagFilter";
 import { Label } from "@radix-ui/react-label";
+import { useSearchParams } from "next/navigation";
+import { City } from "@/types/City";
 
 export default function BrowseExperiences() {
   // State variable to store experiences loading state
@@ -20,8 +22,12 @@ export default function BrowseExperiences() {
   const [tags, setTags] = useState<Tag[]>([]);
   // State variable to store selected tags
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+  // State variable to store default location input
+  const [defaultLocation, setDefaultLocation] = useState<string>("");
   // State variable to store search query for location
-  const [locationSearch, setLocationSearch] = useState<string>("");
+  const [locationSearch, setLocationSearch] = useState<City | null>(null);
+  // Initialize searchParams hook
+  const searchParams = useSearchParams();
 
   // UseEffect hook to run on component mount
   useEffect(() => {
@@ -47,9 +53,19 @@ export default function BrowseExperiences() {
       setExperiencesLoading(false);
     };
 
+    // Autofill the search input with city info from query parameters
+    const city = searchParams.get("city");
+    const country = searchParams.get("country");
+
+    if (city) {
+      setDefaultLocation(city); // Default to city name if available
+    } else if (country) {
+      setDefaultLocation(country); // Default to country if city is not present
+    }
+
     void fetchTags();
     void fetchExperiences();
-  }, []);
+  }, [searchParams]);
 
   // Fetch experiences whenever one of the search filters change
   useEffect(() => {
@@ -92,8 +108,8 @@ export default function BrowseExperiences() {
             Search by Location
           </Label>
           <LocationSearch
-            value={locationSearch}
-            onChange={(newLocation) => setLocationSearch(newLocation)}
+            defaultValue={defaultLocation}
+            onSelect={(newLocation) => setLocationSearch(newLocation)}
           />
         </div>
         <div className="w-full">
