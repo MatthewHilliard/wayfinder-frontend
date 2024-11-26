@@ -109,8 +109,10 @@ export function ExperienceForm({
               <FormControl>
                 <LocationSearch
                   isForForm={true}
-                  value={field.value || ""}
-                  onChange={field.onChange} // Integrate with react-hook-form
+                  // set value to current user's city, country
+                  onSelect={(value) => {
+                    field.onChange(value); // Update react-hook-form field
+                  }}
                 />
               </FormControl>
               <FormMessage />
