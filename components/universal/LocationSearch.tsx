@@ -12,13 +12,11 @@ import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface LocationSearchProps {
-  isForForm?: boolean; // Determines if this component is being used in a form
   defaultValue?: string; // Default value for the input
   onSelect: (city: City) => void; // For controlled input
 }
 
 export default function LocationSearch({
-  isForForm = false,
   defaultValue = "",
   onSelect,
 }: LocationSearchProps) {
@@ -60,11 +58,6 @@ export default function LocationSearch({
     return () => clearTimeout(debounceFetch);
   }, [searchValue]);
 
-  // Determine placeholder text based on whether it's for a form
-  const placeholderText = isForForm
-    ? "Where is this located?"
-    : "Where are you going?";
-
   // Format the location string
   const formatLocation = (city: City) => {
     const parts = [city.name, city.region, city.country].filter(Boolean);
@@ -80,7 +73,7 @@ export default function LocationSearch({
     <div className="relative w-full" ref={commandRef}>
       <Command className="rounded-lg border shadow-md" shouldFilter={false}>
         <CommandInput
-          placeholder={placeholderText}
+          placeholder="Where are you going?"
           onValueChange={(input) => {
             setSearchValue(input);
             setIsOpen(true);
