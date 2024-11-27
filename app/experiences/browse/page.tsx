@@ -53,18 +53,25 @@ export default function BrowseExperiences() {
       setExperiencesLoading(false);
     };
 
-    // Autofill the search input with city info from query parameters
-    const city = searchParams.get("city");
-    const country = searchParams.get("country");
+    // Extract city and country from search params
+    const cityQuery = searchParams.get("cityObject");
 
-    if (city) {
-      setDefaultLocation(city); // Default to city name if available
-    } else if (country) {
-      setDefaultLocation(country); // Default to country if city is not present
+    // Attempt to parse city object from query
+    if (cityQuery) {
+      try {
+        const city = JSON.parse(decodeURIComponent(cityQuery)) as City;
+        setLocationSearch(city);
+      } catch (error) {
+        console.error("Failed to parse city object from query:", error);
+      }
     }
 
     void fetchTags();
-    void fetchExperiences();
+
+    // Fetch experiences only if there's no city query
+    if (!cityQuery) {
+      void fetchExperiences();
+    }
   }, [searchParams]);
 
   // Fetch experiences whenever one of the search filters change
@@ -73,10 +80,23 @@ export default function BrowseExperiences() {
     const fetchFilteredExperiences = async () => {
       try {
         setExperiencesLoading(true);
-        const tagNames = selectedTags.map((tag) => tag.name); // Extract tag names
-        const fetchedExperiences =
-          await ExperiencesAPI.getExperiencesWithFilters(tagNames);
-        setExperiences(fetchedExperiences);
+
+        // Extract data for filtering
+        const tagNames = selectedTags.map((tag) => tag.name);
+        const locationType = locationSearch?.type; // "city" or "country"
+        const locationId = locationSearch?.city_id; // Use the city_id or country_id
+
+        // Fetch experiences with filters only if there's meaningful data
+        if (tagNames.length > 0 || locationType || locationId) {
+          const fetchedExperiences =
+            await ExperiencesAPI.getExperiencesWithFilters(
+              tagNames,
+              locationType,
+              locationId
+            );
+
+          setExperiences(fetchedExperiences);
+        }
       } catch (error) {
         console.error("Failed to fetch filtered experiences:", error);
       } finally {
@@ -85,7 +105,7 @@ export default function BrowseExperiences() {
     };
 
     void fetchFilteredExperiences();
-  }, [selectedTags]);
+  }, [selectedTags, locationSearch]);
 
   // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
@@ -132,12 +152,16 @@ export default function BrowseExperiences() {
 
       {/* Container for Resulting Experiences */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        {experiences.map((experience) => (
-          <ExperienceCard
-            key={experience.experience_id}
-            experience={experience}
-          />
-        ))}
+        {experiences && experiences.length > 0 ? (
+          experiences.map((experience) => (
+            <ExperienceCard
+              key={experience.experience_id}
+              experience={experience}
+            />
+          ))
+        ) : (
+          <p>No experiences found.</p>
+        )}
       </div>
     </div>
   );

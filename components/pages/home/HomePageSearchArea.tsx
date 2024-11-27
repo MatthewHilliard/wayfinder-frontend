@@ -10,13 +10,9 @@ export default function HomePageSearchArea() {
 
   // Function to handle city selection
   const handleCitySelect = (city: City) => {
-    // Navigate to the browse page with city info as search parameters
-    const query = new URLSearchParams({
-      city: city.name || "",
-      country: city.country || "",
-    }).toString();
-
-    router.push(`/experiences/browse?${query}`);
+    // Serialize the city object into a query parameter
+    const cityQuery = encodeURIComponent(JSON.stringify(city));
+    router.push(`/experiences/browse?cityObject=${cityQuery}`);
   };
 
   return (

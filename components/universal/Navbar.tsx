@@ -29,8 +29,10 @@ export default function Navbar() {
               <Image
                 src="/wayfinder_logo.png"
                 alt="Wayfinder logo"
-                width={48}
-                height={48}
+                width={0}
+                height={0}
+                sizes="60px"
+                className="w-full h-auto"
               />
               <span className="ml-2 text-2xl font-bold text-primary-foreground">
                 Wayfinder
@@ -97,9 +99,7 @@ export default function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="h-10 w-10 rounded-full">
                     <Avatar>
-                      <AvatarImage
-                        alt="User avatar"
-                      />
+                      <AvatarImage alt="User avatar" />
                       <AvatarFallback className="bg-accent">U</AvatarFallback>
                     </Avatar>
                   </NavigationMenuTrigger>

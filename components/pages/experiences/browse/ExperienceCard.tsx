@@ -37,6 +37,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
               src={experience.image_url}
               alt={experience.title}
               fill
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
               className="rounded-t-lg"
             />

@@ -54,12 +54,6 @@ export default function LocationSearch({
     }
   };
 
-  // Fetch cities from the backend when the component mounts
-  useEffect(() => {
-    console.log(defaultValue);
-    void fetchCities();
-  }, []);
-
   // Fetch cities from the backend when the input value changes
   useEffect(() => {
     const debounceFetch = setTimeout(fetchCities, 150);
@@ -77,6 +71,11 @@ export default function LocationSearch({
     return parts.join(", ");
   };
 
+  // Generate the dynamic key, which ensures that country and city IDs do not collide when mapping
+  const generateKey = (city: City) => {
+    return `${city.type}-${city.city_id}`;
+  };
+
   return (
     <div className="relative w-full" ref={commandRef}>
       <Command className="rounded-lg border shadow-md" shouldFilter={false}>
@@ -92,11 +91,11 @@ export default function LocationSearch({
         {isOpen && (
           <CommandList className="absolute top-full mt-2 w-full z-10 bg-background rounded-lg border shadow-md">
             <CommandGroup>
-              {Array.isArray(cities) && cities.length > 0 ? (
+              {searchValue ? (
                 cities.map((city) => (
                   <CommandItem
-                    key={city.city_id}
-                    value={city.city_id}
+                    key={generateKey(city)} // Dynamic key based on type and city_id
+                    value={generateKey(city)} // Set value as the dynamic key
                     onSelect={() => {
                       onSelect(city);
                       setIsOpen(false);

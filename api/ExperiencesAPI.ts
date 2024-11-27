@@ -17,10 +17,16 @@ const ExperiencesAPI = {
       throw error;
     }
   },
-  getExperiencesWithFilters: async (tags?: string[]): Promise<Experience[]> => {
+  getExperiencesWithFilters: async (
+    tags?: string[],
+    locationType?: string,
+    locationId?: string
+  ): Promise<Experience[]> => {
     /*
      * Fetches experiences with optional filters
      * @param tags - Optional array of tag names
+     * @param locationType - Optional location type ("country" or "city")
+     * @param locationId - Optional location ID
      * @returns array of filtered experiences
      */
     try {
@@ -32,10 +38,21 @@ const ExperiencesAPI = {
         tags.forEach((tag) => queryParams.append("tags", tag));
       }
 
+      // Append location type and ID if provided
+      if (locationType) {
+        queryParams.append("location_type", locationType);
+      }
+      if (locationId) {
+        queryParams.append("location_id", locationId);
+      }
+
       const queryString = queryParams.toString();
+
+      // Send GET request with query string
       const response = await apiService.get(
         `/experiences/get_experiences_with_filters/?${queryString}`
       );
+
       return response.data;
     } catch (error) {
       console.error("Error fetching experiences with filters:", error);
