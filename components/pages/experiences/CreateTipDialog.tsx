@@ -94,7 +94,8 @@ export function TipForm({
             </FormItem>
           )}
         />
-        <FormField
+        {/* Add Google Maps API for location pin */}
+        {/* <FormField
           control={tipForm.control}
           name="location"
           render={({ field }) => (
@@ -112,7 +113,7 @@ export function TipForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <Button type="submit" className="ml-auto">
           Submit Tip
         </Button>

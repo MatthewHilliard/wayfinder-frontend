@@ -100,7 +100,8 @@ export function ExperienceForm({
             </FormItem>
           )}
         />
-        <FormField
+        {/* Add Google Maps API for location pin */}
+        {/* <FormField
           control={experienceForm.control}
           name="location"
           render={({ field }) => (
@@ -118,7 +119,7 @@ export function ExperienceForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
         <FormField
           control={experienceForm.control}
           name="description"

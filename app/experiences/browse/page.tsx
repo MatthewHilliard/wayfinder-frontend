@@ -22,10 +22,10 @@ export default function BrowseExperiences() {
   const [tags, setTags] = useState<Tag[]>([]);
   // State variable to store selected tags
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-  // State variable to store default location input
-  const [defaultLocation, setDefaultLocation] = useState<string>("");
   // State variable to store search query for location
   const [locationSearch, setLocationSearch] = useState<City | null>(null);
+  // State to track if the component is on its initial mount
+  const [isInitialMount, setIsInitialMount] = useState(true);
   // Initialize searchParams hook
   const searchParams = useSearchParams();
 
@@ -55,7 +55,6 @@ export default function BrowseExperiences() {
 
     // Extract city and country from search params
     const cityQuery = searchParams.get("cityObject");
-
     // Attempt to parse city object from query
     if (cityQuery) {
       try {
@@ -67,15 +66,17 @@ export default function BrowseExperiences() {
     }
 
     void fetchTags();
+    void fetchExperiences();
 
-    // Fetch experiences only if there's no city query
-    if (!cityQuery) {
-      void fetchExperiences();
-    }
+    // Mark that the initial mount is complete
+    setIsInitialMount(false);
   }, [searchParams]);
 
   // Fetch experiences whenever one of the search filters change
   useEffect(() => {
+    // Avoid running on initial mount
+    if (isInitialMount) return;
+
     // Define function to fetch experiences with search filters
     const fetchFilteredExperiences = async () => {
       try {
@@ -86,17 +87,14 @@ export default function BrowseExperiences() {
         const locationType = locationSearch?.type; // "city" or "country"
         const locationId = locationSearch?.city_id; // Use the city_id or country_id
 
-        // Fetch experiences with filters only if there's meaningful data
-        if (tagNames.length > 0 || locationType || locationId) {
-          const fetchedExperiences =
-            await ExperiencesAPI.getExperiencesWithFilters(
-              tagNames,
-              locationType,
-              locationId
-            );
+        const fetchedExperiences =
+          await ExperiencesAPI.getExperiencesWithFilters(
+            tagNames,
+            locationType,
+            locationId
+          );
 
-          setExperiences(fetchedExperiences);
-        }
+        setExperiences(fetchedExperiences);
       } catch (error) {
         console.error("Failed to fetch filtered experiences:", error);
       } finally {
@@ -105,7 +103,7 @@ export default function BrowseExperiences() {
     };
 
     void fetchFilteredExperiences();
-  }, [selectedTags, locationSearch]);
+  }, [selectedTags, locationSearch, isInitialMount]);
 
   // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
@@ -128,7 +126,6 @@ export default function BrowseExperiences() {
             Search by Location
           </Label>
           <LocationSearch
-            defaultValue={defaultLocation}
             onSelect={(newLocation) => setLocationSearch(newLocation)}
           />
         </div>

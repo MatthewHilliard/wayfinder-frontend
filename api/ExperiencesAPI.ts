@@ -35,7 +35,7 @@ const ExperiencesAPI = {
 
       // Append tags if provided
       if (tags) {
-        tags.forEach((tag) => queryParams.append("tags", tag));
+        queryParams.append("tags", tags.join(","));
       }
 
       // Append location type and ID if provided
