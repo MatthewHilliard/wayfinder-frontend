@@ -24,68 +24,64 @@ export default function BrowseExperiences() {
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   // State variable to store search query for location
   const [locationSearch, setLocationSearch] = useState<City | null>(null);
-  // State to track if the component is on its initial mount
+  // State to track initial render of the component
   const [isInitialMount, setIsInitialMount] = useState(true);
   // Initialize searchParams hook
   const searchParams = useSearchParams();
 
-  // UseEffect hook to run on component mount
+  // Initial Experience Fetch with or without filters
   useEffect(() => {
-    // Function to fetch tags from the API
-    const fetchTags = async () => {
-      try {
-        const fetchedTags = await TagsAPI.getAllTags();
-        setTags(fetchedTags);
-      } catch (error) {
-        console.error("Failed to fetch tags:", error);
-      }
-    };
-
-    // Function to fetch experiences from the API
+    console.log("Doing initial fetch");
     const fetchExperiences = async () => {
       try {
         setExperiencesLoading(true);
-        const fetchedExperiences = await ExperiencesAPI.getAllExperiences();
-        setExperiences(fetchedExperiences);
+
+        const cityQuery = searchParams.get("cityObject");
+        let fetchedExperiences;
+
+        if (cityQuery) {
+          try {
+            const city = JSON.parse(decodeURIComponent(cityQuery)) as City;
+            setLocationSearch(city);
+
+            // Fetch experiences filtered by initial search params
+            fetchedExperiences = await ExperiencesAPI.getExperiencesWithFilters(
+              [],
+              city.type,
+              city.city_id
+            );
+          } catch (error) {
+            console.error("Failed to parse city object from query:", error);
+          }
+        } else {
+          // Fetch all experiences if no search params are present
+          fetchedExperiences = await ExperiencesAPI.getAllExperiences();
+        }
+
+        setExperiences(fetchedExperiences || []);
       } catch (error) {
         console.error("Failed to fetch experiences:", error);
+      } finally {
+        setExperiencesLoading(false);
+        setIsInitialMount(false); // Mark initial render as complete
       }
-      setExperiencesLoading(false);
     };
 
-    // Extract city and country from search params
-    const cityQuery = searchParams.get("cityObject");
-    // Attempt to parse city object from query
-    if (cityQuery) {
-      try {
-        const city = JSON.parse(decodeURIComponent(cityQuery)) as City;
-        setLocationSearch(city);
-      } catch (error) {
-        console.error("Failed to parse city object from query:", error);
-      }
-    }
-
-    void fetchTags();
     void fetchExperiences();
-
-    // Mark that the initial mount is complete
-    setIsInitialMount(false);
   }, [searchParams]);
 
-  // Fetch experiences whenever one of the search filters change
+  // Re-fetch experiences whenever filters (tags/location) change
   useEffect(() => {
-    // Avoid running on initial mount
-    if (isInitialMount) return;
+    if (isInitialMount) return; // Skip on initial mount
 
-    // Define function to fetch experiences with search filters
+    console.log("Doing filtered fetch");
     const fetchFilteredExperiences = async () => {
       try {
         setExperiencesLoading(true);
 
-        // Extract data for filtering
         const tagNames = selectedTags.map((tag) => tag.name);
         const locationType = locationSearch?.type; // "city" or "country"
-        const locationId = locationSearch?.city_id; // Use the city_id or country_id
+        const locationId = locationSearch?.city_id;
 
         const fetchedExperiences =
           await ExperiencesAPI.getExperiencesWithFilters(
@@ -94,7 +90,7 @@ export default function BrowseExperiences() {
             locationId
           );
 
-        setExperiences(fetchedExperiences);
+        setExperiences(fetchedExperiences || []);
       } catch (error) {
         console.error("Failed to fetch filtered experiences:", error);
       } finally {
@@ -102,8 +98,11 @@ export default function BrowseExperiences() {
       }
     };
 
-    void fetchFilteredExperiences();
-  }, [selectedTags, locationSearch, isInitialMount]);
+    // Fetch only if filters are active
+    if (selectedTags.length > 0 || locationSearch) {
+      void fetchFilteredExperiences();
+    }
+  }, [selectedTags, locationSearch]);
 
   // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
