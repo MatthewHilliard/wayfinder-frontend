@@ -1,4 +1,7 @@
+"use client";
+
 import { MagicCard } from "@/components/ui/magic-card";
+import { useRouter } from "next/navigation";
 
 // Declare the popular categories
 const categories = [
@@ -13,6 +16,14 @@ const categories = [
 ];
 
 export default function ExploreByCategoryArea() {
+  const router = useRouter();
+
+  // Function to handle category selection
+  const handleCategoryClick = (tagName: string) => {
+    // Serialize the tag name as a query parameter
+    router.push(`/experiences/browse?tag=${encodeURIComponent(tagName)}`);
+  };
+
   return (
     <section className="py-16 bg-background">
       {/* Popular Categories Container */}
@@ -29,6 +40,7 @@ export default function ExploreByCategoryArea() {
               key={index}
               className="bg-card text-card-foreground cursor-pointer flex flex-col items-center justify-center shadow-2xl text-center h-40 transition-transform hover:scale-105"
               gradientColor="#D9D9D955"
+              onClick={() => handleCategoryClick(category.name)}
             >
               <div className="flex flex-col items-center">
                 <span className="text-4xl mb-2">{category.icon}</span>

@@ -7,6 +7,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { formatLocation, generateKey } from "@/lib/locationHelpers";
 import { City } from "@/types/City";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -57,17 +58,6 @@ export default function LocationSearch({
     const debounceFetch = setTimeout(fetchCities, 150);
     return () => clearTimeout(debounceFetch);
   }, [searchValue]);
-
-  // Format the location string
-  const formatLocation = (city: City) => {
-    const parts = [city.name, city.region, city.country].filter(Boolean);
-    return parts.join(", ");
-  };
-
-  // Generate the dynamic key, which ensures that country and city IDs do not collide when mapping
-  const generateKey = (city: City) => {
-    return `${city.type}-${city.city_id}`;
-  };
 
   return (
     <div className="relative w-full" ref={commandRef}>
