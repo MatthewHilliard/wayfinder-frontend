@@ -112,8 +112,10 @@ export default function Navbar() {
                   <Link href="/profile">Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <SignupPopup />
-                <LoginPopup />
+                <div className="flex flex-col">
+                  <SignupPopup />
+                  <LoginPopup />
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
