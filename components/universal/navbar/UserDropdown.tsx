@@ -17,7 +17,6 @@ interface UserDropdownProps {
 }
 
 export default function UserDropdown({ userId }: UserDropdownProps) {
-  console.log(userId);
   return (
     <div className="hidden md:flex items-center">
       <DropdownMenu>

@@ -3,6 +3,45 @@ import { Experience } from "@/types/Experience";
 import { UUID } from "crypto";
 
 const ExperiencesAPI = {
+  createExperience: async (experienceData: {
+    title: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    country_name?: string;
+    region_name?: string;
+    city_name?: string;
+    tags?: string[];
+    price?: number;
+    start_time?: string;
+    end_time?: string;
+  }): Promise<Experience | string[]> => {
+    /*
+     * Creates a new experience in the backend
+     * @param experienceData - Object containing the experience details
+     * @returns the created experience object
+     */
+    try {
+      console.log("Creating experience with data:", experienceData);
+      const response = await apiService.post(
+        "/experiences/create_experience/",
+        experienceData
+      );
+
+      if (response.data) {
+        // Return the created experience on success
+        return response.data;
+      } else {
+        // Parse and return validation errors if provided
+        const tmpErrors: string[] = Object.values(response).flatMap(
+          (error: any) => (Array.isArray(error) ? error : [error])
+        );
+        return tmpErrors;
+      }
+    } catch (error: any) {
+      throw error; // For unexpected errors
+    }
+  },
   /*
    * Fetches all experiences from the backend
    * @returns array of experiences

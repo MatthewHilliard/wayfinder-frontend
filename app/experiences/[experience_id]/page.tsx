@@ -142,7 +142,7 @@ export default function ExperiencePage() {
                   Google Maps Placeholder
                 </div>
               </div>
-              <p>{formatLocation(experience.location_info.city_info)}</p>
+              <p>{formatLocation(experience.location_info)}</p>
             </CardContent>
           </Card>
         </div>

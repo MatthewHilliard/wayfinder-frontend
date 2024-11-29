@@ -9,7 +9,7 @@ const apiService = {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: token ? `Bearer ${token}` : "",
         },
       })
         .then((response) => response.json())
@@ -31,7 +31,7 @@ const apiService = {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: token ? `Bearer ${token}` : "",
         },
       })
         .then((response) => response.json())

@@ -21,13 +21,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import MapWithPinning from "./MapWithPinning";
+import ExperiencesAPI from "@/api/ExperiencesAPI";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { toast } from "@/hooks/use-toast";
 
 // Zod schema for the experience form
 const experienceSchema = z.object({
   title: z.string().min(1, "Title is required"),
   location: z.string().min(1, "Location is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  experienceTags: z.enum(["tag1"]),
+  // experienceTags: z.enum(["tag1"]),
 });
 
 // Type for the experience form values
@@ -38,9 +41,51 @@ export default function CreateExperienceDialog() {
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
 
   // Handle experience form submission
-  const handleExperienceSubmit = (data: ExperienceFormValues) => {
-    console.log(data);
-    setIsExperienceOpen(false);
+  const handleExperienceSubmit = async (
+    data: ExperienceFormValues & { locationDetails: any }
+  ) => {
+    try {
+      console.log("Submitting experience data:", data);
+      const { locationDetails, ...formData } = data;
+
+      // Combine formData and locationDetails into the correct structure
+      const experienceData = {
+        ...formData,
+        latitude: locationDetails.lat,
+        longitude: locationDetails.lng,
+        country_name: locationDetails.country,
+        region_name: locationDetails.region,
+        city_name: locationDetails.city,
+        // tags: [formData.experienceTags], // Convert single tag to array as API expects
+      };
+
+      const result = await ExperiencesAPI.createExperience(experienceData);
+
+      if (Array.isArray(result)) {
+        // Validation errors
+        toast({
+          title: "Validation Error",
+          description: result.join("\n"), // Join multiple errors into a single string
+          variant: "destructive",
+        }); 
+      } else {
+        // Success
+        toast({
+          title: "Success!",
+          description: "Experience created successfully.",
+        });
+        setIsExperienceOpen(false);
+        console.log("Experience created successfully:", result);
+      }
+    } catch (error) {
+      // Handle unexpected errors
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Failed to create experience:", error);
+    }
   };
 
   return (
@@ -58,6 +103,9 @@ export default function CreateExperienceDialog() {
           <DialogHeader>
             <DialogTitle>Share Your Experience</DialogTitle>
           </DialogHeader>
+          <DialogDescription className="text-sm text-gray-600">
+            Share your experience with the world by filling out the form below.
+          </DialogDescription>
 
           {/* Experience form component */}
           <ExperienceForm onSubmit={handleExperienceSubmit} />
@@ -112,6 +160,7 @@ export function ExperienceForm({
       region: location.region || null,
       city: location.city || null,
     });
+    console.log("Selected Location Details:", location);
 
     experienceForm.setValue("location", `${location.lat},${location.lng}`); // Update form's location field
   };

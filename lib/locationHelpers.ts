@@ -1,14 +1,19 @@
 // utils/locationHelpers.ts
 import { City } from "@/types/City";
+import { Location } from "@/types/Location";
 
 /**
- * Formats a City object into a readable location string.
- * @param city - The City object containing name, region, and country.
+ * Formats a Location or City object into a readable location string.
+ * @param data - The Location or City object.
  * @returns A formatted string of the location.
  */
-export function formatLocation(city: City): string {
-  const parts = [city.name, city.region, city.country].filter(Boolean);
-  return parts.join(", ");
+export function formatLocation(data: Location | City): string {
+  const parts =
+    "location_id" in data
+      ? [data.city_info?.name, data.region_info?.name, data.country_info?.name]
+      : [data.name, data.region, data.country];
+
+  return parts.filter(Boolean).join(", ");
 }
 
 /**

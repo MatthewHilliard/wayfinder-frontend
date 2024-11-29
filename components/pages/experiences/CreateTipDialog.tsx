@@ -21,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import LocationSearch from "@/components/universal/LocationSearch";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 // Zod schema for the tip form
 const tipSchema = z.object({
@@ -52,7 +53,11 @@ export default function CreateTipDialog() {
         {/* Dialog content for creating a tip */}
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
-            <DialogTitle>Share Your Local Insight</DialogTitle>
+            <DialogTitle>Share Your Tip</DialogTitle>
+
+            <DialogDescription className="text-sm text-gray-600">
+              Share your insider knowledge with fellow travelers!
+            </DialogDescription>
           </DialogHeader>
 
           {/* Tip form component */}

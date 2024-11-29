@@ -1,12 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
 type Pin = {
   lat: number;
   lng: number;
 };
+
+// Define libraries and Map ID as constants
+const LIBRARIES: ["marker"] = ["marker"];
+const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID as string;
 
 export default function MapWithPinning({
   onLocationSelect,
@@ -19,13 +23,13 @@ export default function MapWithPinning({
     city?: string;
   }) => void;
 }) {
-  // State to manage the pin location
   const [pin, setPin] = useState<Pin | null>(null);
   const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 }); // Initial map center
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null); // Store map instance
 
-  // Load the Google Maps API using the useJsApiLoader hook
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+    libraries: LIBRARIES, // Use the static LIBRARIES constant
   });
 
   if (loadError) {
@@ -41,7 +45,6 @@ export default function MapWithPinning({
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
 
-      // Update pin and map center
       setPin({ lat, lng });
       setMapCenter({ lat, lng });
 
@@ -67,7 +70,6 @@ export default function MapWithPinning({
         });
       }
 
-      // Pass location details to parent
       onLocationSelect({ lat, lng, country, region, city });
     }
   };
@@ -77,25 +79,53 @@ export default function MapWithPinning({
       style={{
         width: "100%",
         height: "250px",
-        borderRadius: "12px", // Rounded corners
-        overflow: "hidden", // Ensures the map respects the border-radius
+        borderRadius: "12px",
+        overflow: "hidden",
       }}
     >
       <GoogleMap
         mapContainerStyle={{ width: "100%", height: "100%" }}
-        center={mapCenter} // Dynamically updated center
+        center={mapCenter}
         zoom={2}
         onClick={handleMapClick}
+        onLoad={(map) => setMapInstance(map)} // Capture map instance
         options={{
           disableDefaultUI: true,
           zoomControl: true,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: false,
+          mapId: MAP_ID, // Use your Map ID
         }}
       >
-        {pin && <Marker position={pin} />}
+        {pin && mapInstance && (
+          <AdvancedMarker position={pin} mapInstance={mapInstance} />
+        )}
       </GoogleMap>
     </div>
   );
+}
+
+function AdvancedMarker({
+  position,
+  mapInstance,
+}: {
+  position: Pin;
+  mapInstance: google.maps.Map;
+}) {
+  React.useEffect(() => {
+    if (!mapInstance) return;
+
+    const { AdvancedMarkerElement } = google.maps.marker;
+
+    // Create and add AdvancedMarkerElement to the map
+    const marker = new AdvancedMarkerElement({
+      position,
+      map: mapInstance, // Pass the existing map instance
+      title: "Custom Marker",
+    });
+
+    return () => {
+      marker.map = null; // Clean up the marker
+    };
+  }, [position, mapInstance]);
+
+  return null;
 }

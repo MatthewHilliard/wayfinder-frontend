@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
+import { formatLocation } from "@/lib/locationHelpers";
 
 type ExperienceCardProps = {
   experience: Experience;
@@ -47,8 +48,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         <CardHeader>
           <CardTitle className="text-lg">{experience.title}</CardTitle>
           <CardDescription className="text-sm text-muted">
-            {experience.location_info.city_info.name},{" "}
-            {experience.location_info.country_info.name}
+            {formatLocation(experience.location_info)}
           </CardDescription>
         </CardHeader>
 
