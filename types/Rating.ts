@@ -8,7 +8,7 @@ export interface Rating {
   user_info: User;
   experience: UUID;
   experience_info: Experience;
+  comment: string;
   date_posted: Date;
-  comment?: string;
   rating_value?: number;
 }

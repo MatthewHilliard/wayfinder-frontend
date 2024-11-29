@@ -1,28 +1,20 @@
 import Link from "next/link";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Compass, MessageCircle, User, Menu } from "lucide-react";
 import Image from "next/image";
-import SignupPopup from "./SignupPopup";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import LoginPopup from "./LoginPopup";
+import { getUserId } from "@/lib/actions";
+import UserDropdown from "./UserDropdown";
 
-export default function Navbar() {
+export default async function Navbar() {
+  // Get the user ID from the session cookie
+  const userId = await getUserId();
+  // Specify the navigation items to display in the navbar
   const navigationItems = [
     { name: "Experiences", href: "/experiences/browse", icon: Compass },
     { name: "Tips & Advice", href: "/tips/browse", icon: MessageCircle },
@@ -92,33 +84,7 @@ export default function Navbar() {
           </NavigationMenu>
 
           {/* User Dropdown */}
-          <div className="hidden md:flex items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar className="cursor-pointer">
-                  <AvatarImage alt="User avatar" />
-                  <AvatarFallback className="bg-accent">U</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel className="text-center">
-                  My Account
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  asChild
-                  className="cursor-pointer justify-center"
-                >
-                  <Link href="/profile">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <div className="flex flex-col">
-                  <SignupPopup />
-                  <LoginPopup />
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <UserDropdown userId={userId} />
         </div>
       </div>
     </header>
