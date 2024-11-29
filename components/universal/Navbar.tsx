@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +14,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Compass, MessageCircle, User, Menu } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import SignupPopup from "./SignupPopup";
 
 export default function Navbar() {
+  const [isSignupOpen, setIsSignupOpen] = useState(false); // State to control SignupPopup visibility
+
   const navigationItems = [
     { name: "Experiences", href: "/experiences/browse", icon: Compass },
     { name: "Tips & Advice", href: "/tips/browse", icon: MessageCircle },
@@ -21,6 +27,14 @@ export default function Navbar() {
 
   return (
     <header className="shadow-sm">
+      {/* Signup Popup */}
+      {isSignupOpen && (
+        <SignupPopup
+          isOpen={isSignupOpen}
+          onClose={() => setIsSignupOpen(false)}
+        />
+      )}
+
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4 px-6">
           {/* Top Left Text with Logo */}
@@ -63,13 +77,14 @@ export default function Navbar() {
                   ))}
 
                   {/* Profile Navigation Item */}
-                  <Link
-                    href="/profile"
+                  <Button
+                    onClick={() => setIsSignupOpen(true)} // Open signup popup
+                    variant="ghost"
                     className="flex items-center px-4 py-2 text-sm font-medium rounded-md"
                   >
                     <User className="mr-3 h-6 w-6" />
-                    Profile
-                  </Link>
+                    Sign Up
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -123,19 +138,14 @@ export default function Navbar() {
                         </NavigationMenuLink>
                       </li>
                       <li>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href="/logout"
-                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          >
-                            <div className="text-sm font-medium leading-none">
-                              Log out
-                            </div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Sign out of your account
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
+                        <Button
+                          onClick={() => setIsSignupOpen(true)} // Open signup popup
+                          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium leading-none">
+                            Sign Up
+                          </div>
+                        </Button>
                       </li>
                     </ul>
                   </NavigationMenuContent>

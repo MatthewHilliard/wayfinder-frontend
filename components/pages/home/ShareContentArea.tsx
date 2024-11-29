@@ -13,8 +13,8 @@ export default function ShareContentArea() {
           experiences can make someone&apos;s journey unforgettable!
         </p>
         <div className="flex justify-center space-x-4">
-        <CreateExperienceDialog />
-        <CreateTipDialog />
+          <CreateExperienceDialog />
+          <CreateTipDialog />
         </div>
       </div>
     </section>
