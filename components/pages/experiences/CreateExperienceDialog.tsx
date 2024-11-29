@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
-import LocationSearch from "@/components/universal/LocationSearch";
+import MapWithPinning from "./MapWithPinning";
 
 // Zod schema for the experience form
 const experienceSchema = z.object({
@@ -70,18 +70,58 @@ export default function CreateExperienceDialog() {
 export function ExperienceForm({
   onSubmit,
 }: {
-  onSubmit: (data: ExperienceFormValues) => void;
+  onSubmit: (data: ExperienceFormValues & { locationDetails: any }) => void;
 }) {
   // Use react-hook-form to manage the form state
   const experienceForm = useForm<ExperienceFormValues>({
     resolver: zodResolver(experienceSchema),
     mode: "onSubmit", // Validation triggered only on form submission
+    defaultValues: {
+      title: "", // Default value for title
+      location: "", // Default value for location
+      description: "", // Default value for description
+    },
   });
+
+  // State to manage the location details
+  const [locationDetails, setLocationDetails] = useState<{
+    lat: number | null;
+    lng: number | null;
+    country: string | null;
+    region: string | null;
+    city: string | null;
+  }>({
+    lat: null,
+    lng: null,
+    country: null,
+    region: null,
+    city: null,
+  });
+
+  const handleLocationSelect = (location: {
+    lat: number;
+    lng: number;
+    country?: string;
+    region?: string;
+    city?: string;
+  }) => {
+    setLocationDetails({
+      lat: location.lat,
+      lng: location.lng,
+      country: location.country || null,
+      region: location.region || null,
+      city: location.city || null,
+    });
+
+    experienceForm.setValue("location", `${location.lat},${location.lng}`); // Update form's location field
+  };
 
   return (
     <Form {...experienceForm}>
       <form
-        onSubmit={experienceForm.handleSubmit(onSubmit)}
+        onSubmit={experienceForm.handleSubmit((data) =>
+          onSubmit({ ...data, locationDetails })
+        )}
         className="space-y-6"
       >
         <FormField
@@ -100,26 +140,19 @@ export function ExperienceForm({
             </FormItem>
           )}
         />
-        {/* Add Google Maps API for location pin */}
-        {/* <FormField
+        <FormField
           control={experienceForm.control}
           name="location"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Location</FormLabel>
               <FormControl>
-                <LocationSearch
-                  isForForm={true}
-                  // set value to current user's city, country
-                  onSelect={(value) => {
-                    field.onChange(value); // Update react-hook-form field
-                  }}
-                />
+                <MapWithPinning onLocationSelect={handleLocationSelect} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         <FormField
           control={experienceForm.control}
           name="description"
