@@ -24,48 +24,39 @@ import * as z from "zod";
 import AuthAPI from "@/api/AuthAPI";
 import { toast } from "@/hooks/use-toast";
 
-const signupSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password1: z.string().min(8, "Password must be at least 8 characters"),
-  password2: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-type SignupFormValues = z.infer<typeof signupSchema>;
+type LoginFormValues = z.infer<typeof loginSchema>;
 
-export default function SignupPopup() {
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
+export default function LoginPopup() {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  const signupForm = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
+  const loginForm = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
     mode: "onSubmit",
     defaultValues: {
-      name: "",
       email: "",
-      password1: "",
-      password2: "",
+      password: "",
     },
   });
 
-  const handleSignup = async (data: SignupFormValues) => {
+  const handleLogin = async (data: LoginFormValues) => {
     try {
-      const result = await AuthAPI.register(
-        data.name,
-        data.email,
-        data.password1,
-        data.password2
-      );
+      const result = await AuthAPI.login(data.email, data.password);
 
       if (typeof result === "string") {
         toast({
           title: "Success!",
-          description: "You have successfully registered.",
+          description: "You have successfully logged in.",
         });
-        setIsSignupOpen(false);
+        setIsLoginOpen(false);
       } else if (Array.isArray(result)) {
         toast({
-          title: "Registration Error",
-          description: result.join("\n"),
+          title: "Login Error",
+          description: result.join("\n") || "Invalid email or password.",
           variant: "destructive",
         });
       }
@@ -83,54 +74,45 @@ export default function SignupPopup() {
       <Button
         variant="ghost"
         onClick={(e) => {
-          setIsSignupOpen(true);
+          setIsLoginOpen(true);
         }}
         className="w-full text-left hover:bg-secondary"
       >
-        Sign Up
+        Log In
       </Button>
-      <Dialog open={isSignupOpen} onOpenChange={setIsSignupOpen}>
+      <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Sign Up</DialogTitle>
+            <DialogTitle>Log In</DialogTitle>
             <DialogDescription>
-              Create a new account by filling out the form below.
+              Enter your email and password to log in.
             </DialogDescription>
           </DialogHeader>
-          <Form {...signupForm}>
+          <Form {...loginForm}>
             <form
-              onSubmit={signupForm.handleSubmit(handleSignup)}
+              onSubmit={loginForm.handleSubmit(handleLogin)}
               className="space-y-4"
             >
               <FormField
-                control={signupForm.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your full name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={signupForm.control}
+                control={loginForm.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your email address" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Your email address"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
-                control={signupForm.control}
-                name="password1"
+                control={loginForm.control}
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
@@ -145,25 +127,8 @@ export default function SignupPopup() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={signupForm.control}
-                name="password2"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Confirm your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <Button type="submit" className="w-full">
-                Sign Up
+                Log In
               </Button>
             </form>
           </Form>

@@ -20,6 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import LoginPopup from "./LoginPopup";
 
 export default function Navbar() {
   const navigationItems = [
@@ -112,6 +113,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <SignupPopup />
+                <LoginPopup />
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
