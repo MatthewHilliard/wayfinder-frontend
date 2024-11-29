@@ -37,7 +37,7 @@ export default function UserDropdown({ userId }: UserDropdownProps) {
                 asChild
                 className="cursor-pointer justify-center"
               >
-                <Link href="/profile">Profile</Link>
+                <Link href={`/profiles/${userId}`}>Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>

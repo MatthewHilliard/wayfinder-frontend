@@ -13,6 +13,7 @@ import { Experience } from "@/types/Experience";
 import { formatLocation } from "@/lib/locationHelpers";
 import RatingCard from "@/components/pages/experiences/[experience_id]/RatingCard";
 import { Rating } from "@/types/Rating";
+import LocationMap from "@/components/pages/experiences/[experience_id]/LocationMap";
 
 export default function ExperiencePage() {
   // State variable to store experience
@@ -137,9 +138,8 @@ export default function ExperiencePage() {
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
               <div className="aspect-video bg-gray-200 rounded-lg mb-4">
-                {/* Placeholder for Google Maps */}
                 <div className="w-full h-full flex items-center justify-center text-gray-500">
-                  Google Maps Placeholder
+                  <LocationMap location={experience.location_info} />
                 </div>
               </div>
               <p>{formatLocation(experience.location_info)}</p>
