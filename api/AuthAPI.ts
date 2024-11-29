@@ -1,3 +1,4 @@
+import { handleLogin } from "@/lib/actions";
 import apiService from "@/services/apiService";
 import { Tag } from "@/types/Tag";
 
@@ -26,8 +27,8 @@ const AuthAPI = {
       });
 
       if (response.access) {
-        console.log(response.access);
-        return response.access;
+        handleLogin(response.user.pk, response.access, response.refresh);
+        return response.user.pk;
       } else {
         // Parse and return validation errors
         const tmpErrors: string[] = Object.values(response).flatMap(
