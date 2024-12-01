@@ -27,6 +27,7 @@ import { toast } from "@/hooks/use-toast";
 import { Tag } from "@/types/Tag";
 import TagFilter from "./TagFilter";
 import TagsAPI from "@/api/TagsAPI";
+import { PriceSelect } from "./PriceSelect";
 
 // Declare file restriction constants for file upload
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -53,6 +54,7 @@ const experienceSchema = z.object({
         ", "
       )}`,
     }),
+  price: z.string().optional(),
 });
 
 // Type for the experience form values
@@ -90,9 +92,9 @@ export default function CreateExperienceDialog() {
       if (formData.tags) {
         experienceData.append("tags", JSON.stringify(formData.tags));
       }
-      // if (formData.price) {
-      //   experienceData.append("price", String(formData.price));
-      // }
+      if (formData.price) {
+        experienceData.append("price", String(formData.price));
+      }
       if (formData.image) {
         experienceData.append("image", formData.image);
       }
@@ -167,6 +169,7 @@ function PaginatedExperienceForm({
       location: "",
       tags: [],
       image: undefined,
+      price: "",
     },
   });
 
@@ -241,7 +244,11 @@ function PaginatedExperienceForm({
 
   // Function that moves to the next page of the form if the current page is valid
   const goToNextPage = async () => {
-    const isValid = await experienceForm.trigger(["title", "description"]);
+    const isValid = await experienceForm.trigger([
+      "title",
+      "description",
+      "location",
+    ]);
     if (isValid) {
       setCurrentPage(2);
     }
@@ -286,17 +293,6 @@ function PaginatedExperienceForm({
                 </FormItem>
               )}
             />
-            <Button
-              type="button"
-              onClick={goToNextPage}
-              className="mt-4 float-right"
-            >
-              Next
-            </Button>
-          </>
-        )}
-        {currentPage === 2 && (
-          <>
             <FormField
               control={experienceForm.control}
               name="location"
@@ -310,6 +306,17 @@ function PaginatedExperienceForm({
                 </FormItem>
               )}
             />
+            <Button
+              type="button"
+              onClick={goToNextPage}
+              className="mt-4 float-right"
+            >
+              Next
+            </Button>
+          </>
+        )}
+        {currentPage === 2 && (
+          <>
             <div className="mt-4">
               <TagFilter
                 tags={tags}
@@ -323,7 +330,7 @@ function PaginatedExperienceForm({
               name="image"
               render={() => (
                 <FormItem>
-                  <FormLabel>Upload Image (Optional)</FormLabel>
+                  <FormLabel>Upload Image (optional)</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -334,6 +341,22 @@ function PaginatedExperienceForm({
                           e.target.files?.[0] || undefined
                         )
                       }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={experienceForm.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price (optional)</FormLabel>
+                  <FormControl>
+                    <PriceSelect
+                      value={field.value || undefined} // Convert null to undefined for compatibility
+                      onChange={field.onChange} // Update form state
                     />
                   </FormControl>
                   <FormMessage />
