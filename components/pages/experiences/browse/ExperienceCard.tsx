@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
 import { formatLocation } from "@/lib/locationHelpers";
+import { Star } from "lucide-react";
 
 type ExperienceCardProps = {
   experience: Experience;
@@ -62,9 +63,16 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         {/* Footer for the Experience */}
         <CardFooter className="flex justify-between">
           {experience.number_of_ratings > 0 ? (
-            <span className="text-sm">
-              Rating: {experience.average_rating}/5
-            </span>
+            <>
+              <span className="flex items-center text-sm">
+                <Star fill="#1d492e" strokeWidth={0} className="w-5 h-5 mr-1" />
+                {experience.average_rating.toFixed(1)}
+              </span>
+              <span className="text-sm">
+                {experience.number_of_ratings} rating
+                {experience.number_of_ratings > 1 ? "s" : ""}
+              </span>
+            </>
           ) : (
             <span className="text-sm text-muted">No ratings yet</span>
           )}

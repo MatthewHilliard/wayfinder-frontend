@@ -1,16 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import {
-  Star,
-  MapPin,
-  DollarSign,
-  Heart,
-  MessageSquare,
-  CheckIcon,
-} from "lucide-react";
+import { Star, MapPin, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -23,7 +15,7 @@ import { Rating } from "@/types/Rating";
 import LocationMap from "@/components/pages/experiences/[experience_id]/LocationMap";
 import RatingsAPI from "@/api/RatingsAPI";
 import CreateRatingDialog from "@/components/pages/experiences/[experience_id]/CreateRatingDialog";
-import { AnimatedSubscribeButton } from "@/components/ui/animated-subscribe-button";
+import AddToWishlistButton from "@/components/pages/experiences/[experience_id]/AddToWishlistButton";
 
 export default function ExperiencePage() {
   // State variable to store experience
@@ -118,7 +110,8 @@ export default function ExperiencePage() {
               {experience.average_rating.toFixed(1)}
             </span>
             <span className="text-gray-600">
-              ({experience.number_of_ratings} ratings)
+              {experience.number_of_ratings} rating
+              {experience.number_of_ratings > 1 ? "s" : ""}
             </span>
           </div>
           <p className="text-lg mb-4">{experience.description}</p>
@@ -146,21 +139,7 @@ export default function ExperiencePage() {
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Actions</h2>
               <div className="space-y-4">
-                <AnimatedSubscribeButton
-                  subscribeStatus={false}
-                  initialText={
-                    <span className="group inline-flex items-center">
-                      <Heart className="mr-2 size-4 transition-transform duration-300 group-hover:-translate-x-1" />
-                      Add to Wishlist{" "}
-                    </span>
-                  }
-                  changeText={
-                    <span className="group inline-flex items-center">
-                      <CheckIcon className="mr-2 size-4" />
-                      Added to Wishlist!
-                    </span>
-                  }
-                />
+                <AddToWishlistButton experienceId={experience.experience_id} />
                 <CreateRatingDialog experienceId={experience.experience_id} />
               </div>
             </CardContent>
