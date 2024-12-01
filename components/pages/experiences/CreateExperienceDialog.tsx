@@ -99,8 +99,6 @@ export default function CreateExperienceDialog() {
         experienceData.append("image", formData.image);
       }
 
-      console.log("Submitting FormData:", [...experienceData.entries()]);
-
       const result = await ExperiencesAPI.createExperience(experienceData);
 
       if (Array.isArray(result)) {
@@ -224,6 +222,8 @@ function PaginatedExperienceForm({
       region: location.region || null,
       city: location.city || null,
     });
+
+    console.log("Location selected:", location);
     experienceForm.setValue("location", `${location.lat},${location.lng}`);
   };
 

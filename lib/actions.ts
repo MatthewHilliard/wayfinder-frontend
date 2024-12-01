@@ -29,7 +29,6 @@ export async function handleRefresh() {
     }
 
     const json = await response.json();
-    console.log("Refresh token response:", json);
 
     if (json.access) {
       cookieStore.set("session_access_token", json.access, {

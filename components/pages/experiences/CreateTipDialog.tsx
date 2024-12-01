@@ -38,7 +38,6 @@ export default function CreateTipDialog() {
 
   // Handle tip form submission
   const handleTipSubmit = (data: TipFormValues) => {
-    console.log(data);
     setIsTipOpen(false);
   };
 
