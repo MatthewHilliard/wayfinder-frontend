@@ -107,7 +107,7 @@ export default function ExperiencePage() {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex items-center">
               <MapPin className="w-5 h-5 mr-2" />
-              <span>{experience.location_info.city_info.name}</span>
+              <span>{experience.location_info.city_info?.name ?? ""}</span>
             </div>
             <div className="flex items-center">
               <DollarSign className="w-5 h-5 mr-2" />

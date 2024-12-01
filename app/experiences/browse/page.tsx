@@ -7,7 +7,7 @@ import ExperiencesAPI from "@/api/ExperiencesAPI";
 import ExperienceCard from "@/components/pages/experiences/browse/ExperienceCard";
 import LocationSearch from "@/components/universal/LocationSearch";
 import ExperienceSearch from "@/components/pages/experiences/browse/ExperienceSearch";
-import TagFilter from "@/components/pages/experiences/browse/TagFilter";
+import TagFilter from "@/components/pages/experiences/TagFilter";
 import { Label } from "@radix-ui/react-label";
 import { useSearchParams } from "next/navigation";
 import { City } from "@/types/City";

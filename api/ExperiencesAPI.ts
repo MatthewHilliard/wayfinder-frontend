@@ -3,29 +3,39 @@ import { Experience } from "@/types/Experience";
 import { UUID } from "crypto";
 
 const ExperiencesAPI = {
-  createExperience: async (experienceData: {
-    title: string;
-    description: string;
-    latitude: number;
-    longitude: number;
-    country_name?: string;
-    region_name?: string;
-    city_name?: string;
-    tags?: string[];
-    price?: number;
-    start_time?: string;
-    end_time?: string;
-  }): Promise<Experience | string[]> => {
-    /*
-     * Creates a new experience in the backend
-     * @param experienceData - Object containing the experience details
-     * @returns the created experience object
-     */
+  /*
+   * Creates a new experience in the backend
+   * @param experienceData - Object containing the experience details
+   * @returns the created experience object
+   */
+  createExperience: async (
+    experienceData:
+      | FormData
+      | {
+          title: string;
+          description: string;
+          latitude: number;
+          longitude: number;
+          country_name?: string;
+          region_name?: string;
+          city_name?: string;
+          tags?: string[];
+          price?: number;
+          image?: File;
+        }
+  ): Promise<Experience | string[]> => {
     try {
-      console.log("Creating experience with data:", experienceData);
+      // Use FormData directly or convert to JSON for structured data
+      const isFormData = experienceData instanceof FormData;
+
       const response = await apiService.post(
         "/experiences/create_experience/",
-        experienceData
+        experienceData,
+        {
+          headers: isFormData
+            ? {} // Let the browser handle the `Content-Type` for FormData
+            : { "Content-Type": "application/json" },
+        }
       );
 
       if (response.data) {
@@ -56,18 +66,18 @@ const ExperiencesAPI = {
       throw error;
     }
   },
+  /*
+   * Fetches experiences with optional filters
+   * @param tags - Optional array of tag names
+   * @param locationType - Optional location type ("country" or "city")
+   * @param locationId - Optional location ID
+   * @returns array of filtered experiences
+   */
   getExperiencesWithFilters: async (
     tags?: string[],
     locationType?: string,
     locationId?: string
   ): Promise<Experience[]> => {
-    /*
-     * Fetches experiences with optional filters
-     * @param tags - Optional array of tag names
-     * @param locationType - Optional location type ("country" or "city")
-     * @param locationId - Optional location ID
-     * @returns array of filtered experiences
-     */
     try {
       // Construct query string dynamically
       const queryParams = new URLSearchParams();
@@ -98,12 +108,12 @@ const ExperiencesAPI = {
       throw error;
     }
   },
+  /*
+   * Fetches an experience by its ID from the backend
+   * @param experience_id - ID of the experience to fetch
+   * @returns experience object
+   */
   getExperienceById: async (experience_id: UUID): Promise<Experience> => {
-    /*
-     * Fetches an experience by its ID from the backend
-     * @param experience_id - ID of the experience to fetch
-     * @returns experience object
-     */
     try {
       const response = await apiService.get(
         `/experiences/get_experience_by_id/${experience_id}`

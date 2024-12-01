@@ -19,18 +19,40 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MapWithPinning from "./MapWithPinning";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { toast } from "@/hooks/use-toast";
+import { Tag } from "@/types/Tag";
+import TagFilter from "./TagFilter";
+import TagsAPI from "@/api/TagsAPI";
+
+// Declare file restriction constants for file upload
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png"];
 
 // Zod schema for the experience form
 const experienceSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  location: z.string().min(1, "Location is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  // experienceTags: z.enum(["tag1"]),
+  location: z.string().min(1, "Location is required"),
+  tags: z.array(z.string()).optional(),
+  image: z
+    .any()
+    .refine((file) => file instanceof File || file === undefined, {
+      message: "Please upload a valid file.",
+    })
+    .refine((file) => (file ? file.size <= MAX_FILE_SIZE : true), {
+      message: `File size must be less than ${
+        MAX_FILE_SIZE / (1024 * 1024)
+      } MB`,
+    })
+    .refine((file) => (file ? ACCEPTED_FILE_TYPES.includes(file.type) : true), {
+      message: `Invalid file type. Accepted types are: ${ACCEPTED_FILE_TYPES.join(
+        ", "
+      )}`,
+    }),
 });
 
 // Type for the experience form values
@@ -45,19 +67,37 @@ export default function CreateExperienceDialog() {
     data: ExperienceFormValues & { locationDetails: any }
   ) => {
     try {
-      console.log("Submitting experience data:", data);
       const { locationDetails, ...formData } = data;
 
-      // Combine formData and locationDetails into the correct structure
-      const experienceData = {
-        ...formData,
-        latitude: locationDetails.lat,
-        longitude: locationDetails.lng,
-        country_name: locationDetails.country,
-        region_name: locationDetails.region,
-        city_name: locationDetails.city,
-        // tags: [formData.experienceTags], // Convert single tag to array as API expects
-      };
+      // Create a FormData object to handle multipart data
+      const experienceData = new FormData();
+      experienceData.append("title", formData.title);
+      experienceData.append("description", formData.description);
+      experienceData.append("latitude", String(locationDetails.lat));
+      experienceData.append("longitude", String(locationDetails.lng));
+
+      if (locationDetails.country) {
+        experienceData.append("country_name", locationDetails.country);
+      }
+      if (locationDetails.region) {
+        experienceData.append("region_name", locationDetails.region);
+      }
+      if (locationDetails.city) {
+        experienceData.append("city_name", locationDetails.city);
+      }
+
+      // Convert tags array to a JSON string
+      if (formData.tags) {
+        experienceData.append("tags", JSON.stringify(formData.tags));
+      }
+      // if (formData.price) {
+      //   experienceData.append("price", String(formData.price));
+      // }
+      if (formData.image) {
+        experienceData.append("image", formData.image);
+      }
+
+      console.log("Submitting FormData:", [...experienceData.entries()]);
 
       const result = await ExperiencesAPI.createExperience(experienceData);
 
@@ -67,15 +107,13 @@ export default function CreateExperienceDialog() {
           title: "Validation Error",
           description: result.join("\n"), // Join multiple errors into a single string
           variant: "destructive",
-        }); 
+        });
       } else {
-        // Success
         toast({
           title: "Success!",
           description: "Experience created successfully.",
         });
         setIsExperienceOpen(false);
-        console.log("Experience created successfully:", result);
       }
     } catch (error) {
       // Handle unexpected errors
@@ -107,29 +145,37 @@ export default function CreateExperienceDialog() {
             Share your experience with the world by filling out the form below.
           </DialogDescription>
 
-          {/* Experience form component */}
-          <ExperienceForm onSubmit={handleExperienceSubmit} />
+          {/* Paginated Experience form component */}
+          <PaginatedExperienceForm onSubmit={handleExperienceSubmit} />
         </DialogContent>
       </Dialog>
     </>
   );
 }
 
-export function ExperienceForm({
+function PaginatedExperienceForm({
   onSubmit,
 }: {
   onSubmit: (data: ExperienceFormValues & { locationDetails: any }) => void;
 }) {
-  // Use react-hook-form to manage the form state
   const experienceForm = useForm<ExperienceFormValues>({
     resolver: zodResolver(experienceSchema),
-    mode: "onSubmit", // Validation triggered only on form submission
+    mode: "onSubmit",
     defaultValues: {
-      title: "", // Default value for title
-      location: "", // Default value for location
-      description: "", // Default value for description
+      title: "",
+      description: "",
+      location: "",
+      tags: [],
+      image: undefined,
     },
   });
+
+  // State to manage the current page of the form
+  const [currentPage, setCurrentPage] = useState(1);
+  // State to store all tags from the API
+  const [tags, setTags] = useState<Tag[]>([]);
+  // State to manage the selected tags
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
   // State to manage the location details
   const [locationDetails, setLocationDetails] = useState<{
@@ -146,6 +192,21 @@ export function ExperienceForm({
     city: null,
   });
 
+  // Fetch tags on initial render
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const fetchedTags = await TagsAPI.getAllTags();
+        setTags(fetchedTags);
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  // Function that updates the location details and form values
   const handleLocationSelect = (location: {
     lat: number;
     lng: number;
@@ -160,9 +221,30 @@ export function ExperienceForm({
       region: location.region || null,
       city: location.city || null,
     });
-    console.log("Selected Location Details:", location);
+    experienceForm.setValue("location", `${location.lat},${location.lng}`);
+  };
 
-    experienceForm.setValue("location", `${location.lat},${location.lng}`); // Update form's location field
+  // Function that updates the selected tags and form values
+  const handleToggleTag = (tag: Tag) => {
+    const updatedTags = selectedTags.includes(tag)
+      ? selectedTags.filter((t) => t !== tag)
+      : [...selectedTags, tag];
+
+    setSelectedTags(updatedTags);
+
+    // Update the form value for tags to include only the IDs
+    experienceForm.setValue(
+      "tags",
+      updatedTags.map((tag) => tag.tag_id)
+    );
+  };
+
+  // Function that moves to the next page of the form if the current page is valid
+  const goToNextPage = async () => {
+    const isValid = await experienceForm.trigger(["title", "description"]);
+    if (isValid) {
+      setCurrentPage(2);
+    }
   };
 
   return (
@@ -171,57 +253,101 @@ export function ExperienceForm({
         onSubmit={experienceForm.handleSubmit((data) =>
           onSubmit({ ...data, locationDetails })
         )}
-        className="space-y-6"
       >
-        <FormField
-          control={experienceForm.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Experience Title</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="What is the name of this experience?"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={experienceForm.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Location</FormLabel>
-              <FormControl>
-                <MapWithPinning onLocationSelect={handleLocationSelect} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={experienceForm.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us about this amazing experience"
-                  className="min-h-[100px]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="ml-auto bg-secondary">
-          Submit Experience
-        </Button>
+        {currentPage === 1 && (
+          <>
+            <FormField
+              control={experienceForm.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Experience Title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={experienceForm.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Describe your experience"
+                      {...field}
+                      className="h-32"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="button"
+              onClick={goToNextPage}
+              className="mt-4 float-right"
+            >
+              Next
+            </Button>
+          </>
+        )}
+        {currentPage === 2 && (
+          <>
+            <FormField
+              control={experienceForm.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location</FormLabel>
+                  <FormControl>
+                    <MapWithPinning onLocationSelect={handleLocationSelect} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="mt-4">
+              <TagFilter
+                tags={tags}
+                selectedTags={selectedTags}
+                onToggleTag={handleToggleTag}
+                isForForm={true}
+              />
+            </div>
+            <FormField
+              control={experienceForm.control}
+              name="image"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Upload Image (Optional)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept={ACCEPTED_FILE_TYPES.join(",")}
+                      onChange={(e) =>
+                        experienceForm.setValue(
+                          "image",
+                          e.target.files?.[0] || undefined
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-between mt-4">
+              <Button type="button" onClick={() => setCurrentPage(1)}>
+                Back
+              </Button>
+              <Button type="submit">Submit</Button>
+            </div>
+          </>
+        )}
       </form>
     </Form>
   );
