@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { Star, MapPin, DollarSign, Heart, MessageSquare } from "lucide-react";
+import {
+  Star,
+  MapPin,
+  DollarSign,
+  Heart,
+  MessageSquare,
+  CheckIcon,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,6 +23,7 @@ import { Rating } from "@/types/Rating";
 import LocationMap from "@/components/pages/experiences/[experience_id]/LocationMap";
 import RatingsAPI from "@/api/RatingsAPI";
 import CreateRatingDialog from "@/components/pages/experiences/[experience_id]/CreateRatingDialog";
+import { AnimatedSubscribeButton } from "@/components/ui/animated-subscribe-button";
 
 export default function ExperiencePage() {
   // State variable to store experience
@@ -30,18 +38,6 @@ export default function ExperiencePage() {
   const experience_id = Array.isArray(params.experience_id)
     ? params.experience_id[0]
     : params.experience_id; // Ensure experience_id is a string
-
-  // Function to fetch ratings from the API
-  const fetchRatings = async () => {
-    try {
-      const fetchedRatings = await RatingsAPI.getExperienceRatings(
-        experience_id as UUID
-      );
-      setRatings(fetchedRatings);
-    } catch (error) {
-      console.error("Failed to fetch ratings:", error);
-    }
-  };
 
   // UseEffect hook to run on component mount
   useEffect(() => {
@@ -59,9 +55,25 @@ export default function ExperiencePage() {
       setExperienceLoading(false);
     };
 
+    // Function to fetch ratings from the API
+    const fetchRatings = async () => {
+      try {
+        const fetchedRatings = await RatingsAPI.getExperienceRatings(
+          experience_id as UUID
+        );
+        setRatings(fetchedRatings);
+      } catch (error) {
+        console.error("Failed to fetch ratings:", error);
+      }
+    };
+
     void fetchExperienceById();
     void fetchRatings();
   }, [experience_id]);
+
+  const handleWishlistClicked = async () => {
+    console.log("Wishlist clicked");
+  };
 
   if (experienceLoading) {
     return (
@@ -83,7 +95,9 @@ export default function ExperiencePage() {
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
+          {/* Title of the Experience */}
           <h1 className="text-3xl font-bold mb-4">{experience.title}</h1>
+
           {/* Image for the Experience, if it exists */}
           {experience.image_url && (
             <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg">
@@ -96,6 +110,8 @@ export default function ExperiencePage() {
               />
             </div>
           )}
+
+          {/* Description of the Experience, With Rating, Location, and Price Info */}
           <div className="flex items-center mb-4">
             <Star fill="#1d492e" strokeWidth={0} className="w-5 h-5 mr-1" />
             <span className="font-semibold mr-2">
@@ -116,6 +132,8 @@ export default function ExperiencePage() {
               <span className="capitalize">{experience.price}</span>
             </div>
           </div>
+
+          {/* Tags for the Experience */}
           <div className="flex flex-wrap gap-2 mb-4">
             {experience.tags.map((tag) => (
               <Badge key={tag.tag_id}>{tag.name}</Badge>
@@ -123,18 +141,32 @@ export default function ExperiencePage() {
           </div>
         </div>
         <div>
+          {/* Actions */}
           <Card>
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Actions</h2>
               <div className="space-y-4">
-                <Button variant="outline" className="w-full">
-                  <Heart className="w-4 h-4 mr-2" />
-                  Add to Wishlist
-                </Button>
+                <AnimatedSubscribeButton
+                  subscribeStatus={false}
+                  initialText={
+                    <span className="group inline-flex items-center">
+                      <Heart className="mr-2 size-4 transition-transform duration-300 group-hover:-translate-x-1" />
+                      Add to Wishlist{" "}
+                    </span>
+                  }
+                  changeText={
+                    <span className="group inline-flex items-center">
+                      <CheckIcon className="mr-2 size-4" />
+                      Added to Wishlist!
+                    </span>
+                  }
+                />
                 <CreateRatingDialog experienceId={experience.experience_id} />
               </div>
             </CardContent>
           </Card>
+
+          {/* Map */}
           <Card className="mt-6">
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
@@ -148,6 +180,8 @@ export default function ExperiencePage() {
           </Card>
         </div>
       </div>
+
+      {/* Ratings Section */}
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Ratings</h2>
         <div className="space-y-6">
