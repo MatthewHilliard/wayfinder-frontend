@@ -83,6 +83,7 @@ export default function CreateRatingDialog({
           title: "Success!",
           description: "Rating created successfully.",
         });
+        setIsOpen(false); // Close the dialog
       }
     } catch (error) {
       // Handle unexpected errors

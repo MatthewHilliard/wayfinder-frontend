@@ -151,7 +151,7 @@ export default function ExperiencePage() {
       <div className="mt-8">
         <h2 className="text-2xl font-semibold mb-4">Ratings</h2>
         <div className="space-y-6">
-          {ratings.length > 0 ? (
+          {ratings && ratings.length > 0 ? (
             ratings.map((rating) => (
               <RatingCard key={rating.rating_id} rating={rating} />
             ))
