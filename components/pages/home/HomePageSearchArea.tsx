@@ -3,7 +3,7 @@
 import WordFadeIn from "@/components/ui/word-fade-in";
 import LocationSearch from "@/components/universal/LocationSearch";
 import { City } from "@/types/City";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function HomePageSearchArea() {
   const router = useRouter();

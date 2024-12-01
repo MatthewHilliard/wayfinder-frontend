@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { set } from "react-hook-form";
 
 // Function to refresh the access token when it expires
 export async function handleRefresh() {

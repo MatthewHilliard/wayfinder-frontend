@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, MessageCircle, User, Menu } from "lucide-react";
+import { Compass, MessageCircle, Menu } from "lucide-react";
 import Image from "next/image";
 import { getUserId } from "@/lib/actions";
 import UserDropdown from "./UserDropdown";
