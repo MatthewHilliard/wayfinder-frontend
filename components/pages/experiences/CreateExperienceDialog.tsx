@@ -286,7 +286,6 @@ function PaginatedExperienceForm({
                     <Textarea
                       placeholder="Describe your experience"
                       {...field}
-                      className="h-32"
                     />
                   </FormControl>
                   <FormMessage />
