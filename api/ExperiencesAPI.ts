@@ -75,6 +75,7 @@ const ExperiencesAPI = {
    */
   getExperiencesWithFilters: async (
     tags?: string[],
+    searchQuery?: string,
     locationType?: string,
     locationId?: string
   ): Promise<Experience[]> => {
@@ -87,6 +88,11 @@ const ExperiencesAPI = {
         queryParams.append("tags", tags.join(","));
       }
 
+      // Append search query if provided
+      if (searchQuery) {
+        queryParams.append("search_query", searchQuery);
+      }
+
       // Append location type and ID if provided
       if (locationType) {
         queryParams.append("location_type", locationType);
@@ -95,6 +101,7 @@ const ExperiencesAPI = {
         queryParams.append("location_id", locationId);
       }
 
+      // Convert query string to URL-encoded string
       const queryString = queryParams.toString();
 
       // Send GET request with query string

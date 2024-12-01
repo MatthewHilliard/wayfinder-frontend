@@ -14,18 +14,14 @@ import { City } from "@/types/City";
 import TagsAPI from "@/api/TagsAPI";
 
 export default function BrowseExperiences() {
-  // State variable to store experiences loading state
-  const [experiencesLoading, setExperiencesLoading] = useState<boolean>(true);
-  // State variable to store experiences fetched from the API
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-  // State variable to store tags fetched from the API
-  const [tags, setTags] = useState<Tag[]>([]);
-  // State variable to store selected tags
-  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
-  // State variable to store search query for location
-  const [locationSearch, setLocationSearch] = useState<City | null>(null);
-  // State to track initial render of the component
-  const [isInitialMount, setIsInitialMount] = useState(true);
+  const [experiencesLoading, setExperiencesLoading] = useState<boolean>(true); // State variable to store experiences loading state
+  const [experiences, setExperiences] = useState<Experience[]>([]); // State variable to store experiences fetched from the API
+  const [tags, setTags] = useState<Tag[]>([]); // State variable to store tags fetched from the API
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]); // State variable to store selected tags
+  const [locationSearch, setLocationSearch] = useState<City | null>(null); // State variable to store search query for location
+  const [searchQuery, setSearchQuery] = useState<string>(""); // State variable to store search query for experiences
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>(""); // State variable to store debounced search query
+  const [isInitialMount, setIsInitialMount] = useState(true); // State to track initial render of the component
 
   // Initialize searchParams hook
   const searchParams = useSearchParams();
@@ -75,7 +71,7 @@ export default function BrowseExperiences() {
     void fetchInitialData();
   }, [searchParams]);
 
-  // Re-fetch experiences whenever filters (tags/location) change
+  // Re-fetch experiences whenever filters or debounced query change
   useEffect(() => {
     if (isInitialMount) return; // Skip on initial mount
 
@@ -90,6 +86,7 @@ export default function BrowseExperiences() {
         const fetchedExperiences =
           await ExperiencesAPI.getExperiencesWithFilters(
             tagNames,
+            debouncedSearchQuery,
             locationType,
             locationId
           );
@@ -103,7 +100,18 @@ export default function BrowseExperiences() {
     };
 
     void fetchFilteredExperiences();
-  }, [selectedTags, locationSearch]);
+  }, [selectedTags, debouncedSearchQuery, locationSearch]);
+
+  // Debounce search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery); // Update debounced value after delay
+    }, 400); // 400ms debounce delay
+
+    return () => {
+      clearTimeout(handler); // Clear timeout on cleanup
+    };
+  }, [searchQuery]); // Trigger when `searchQuery` changes
 
   // Function to toggle a tag
   const toggleTag = (tag: Tag) => {
@@ -136,7 +144,10 @@ export default function BrowseExperiences() {
           >
             Search by Experience
           </Label>
-          <ExperienceSearch />
+          <ExperienceSearch
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} // Update search query state
+          />
         </div>
       </div>
 
