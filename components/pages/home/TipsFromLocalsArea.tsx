@@ -93,9 +93,7 @@ export default function TipsFromLocalsArea() {
                     <div className="flex items-center space-x-4">
                       <Avatar>
                         <AvatarImage alt={tip.name} />
-                        <AvatarFallback className="bg-accent">
-                          {tip.name[0]}
-                        </AvatarFallback>
+                        <AvatarFallback>{tip.name[0]}</AvatarFallback>
                       </Avatar>
                       <div>
                         <CardTitle className="text-lg">{tip.name}</CardTitle>

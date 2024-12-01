@@ -14,6 +14,8 @@ import { formatLocation } from "@/lib/locationHelpers";
 import RatingCard from "@/components/pages/experiences/[experience_id]/RatingCard";
 import { Rating } from "@/types/Rating";
 import LocationMap from "@/components/pages/experiences/[experience_id]/LocationMap";
+import RatingsAPI from "@/api/RatingsAPI";
+import CreateRatingDialog from "@/components/pages/experiences/[experience_id]/CreateRatingDialog";
 
 export default function ExperiencePage() {
   // State variable to store experience
@@ -28,6 +30,18 @@ export default function ExperiencePage() {
   const experience_id = Array.isArray(params.experience_id)
     ? params.experience_id[0]
     : params.experience_id; // Ensure experience_id is a string
+
+  // Function to fetch ratings from the API
+  const fetchRatings = async () => {
+    try {
+      const fetchedRatings = await RatingsAPI.getExperienceRatings(
+        experience_id as UUID
+      );
+      setRatings(fetchedRatings);
+    } catch (error) {
+      console.error("Failed to fetch ratings:", error);
+    }
+  };
 
   // UseEffect hook to run on component mount
   useEffect(() => {
@@ -45,20 +59,8 @@ export default function ExperiencePage() {
       setExperienceLoading(false);
     };
 
-    // Function to fetch ratings from the API
-    // const fetchRatings = async () => {
-    //   try {
-    //     const fetchedRatings = await RatingsAPI.getExperienceRatings(
-    //       experience_id as UUID
-    //     );
-    //     setRatings(fetchedRatings);
-    //   } catch (error) {
-    //     console.error("Failed to fetch ratings:", error);
-    //   }
-    // };
-
     void fetchExperienceById();
-    // void fetchRatings();
+    void fetchRatings();
   }, [experience_id]);
 
   if (experienceLoading) {
@@ -95,7 +97,7 @@ export default function ExperiencePage() {
             </div>
           )}
           <div className="flex items-center mb-4">
-            <Star className="w-5 h-5 text-yellow-400 mr-1" />
+            <Star fill="#1d492e" strokeWidth={0} className="w-5 h-5 mr-1" />
             <span className="font-semibold mr-2">
               {experience.average_rating.toFixed(1)}
             </span>
@@ -125,15 +127,11 @@ export default function ExperiencePage() {
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold mb-4">Actions</h2>
               <div className="space-y-4">
-                <Button className="w-full">Book Now</Button>
                 <Button variant="outline" className="w-full">
                   <Heart className="w-4 h-4 mr-2" />
                   Add to Wishlist
                 </Button>
-                <Button variant="outline" className="w-full">
-                  <MessageSquare className="w-4 h-4 mr-2" />
-                  Write a Review
-                </Button>
+                <CreateRatingDialog experienceId={experience.experience_id} />
               </div>
             </CardContent>
           </Card>
@@ -151,11 +149,15 @@ export default function ExperiencePage() {
         </div>
       </div>
       <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+        <h2 className="text-2xl font-semibold mb-4">Ratings</h2>
         <div className="space-y-6">
-          {ratings.map((rating) => (
-            <RatingCard key={rating.rating_id} rating={rating} />
-          ))}
+          {ratings.length > 0 ? (
+            ratings.map((rating) => (
+              <RatingCard key={rating.rating_id} rating={rating} />
+            ))
+          ) : (
+            <p>No ratings yet. Be the first to leave a review!</p>
+          )}
         </div>
       </div>
     </div>

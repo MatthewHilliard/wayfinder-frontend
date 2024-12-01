@@ -23,7 +23,7 @@ export default function UserDropdown({ userId }: UserDropdownProps) {
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer">
             <AvatarImage alt="User avatar" />
-            <AvatarFallback className="bg-accent">U</AvatarFallback>
+            <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
