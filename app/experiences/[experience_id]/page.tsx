@@ -82,15 +82,18 @@ export default function ExperiencePage() {
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
           <h1 className="text-3xl font-bold mb-4">{experience.title}</h1>
-          <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg">
-            <Image
-              src={experience.image_url || "/placeholder.svg"}
-              alt={experience.title}
-              width={1000}
-              height={562}
-              className="object-cover w-full h-full"
-            />
-          </div>
+          {/* Image for the Experience, if it exists */}
+          {experience.image_url && (
+            <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg">
+              <Image
+                src={experience.image_url || "/city-placeholder.svg"}
+                alt={experience.title}
+                width={1000}
+                height={562}
+                className="object-cover w-full h-full"
+              />
+            </div>
+          )}
           <div className="flex items-center mb-4">
             <Star className="w-5 h-5 text-yellow-400 mr-1" />
             <span className="font-semibold mr-2">

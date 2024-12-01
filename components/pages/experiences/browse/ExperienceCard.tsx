@@ -31,19 +31,17 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         onClick={handleCardClick}
         className="flex flex-col cursor-pointer transition-transform transform hover:scale-105"
       >
-        {/* Image for the Experience, if it exists */}
-        {experience.image_url && (
-          <div className="relative w-full h-48">
-            <Image
-              src={experience.image_url}
-              alt={experience.title}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "cover" }}
-              className="rounded-t-lg"
-            />
-          </div>
-        )}
+        {/* Image for the Experience */}
+        <div className="relative w-full h-48">
+          <Image
+            src={experience.image_url || "/city-placeholder.svg"}
+            alt={experience.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+            style={{ objectFit: "cover" }}
+            className="rounded-t-lg"
+          />
+        </div>
         {/* Header for the Experience */}
         <CardHeader>
           <CardTitle className="text-lg">{experience.title}</CardTitle>

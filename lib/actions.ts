@@ -6,13 +6,6 @@ import { set } from "react-hook-form";
 // Function to refresh the access token when it expires
 export async function handleRefresh() {
   const refreshToken = await getRefreshToken();
-
-  // If there is no refresh token, return null without making an API request
-  if (!refreshToken) {
-    console.log("No refresh token found. User might not be logged in.");
-    return null;
-  }
-
   const cookieStore = await cookies();
 
   try {
