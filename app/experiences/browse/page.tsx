@@ -55,6 +55,7 @@ export default function BrowseExperiences() {
         const fetchedExperiences =
           await ExperiencesAPI.getExperiencesWithFilters(
             filteredTags.map((tag) => tag.name),
+            "",
             city?.type,
             city?.city_id
           );
@@ -77,6 +78,7 @@ export default function BrowseExperiences() {
 
     const fetchFilteredExperiences = async () => {
       try {
+        console.log("Fetching experiences with filters...", searchParams);
         setExperiencesLoading(true);
 
         const tagNames = selectedTags.map((tag) => tag.name);
