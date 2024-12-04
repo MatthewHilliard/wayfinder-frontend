@@ -13,6 +13,7 @@ import { Check, Heart } from "lucide-react";
 import { UUID } from "crypto";
 import { Wishlist } from "@/types/Wishlist";
 import WishlistsAPI from "@/api/WishlistsAPI";
+import { Button } from "@/components/ui/button";
 
 export default function AddToWishlistButton({
   experienceId,
@@ -20,15 +21,13 @@ export default function AddToWishlistButton({
   experienceId: UUID;
 }) {
   const [wishlists, setWishlists] = useState<Wishlist[]>([]); // State to store the user's wishlists
-  const [selectedWishlist, setSelectedWishlist] = useState<UUID | null>(null); // State to store the selected wishlist
   const [isLoading, setIsLoading] = useState<boolean>(false); // State to store the loading state of the button
   const [buttonText, setButtonText] = useState<"add" | "added" | "loading">(
     "add"
   ); // State to store the text of the button
 
-  // Use effect to run on component mount
+  // Use effect to fetch wishlists on component mount
   useEffect(() => {
-    // Fetch the user's wishlists from the API
     const fetchWishlists = async () => {
       try {
         const fetchedWishlists = await WishlistsAPI.getUserWishlists();
@@ -42,18 +41,17 @@ export default function AddToWishlistButton({
   }, []);
 
   // Function to handle adding the experience to the selected wishlist
-  const handleAddToWishlist = async () => {
+  const handleAddToWishlist = async (wishlistId: UUID) => {
     try {
       setIsLoading(true);
       setButtonText("loading");
 
-      // Simulate a delay for the wishlist action
-      await WishlistsAPI.createWishlistItem(selectedWishlist!, experienceId);
+      // Add item to the selected wishlist
+      await WishlistsAPI.createWishlistItem(wishlistId, experienceId);
 
-      setSelectedWishlist(null);
       setButtonText("added");
     } catch (error) {
-      console.error(error);
+      console.error("Failed to add to wishlist:", error);
       setButtonText("add");
     } finally {
       setIsLoading(false);
@@ -63,12 +61,10 @@ export default function AddToWishlistButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button
+        <Button
           disabled={isLoading}
-          className={`group relative flex w-full text-sm items-center justify-center rounded-md border px-4 py-2 font-medium transition duration-300 ease-in-out ${
-            isLoading
-              ? "opacity-50 cursor-not-allowed"
-              : "bg-background hover:bg-secondary"
+          className={`bg-background group relative flex w-full text-sm items-center justify-center rounded-md border px-4 py-2 font-medium ${
+            isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-secondary"
           }`}
         >
           {buttonText === "add" && (
@@ -78,29 +74,7 @@ export default function AddToWishlistButton({
             </span>
           )}
           {buttonText === "loading" && (
-            <span className="group inline-flex items-center">
-              <svg
-                className="w-4 h-4 animate-spin mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 2.42.876 4.63 2.322 6.291l1.678-1.682z"
-                ></path>
-              </svg>
-              Loading...
-            </span>
+            <span className="group inline-flex items-center">Loading...</span>
           )}
           {buttonText === "added" && (
             <span className="group inline-flex items-center">
@@ -108,7 +82,7 @@ export default function AddToWishlistButton({
               Added to Wishlist!
             </span>
           )}
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[300px]">
         <DropdownMenuLabel>Select a Wishlist</DropdownMenuLabel>
@@ -117,12 +91,8 @@ export default function AddToWishlistButton({
           wishlists.map((wishlist) => (
             <DropdownMenuItem
               key={wishlist.wishlist_id}
-              className={`cursor-pointer ${
-                selectedWishlist === wishlist.wishlist_id
-                  ? "font-bold text-primary"
-                  : ""
-              }`}
-              onClick={() => setSelectedWishlist(wishlist.wishlist_id)}
+              className="cursor-pointer"
+              onClick={() => handleAddToWishlist(wishlist.wishlist_id)}
             >
               {wishlist.title}
             </DropdownMenuItem>
@@ -132,14 +102,6 @@ export default function AddToWishlistButton({
             Make a Wishlist!
           </DropdownMenuItem>
         )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="bg-blue-500 text-white hover:bg-blue-600 cursor-pointer rounded-md"
-          onClick={handleAddToWishlist}
-          disabled={!selectedWishlist || isLoading}
-        >
-          {isLoading ? "Adding..." : "Confirm"}
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
