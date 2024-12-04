@@ -19,12 +19,12 @@ export default function AddToWishlistButton({
 }: {
   experienceId: UUID;
 }) {
-  const [wishlists, setWishlists] = useState<Wishlist[]>([]);
-  const [selectedWishlist, setSelectedWishlist] = useState<UUID | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [wishlists, setWishlists] = useState<Wishlist[]>([]); // State to store the user's wishlists
+  const [selectedWishlist, setSelectedWishlist] = useState<UUID | null>(null); // State to store the selected wishlist
+  const [isLoading, setIsLoading] = useState<boolean>(false); // State to store the loading state of the button
   const [buttonText, setButtonText] = useState<"add" | "added" | "loading">(
     "add"
-  );
+  ); // State to store the text of the button
 
   // Use effect to run on component mount
   useEffect(() => {
@@ -41,15 +41,15 @@ export default function AddToWishlistButton({
     void fetchWishlists();
   }, []);
 
+  // Function to handle adding the experience to the selected wishlist
   const handleAddToWishlist = async () => {
     try {
       setIsLoading(true);
       setButtonText("loading");
 
       // Simulate a delay for the wishlist action
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await WishlistsAPI.createWishlistItem(selectedWishlist!, experienceId);
 
-      // if all good, reset the button state
       setSelectedWishlist(null);
       setButtonText("added");
     } catch (error) {
@@ -128,9 +128,7 @@ export default function AddToWishlistButton({
             </DropdownMenuItem>
           ))
         ) : (
-          <DropdownMenuItem
-            className="cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer">
             Make a Wishlist!
           </DropdownMenuItem>
         )}
