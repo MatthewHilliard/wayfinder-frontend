@@ -11,11 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Check, Heart } from "lucide-react";
 import { UUID } from "crypto";
-
-interface Wishlist {
-  id: UUID;
-  name: string;
-}
+import { Wishlist } from "@/types/Wishlist";
+import WishlistsAPI from "@/api/WishlistsAPI";
 
 export default function AddToWishlistButton({
   experienceId,
@@ -29,34 +26,38 @@ export default function AddToWishlistButton({
     "add"
   );
 
+  // Use effect to run on component mount
   useEffect(() => {
-    // Fetch the user's available wishlists
+    // Fetch the user's wishlists from the API
     const fetchWishlists = async () => {
-      const data: Wishlist[] = [
-        { id: "wishlist1" as UUID, name: "My Favorites" },
-        { id: "wishlist2" as UUID, name: "Vacation Ideas" },
-      ];
-      setWishlists(data);
+      try {
+        const fetchedWishlists = await WishlistsAPI.getUserWishlists();
+        setWishlists(fetchedWishlists);
+      } catch (error) {
+        console.error("Failed to fetch wishlists:", error);
+      }
     };
 
-    fetchWishlists();
+    void fetchWishlists();
   }, []);
 
   const handleAddToWishlist = async () => {
-    if (!selectedWishlist) {
-      alert("Please select a wishlist.");
-      return;
+    try {
+      setIsLoading(true);
+      setButtonText("loading");
+
+      // Simulate a delay for the wishlist action
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // if all good, reset the button state
+      setSelectedWishlist(null);
+      setButtonText("added");
+    } catch (error) {
+      console.error(error);
+      setButtonText("add");
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(true);
-    setButtonText("loading");
-
-    // Simulate a delay for the wishlist action
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setSelectedWishlist(null);
-    setIsLoading(false);
-    setButtonText("added");
   };
 
   return (
@@ -112,17 +113,27 @@ export default function AddToWishlistButton({
       <DropdownMenuContent className="w-[300px]">
         <DropdownMenuLabel>Select a Wishlist</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {wishlists.map((wishlist) => (
+        {wishlists && wishlists.length > 0 ? (
+          wishlists.map((wishlist) => (
+            <DropdownMenuItem
+              key={wishlist.wishlist_id}
+              className={`cursor-pointer ${
+                selectedWishlist === wishlist.wishlist_id
+                  ? "font-bold text-primary"
+                  : ""
+              }`}
+              onClick={() => setSelectedWishlist(wishlist.wishlist_id)}
+            >
+              {wishlist.title}
+            </DropdownMenuItem>
+          ))
+        ) : (
           <DropdownMenuItem
-            key={wishlist.id}
-            className={`cursor-pointer ${
-              selectedWishlist === wishlist.id ? "font-bold text-primary" : ""
-            }`}
-            onClick={() => setSelectedWishlist(wishlist.id)}
+            className="cursor-pointer"
           >
-            {wishlist.name}
+            Make a Wishlist!
           </DropdownMenuItem>
-        ))}
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="bg-blue-500 text-white hover:bg-blue-600 cursor-pointer rounded-md"
