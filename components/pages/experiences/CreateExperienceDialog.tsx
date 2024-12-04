@@ -23,7 +23,6 @@ import { useEffect, useState } from "react";
 import MapWithPinning from "./MapWithPinning";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { toast } from "@/hooks/use-toast";
 import { Tag } from "@/types/Tag";
 import TagFilter from "./TagFilter";
 import TagsAPI from "@/api/TagsAPI";
@@ -99,29 +98,10 @@ export default function CreateExperienceDialog() {
         experienceData.append("image", formData.image);
       }
 
-      const result = await ExperiencesAPI.createExperience(experienceData);
+      await ExperiencesAPI.createExperience(experienceData);
 
-      if (Array.isArray(result)) {
-        // Validation errors
-        toast({
-          title: "Validation Error",
-          description: result.join("\n"), // Join multiple errors into a single string
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Success!",
-          description: "Experience created successfully.",
-        });
-        setIsExperienceOpen(false);
-      }
+      setIsExperienceOpen(false);
     } catch (error) {
-      // Handle unexpected errors
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
       console.error("Failed to create experience:", error);
     }
   };

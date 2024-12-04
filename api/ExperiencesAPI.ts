@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import apiService from "@/services/apiService";
 import { Experience } from "@/types/Experience";
 import { UUID } from "crypto";
@@ -39,6 +40,10 @@ const ExperiencesAPI = {
       );
 
       if (response.data) {
+        toast({
+          title: "Success!",
+          description: "Experience created successfully.",
+        });
         // Return the created experience on success
         return response.data;
       } else {
@@ -46,7 +51,13 @@ const ExperiencesAPI = {
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error: any) => (Array.isArray(error) ? error : [error])
         );
-        return tmpErrors;
+        // Validation errors
+        toast({
+          title: "Validation Error",
+          description: tmpErrors.join("\n"), // Join multiple errors into a single string
+          variant: "destructive",
+        });
+        throw new Error("An error occurred while creating the experience.");
       }
     } catch (error: any) {
       throw error; // For unexpected errors

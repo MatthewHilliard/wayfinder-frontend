@@ -1,5 +1,7 @@
+import { toast } from "@/hooks/use-toast";
 import apiService from "@/services/apiService";
 import { Rating } from "@/types/Rating";
+import { error } from "console";
 import { UUID } from "crypto";
 
 const RatingsAPI = {
@@ -20,16 +22,25 @@ const RatingsAPI = {
       );
 
       if (response.data) {
+        toast({
+          title: "Success!",
+          description: "Rating created successfully.",
+        });
         return response.data; // Return the created rating on success
       } else {
         // Parse and return validation errors if provided
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error: any) => (Array.isArray(error) ? error : [error])
         );
-        return tmpErrors;
+        toast({
+          title: "Validation Error",
+          description: tmpErrors.join("\n"), // Join multiple errors into a single string
+          variant: "destructive",
+        });
+        throw new Error("An error occurred while creating the rating.");
       }
     } catch (error: any) {
-      throw error; // For unexpected errors
+      throw error;
     }
   },
   /*

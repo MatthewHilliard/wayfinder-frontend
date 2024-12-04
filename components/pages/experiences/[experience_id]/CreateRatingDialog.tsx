@@ -26,7 +26,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
-import { toast } from "@/hooks/use-toast";
 import RatingsAPI from "@/api/RatingsAPI";
 import { UUID } from "crypto";
 import { MessageSquare } from "lucide-react";
@@ -65,33 +64,14 @@ export default function CreateRatingDialog({
   // Function to create a new rating for the experience in the API and update the ratings state
   const handleRatingSubmit = async (data: RatingFormValues) => {
     try {
-      const result = await RatingsAPI.createRating({
+      await RatingsAPI.createRating({
         experience_id: experienceId,
         rating_value: data.rating_value,
         comment: data.comment,
       });
 
-      if (Array.isArray(result)) {
-        // Validation errors
-        toast({
-          title: "Validation Error",
-          description: result.join("\n"), // Join multiple errors into a single string
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Success!",
-          description: "Rating created successfully.",
-        });
-        setIsOpen(false); // Close the dialog
-      }
+      setIsOpen(false); // Close the dialog
     } catch (error) {
-      // Handle unexpected errors
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
       console.error("Failed to create rating:", error);
     }
   };
