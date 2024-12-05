@@ -23,7 +23,6 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
         </Avatar>
         <div>
           <h1 className="text-3xl font-bold mb-2">{user.name}</h1>
-          <p className="text-muted-foreground mb-2">{user.email}</p>
           <p className="mb-2">
             📍 {user.city}, {user.country}
           </p>

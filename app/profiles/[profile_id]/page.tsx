@@ -1,18 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import UsersAPI from "@/api/UsersAPI";
 import { User } from "@/types/User";
 import { UUID } from "crypto";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Experience } from "@/types/Experience";
-import { Star } from "lucide-react";
-import CreateExperienceDialog from "@/components/pages/experiences/CreateExperienceDialog";
-import CreateTipDialog from "@/components/pages/experiences/CreateTipDialog";
 import ProfileHeader from "@/components/pages/profiles/ProfileHeader";
 import ProfileExperiences from "@/components/pages/profiles/ProfileExperiences";
 import ProfileTips from "@/components/pages/profiles/ProfileTips";
@@ -27,12 +20,8 @@ export default function ProfilePage() {
   const [userLoading, setUserLoading] = useState<boolean>(true);
   // State variable to store the user's experiences
   const [experiences, setExperiences] = useState<Experience[] | null>(null);
-  // State variable to store the experience loading state
-  const [experiencesLoading, setExperiencesLoading] = useState<boolean>(true);
   // State variable to store the user's travel tips
   const [tips, setTips] = useState<Tip[] | null>(null);
-  // State variable to store the travel tips loading state
-  const [tipsLoading, setTipsLoading] = useState<boolean>(true);
 
   // Get profile_id from the URL
   const params = useParams();
@@ -58,28 +47,22 @@ export default function ProfilePage() {
     // Function to fetch user's experiences from the API
     const fetchExperiencesByUserId = async () => {
       try {
-        setExperiencesLoading(true);
         const fetchedExperiences = await ExperiencesAPI.getExperiencesByUserId(
           profile_id as UUID
         );
         setExperiences(fetchedExperiences);
       } catch (error) {
         console.error("Failed to fetch user's experiences:", error);
-      } finally {
-        setExperiencesLoading(false);
       }
     };
 
     // Function to fetch user's travel tips from the API
     const fetchTipsByUserId = async () => {
       try {
-        setTipsLoading(true);
         const fetchedTips = await TipsAPI.getTipsByUserId(profile_id as UUID);
         setTips(fetchedTips);
       } catch (error) {
         console.error("Failed to fetch user's travel tips:", error);
-      } finally {
-        setTipsLoading(false);
       }
     };
 
