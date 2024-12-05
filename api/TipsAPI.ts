@@ -45,6 +45,42 @@ const TipsAPI = {
     }
   },
   /*
+   * Fetches tips with optional filters
+   * @param locationType - Optional location type ("country" or "city")
+   * @param locationId - Optional location ID
+   * @returns array of filtered tips
+   */
+  getTipsWithFilters: async (
+    locationType?: string,
+    locationId?: string
+  ): Promise<Tip[]> => {
+    try {
+      // Construct query string dynamically
+      const queryParams = new URLSearchParams();
+
+      // Append location type and ID if provided
+      if (locationType) {
+        queryParams.append("location_type", locationType);
+      }
+      if (locationId) {
+        queryParams.append("location_id", locationId);
+      }
+
+      // Convert query string to URL-encoded string
+      const queryString = queryParams.toString();
+
+      // Send GET request with query string
+      const response = await apiService.get(
+        `/tips/get_tips_with_filters/?${queryString}`
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching tips with filters:", error);
+      throw error;
+    }
+  },
+  /*
    * Fetches all of a user's tips from the backend sorted by date posted
    * @returns array of tips
    */
