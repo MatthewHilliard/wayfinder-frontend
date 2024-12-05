@@ -8,8 +8,8 @@ export interface Tip {
   content: string;
   country: UUID;
   country_info: Country;
-  city: UUID;
-  city_info: City;
+  city?: UUID;
+  city_info?: City;
   creator: UUID;
   creator_info: User;
   date_posted: Date;

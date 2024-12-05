@@ -20,6 +20,10 @@ export default function ProfileTips({ tips }: ProfileTipsProps) {
             {tips.map((tip, index) => (
               <li key={index} className="border-b pb-4 last:border-b-0">
                 <p className="mb-2">{tip.content}</p>
+                <p className="text-xs text-muted-foreground">
+                  📍 {tip.city_info?.name ? `${tip.city_info.name}, ` : ""}
+                  {tip.country_info.name}
+                </p>
               </li>
             ))}
           </ul>

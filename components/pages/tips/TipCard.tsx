@@ -34,7 +34,8 @@ export function TipCard({ tip }: TipProps) {
       </CardContent>
       <CardFooter>
         <p className="text-xs text-muted-foreground">
-          📍 {tip.city_info.name}, {tip.country_info.name}
+          📍 {tip.city_info?.name ? `${tip.city_info.name}, ` : ""}
+          {tip.country_info.name}
         </p>
       </CardFooter>
     </Card>

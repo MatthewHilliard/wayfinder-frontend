@@ -24,7 +24,8 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
         <div>
           <h1 className="text-3xl font-bold mb-2">{user.name}</h1>
           <p className="mb-2">
-            📍 {user.city}, {user.country}
+            📍 {user.city_info?.name ? `${user.city_info.name}, ` : ""}
+            {user.country_info.name}
           </p>
           <p className="text-sm text-muted-foreground">
             Joined: {new Date(user.date_joined).toLocaleDateString()}
