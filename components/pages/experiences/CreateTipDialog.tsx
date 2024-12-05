@@ -99,7 +99,7 @@ export function TipForm({
           )}
         />
         {/* Add Google Maps API for location pin */}
-        {/* <FormField
+        <FormField
           control={tipForm.control}
           name="location"
           render={({ field }) => (
@@ -107,7 +107,7 @@ export function TipForm({
               <FormLabel>Location</FormLabel>
               <FormControl>
                 <LocationSearch
-                  isForForm={true}
+                  placeholder="Where is your tip for?"
                   // set value to current user's city, country
                   onSelect={(value) => {
                     field.onChange(value); // Update react-hook-form field
@@ -117,7 +117,7 @@ export function TipForm({
               <FormMessage />
             </FormItem>
           )}
-        /> */}
+        />
         <Button type="submit" className="ml-auto">
           Submit Tip
         </Button>

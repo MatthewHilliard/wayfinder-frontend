@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthAPI from "@/api/AuthAPI";
 import { toast } from "@/hooks/use-toast";
+import LocationSearch from "../LocationSearch";
 
 const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -156,6 +157,25 @@ export default function SignupPopup() {
                         type="password"
                         placeholder="Confirm your password"
                         {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={signupForm.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <LocationSearch
+                        placeholder="Where are you from?"
+                        // set value to current user's city, country
+                        onSelect={(value) => {
+                          field.onChange(value); // Update react-hook-form field
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

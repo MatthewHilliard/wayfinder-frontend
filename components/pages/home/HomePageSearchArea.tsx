@@ -9,10 +9,12 @@ export default function HomePageSearchArea() {
   const router = useRouter();
 
   // Function to handle city selection
-  const handleCitySelect = (city: City) => {
-    // Serialize the city object into a query parameter
-    const cityQuery = encodeURIComponent(JSON.stringify(city));
-    router.push(`/experiences/browse?cityObject=${cityQuery}`);
+  const handleCitySelect = (city: City | null) => {
+    if (city) {
+      // Serialize the city object into a query parameter
+      const cityQuery = encodeURIComponent(JSON.stringify(city));
+      router.push(`/experiences/browse?cityObject=${cityQuery}`);
+    }
   };
 
   return (
@@ -30,7 +32,10 @@ export default function HomePageSearchArea() {
 
         {/* Search bar */}
         <div className="max-w-md mx-auto flex">
-          <LocationSearch onSelect={handleCitySelect} />
+          <LocationSearch
+            placeholder="Where are you going?"
+            onSelect={handleCitySelect}
+          />
         </div>
       </div>
     </section>

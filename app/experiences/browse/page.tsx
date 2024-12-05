@@ -78,7 +78,6 @@ export default function BrowseExperiences() {
 
     const fetchFilteredExperiences = async () => {
       try {
-        console.log("Fetching experiences with filters...", searchParams);
         setExperiencesLoading(true);
 
         const tagNames = selectedTags.map((tag) => tag.name);
@@ -136,6 +135,14 @@ export default function BrowseExperiences() {
             Search by Location
           </Label>
           <LocationSearch
+            placeholder="Where are you going?"
+            defaultCity={
+              searchParams.get("cityObject")
+                ? JSON.parse(
+                    decodeURIComponent(searchParams.get("cityObject")!)
+                  )
+                : null
+            }
             onSelect={(newLocation) => setLocationSearch(newLocation)}
           />
         </div>
