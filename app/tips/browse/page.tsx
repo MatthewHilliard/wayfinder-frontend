@@ -1,6 +1,7 @@
 "use client";
 
 import TipsAPI from "@/api/TipsAPI";
+import CreateTipDialog from "@/components/pages/tips/CreateTipDialog";
 import { TipCard } from "@/components/pages/tips/TipCard";
 import { Label } from "@/components/ui/label";
 import LocationSearch from "@/components/universal/LocationSearch";
@@ -33,9 +34,11 @@ export default function BrowseTipsPage() {
   }, [locationSearch]);
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Browse Travel Tips</h1>
-
+    <div className="container mx-auto py-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Browse Travel Tips</h1>
+        <CreateTipDialog />
+      </div>
       {/* Location search filter */}
       <div className="mb-6">
         <Label

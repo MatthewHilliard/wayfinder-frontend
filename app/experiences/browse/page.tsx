@@ -12,6 +12,7 @@ import { Label } from "@radix-ui/react-label";
 import { useSearchParams } from "next/navigation";
 import { City } from "@/types/City";
 import TagsAPI from "@/api/TagsAPI";
+import CreateExperienceDialog from "@/components/pages/experiences/CreateExperienceDialog";
 
 export default function BrowseExperiences() {
   const [experiencesLoading, setExperiencesLoading] = useState<boolean>(true); // State variable to store experiences loading state
@@ -123,7 +124,10 @@ export default function BrowseExperiences() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Browse Experiences</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Browse Experiences</h1>
+        <CreateExperienceDialog />
+      </div>
 
       {/* Flex container for aligned searches */}
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
