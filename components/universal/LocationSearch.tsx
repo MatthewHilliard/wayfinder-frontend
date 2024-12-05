@@ -11,6 +11,7 @@ import { formatLocation, generateKey } from "@/lib/locationHelpers";
 import { City } from "@/types/City";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "../ui/button";
 
 interface LocationSearchProps {
   placeholder?: string; // Placeholder text for the input
@@ -86,6 +87,15 @@ export default function LocationSearch({
           }}
           onFocus={() => setIsOpen(true)}
         />
+        {selectedCity && (
+          <Button
+            variant={"destructive"}
+            className="absolute right-2 top-1/2 -translate-y-1/2"
+            onClick={handleClearSelection}
+          >
+            Clear
+          </Button>
+        )}
 
         {isOpen && (
           <CommandList className="absolute top-full mt-2 w-full z-10 bg-background rounded-lg border shadow-md">
@@ -112,15 +122,6 @@ export default function LocationSearch({
           </CommandList>
         )}
       </Command>
-
-      {selectedCity && (
-        <button
-          className="mt-2 text-sm text-red-500 hover:underline"
-          onClick={handleClearSelection}
-        >
-          Clear Selection
-        </button>
-      )}
     </div>
   );
 }

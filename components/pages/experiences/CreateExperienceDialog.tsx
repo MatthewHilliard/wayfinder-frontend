@@ -287,6 +287,7 @@ function PaginatedExperienceForm({
             />
             <Button
               type="button"
+              variant={"outline"}
               onClick={goToNextPage}
               className="mt-4 float-right"
             >
@@ -343,7 +344,7 @@ function PaginatedExperienceForm({
               )}
             />
             <div className="flex justify-between mt-4">
-              <Button type="button" onClick={() => setCurrentPage(1)}>
+              <Button type="button" variant={"outline"} onClick={() => setCurrentPage(1)}>
                 Back
               </Button>
               <Button type="submit">Submit</Button>
