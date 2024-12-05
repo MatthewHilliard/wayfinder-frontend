@@ -6,7 +6,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
@@ -22,11 +21,16 @@ import * as z from "zod";
 import { useState } from "react";
 import LocationSearch from "@/components/universal/LocationSearch";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { City } from "@/types/City";
+import TipsAPI from "@/api/TipsAPI";
 
 // Zod schema for the tip form
 const tipSchema = z.object({
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  location: z.string().min(1, "Location is required"),
+  content: z.string().min(10, "Content must be at least 10 characters"),
+  location: z.object({
+    location_id: z.number(),
+    location_type: z.string(),
+  }),
 });
 
 // Type for the tip form values
@@ -37,8 +41,18 @@ export default function CreateTipDialog() {
   const [isTipOpen, setIsTipOpen] = useState(false);
 
   // Handle tip form submission
-  const handleTipSubmit = (data: TipFormValues) => {
-    setIsTipOpen(false);
+  const handleTipSubmit = async (data: TipFormValues) => {
+    try {
+      await TipsAPI.createTip(
+        data.content,
+        data.location.location_type,
+        data.location.location_id
+      );
+
+      setIsTipOpen(false);
+    } catch (error) {
+      console.error("Error creating tip:", error);
+    }
   };
 
   return (
@@ -75,15 +89,37 @@ export function TipForm({
   // Use react-hook-form to manage the form state
   const tipForm = useForm<TipFormValues>({
     resolver: zodResolver(tipSchema),
-    mode: "onSubmit", // Validation triggered only on form submission
+    mode: "onSubmit",
+    defaultValues: {
+      content: "",
+      location: {
+        location_id: undefined,
+        location_type: "",
+      },
+    },
   });
+
+  // Function to handle location selection
+  const handleLocationSelect = (city: City | null, field: any) => {
+    if (city) {
+      field.onChange({
+        location_id: city.city_id,
+        location_type: city.type,
+      });
+    } else {
+      field.onChange({
+        location_id: "",
+        location_type: "",
+      });
+    }
+  };
 
   return (
     <Form {...tipForm}>
       <form onSubmit={tipForm.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={tipForm.control}
-          name="description"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
@@ -98,7 +134,6 @@ export function TipForm({
             </FormItem>
           )}
         />
-        {/* Add Google Maps API for location pin */}
         <FormField
           control={tipForm.control}
           name="location"
@@ -107,11 +142,8 @@ export function TipForm({
               <FormLabel>Location</FormLabel>
               <FormControl>
                 <LocationSearch
-                  placeholder="Where is your tip for?"
-                  // set value to current user's city, country
-                  onSelect={(value) => {
-                    field.onChange(value); // Update react-hook-form field
-                  }}
+                  placeholder="Where is this tip for?"
+                  onSelect={(city) => handleLocationSelect(city, field)}
                 />
               </FormControl>
               <FormMessage />

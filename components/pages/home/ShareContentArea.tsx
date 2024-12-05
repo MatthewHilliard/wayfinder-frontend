@@ -1,7 +1,7 @@
 "use client";
 
 import CreateExperienceDialog from "../experiences/CreateExperienceDialog";
-import CreateTipDialog from "../experiences/CreateTipDialog";
+import CreateTipDialog from "../tips/CreateTipDialog";
 
 export default function ShareContentArea() {
   return (

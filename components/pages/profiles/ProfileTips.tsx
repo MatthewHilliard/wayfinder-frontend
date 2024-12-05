@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CreateTipDialog from "@/components/pages/experiences/CreateTipDialog";
+import CreateTipDialog from "@/components/pages/tips/CreateTipDialog";
 import { Tip } from "@/types/Tips";
 
 type ProfileTipsProps = {
