@@ -1,6 +1,7 @@
 import { toast } from "@/hooks/use-toast";
 import { handleLogin } from "@/lib/actions";
 import apiService from "@/services/apiService";
+import { City } from "@/types/City";
 import { Tag } from "@/types/Tag";
 
 const AuthAPI = {
@@ -10,6 +11,8 @@ const AuthAPI = {
    * @param {string} email - Email address of the user
    * @param {string} password1 - Password
    * @param {string} password2 - Password confirmation
+   * @param {string} location_type - Type of location
+   * @param {number} location_id - ID of the location
    * @returns {Promise<string | string[]>} Resolves if the registration is successful
    * @throws {Error} Throws an error if the registration fails
    */
@@ -17,7 +20,9 @@ const AuthAPI = {
     name: string,
     email: string,
     password1: string,
-    password2: string
+    password2: string,
+    location_type: string,
+    location_id: number
   ): Promise<string | string[]> => {
     try {
       const response = await apiService.post("/auth/register/", {
@@ -25,6 +30,8 @@ const AuthAPI = {
         email,
         password1,
         password2,
+        location_type,
+        location_id,
       });
 
       if (response.access) {

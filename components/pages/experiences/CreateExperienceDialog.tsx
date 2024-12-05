@@ -202,8 +202,6 @@ function PaginatedExperienceForm({
       region: location.region || null,
       city: location.city || null,
     });
-
-    console.log("Location selected:", location);
     experienceForm.setValue("location", `${location.lat},${location.lng}`);
   };
 

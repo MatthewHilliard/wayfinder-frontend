@@ -23,12 +23,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthAPI from "@/api/AuthAPI";
 import LocationSearch from "../LocationSearch";
+import { City } from "@/types/City";
 
 const signupSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
   password1: z.string().min(8, "Password must be at least 8 characters"),
   password2: z.string().min(8, "Password must be at least 8 characters"),
+  location: z.object({
+    location_id: z.number(),
+    location_type: z.string(),
+  }),
 });
 
 type SignupFormValues = z.infer<typeof signupSchema>;
@@ -44,6 +49,10 @@ export default function SignupPopup() {
       email: "",
       password1: "",
       password2: "",
+      location: {
+        location_id: undefined,
+        location_type: "",
+      },
     },
   });
 
@@ -54,12 +63,29 @@ export default function SignupPopup() {
         data.name,
         data.email,
         data.password1,
-        data.password2
+        data.password2,
+        data.location.location_type,
+        data.location.location_id
       );
 
       setIsSignupOpen(false);
     } catch (error) {
       console.error("Error signing up:", error);
+    }
+  };
+
+  // Function to handle location selection
+  const handleLocationSelect = (city: City | null, field: any) => {
+    if (city) {
+      field.onChange({
+        location_id: city.city_id,
+        location_type: city.type,
+      });
+    } else {
+      field.onChange({
+        location_id: "",
+        location_type: "",
+      });
     }
   };
 
@@ -156,10 +182,7 @@ export default function SignupPopup() {
                     <FormControl>
                       <LocationSearch
                         placeholder="Where are you from?"
-                        // set value to current user's city, country
-                        onSelect={(value) => {
-                          field.onChange(value); // Update react-hook-form field
-                        }}
+                        onSelect={(city) => handleLocationSelect(city, field)}
                       />
                     </FormControl>
                     <FormMessage />
