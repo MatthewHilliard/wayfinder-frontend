@@ -43,29 +43,14 @@ export default function LoginPopup() {
     },
   });
 
+  // Function to handle login form submission
   const handleLogin = async (data: LoginFormValues) => {
     try {
-      const result = await AuthAPI.login(data.email, data.password);
+      await AuthAPI.login(data.email, data.password);
 
-      if (typeof result === "string") {
-        toast({
-          title: "Success!",
-          description: "You have successfully logged in.",
-        });
-        setIsLoginOpen(false);
-      } else if (Array.isArray(result)) {
-        toast({
-          title: "Login Error",
-          description: result.join("\n") || "Invalid email or password.",
-          variant: "destructive",
-        });
-      }
+      setIsLoginOpen(false);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
+      console.error("Error logging in:", error);
     }
   };
 

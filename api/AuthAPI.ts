@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import { handleLogin } from "@/lib/actions";
 import apiService from "@/services/apiService";
 import { Tag } from "@/types/Tag";
@@ -28,13 +29,22 @@ const AuthAPI = {
 
       if (response.access) {
         handleLogin(response.user.pk, response.access, response.refresh);
+        toast({
+          title: "Success!",
+          description: "You have successfully registered.",
+        });
         return response.user.pk;
       } else {
         // Parse and return validation errors
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error: any) => (Array.isArray(error) ? error : [error])
         );
-        return tmpErrors;
+        toast({
+          title: "Registration Error",
+          description: tmpErrors.join("\n"),
+          variant: "destructive",
+        });
+        throw new Error("An error occurred while registering.");
       }
     } catch (error: any) {
       throw error; // For unexpected errors
@@ -59,13 +69,22 @@ const AuthAPI = {
 
       if (response.access) {
         handleLogin(response.user.pk, response.access, response.refresh);
+        toast({
+          title: "Success!",
+          description: "You have successfully logged in.",
+        });
         return response.user.pk;
       } else {
         // Parse and return validation errors
         const tmpErrors: string[] = Object.values(response).flatMap(
           (error: any) => (Array.isArray(error) ? error : [error])
         );
-        return tmpErrors;
+        toast({
+          title: "Login Error",
+          description: tmpErrors.join("\n") || "Invalid email or password.",
+          variant: "destructive",
+        });
+        throw new Error("An error occurred while logging in.");
       }
     } catch (error: any) {
       throw error; // For unexpected errors

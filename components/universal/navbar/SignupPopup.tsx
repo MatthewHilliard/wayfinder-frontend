@@ -22,7 +22,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthAPI from "@/api/AuthAPI";
-import { toast } from "@/hooks/use-toast";
 import LocationSearch from "../LocationSearch";
 
 const signupSchema = z.object({
@@ -48,34 +47,19 @@ export default function SignupPopup() {
     },
   });
 
+  // Function to handle signup form submission
   const handleSignup = async (data: SignupFormValues) => {
     try {
-      const result = await AuthAPI.register(
+      await AuthAPI.register(
         data.name,
         data.email,
         data.password1,
         data.password2
       );
 
-      if (typeof result === "string") {
-        toast({
-          title: "Success!",
-          description: "You have successfully registered.",
-        });
-        setIsSignupOpen(false);
-      } else if (Array.isArray(result)) {
-        toast({
-          title: "Registration Error",
-          description: result.join("\n"),
-          variant: "destructive",
-        });
-      }
+      setIsSignupOpen(false);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-        variant: "destructive",
-      });
+      console.error("Error signing up:", error);
     }
   };
 
