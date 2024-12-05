@@ -18,6 +18,7 @@ import ProfileExperiences from "@/components/pages/profiles/ProfileExperiences";
 import ProfileTips from "@/components/pages/profiles/ProfileTips";
 import { Tip } from "@/types/Tips";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
+import TipsAPI from "@/api/TipsAPI";
 
 export default function ProfilePage() {
   // State variable to store the user
@@ -108,11 +109,13 @@ export default function ProfilePage() {
       {/* Profile Header */}
       <ProfileHeader user={user} />
 
-      {/* Profile Experiences */}
-      <ProfileExperiences experiences={experiences} />
+      <div className="grid md:grid-cols-2 gap-8">
+        {/* Profile Experiences */}
+        <ProfileExperiences experiences={experiences} />
 
-      {/* Profile Travel Tips */}
-      <ProfileTips tips={tips} />
+        {/* Profile Travel Tips */}
+        <ProfileTips tips={tips} />
+      </div>
     </div>
   );
 }

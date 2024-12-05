@@ -143,6 +143,23 @@ const ExperiencesAPI = {
       throw error;
     }
   },
+  /*
+   * Fetches experiences by user ID from the backend
+   * @param user_id - ID of the user to fetch experiences for
+   * @returns array of experiences
+   */
+  getExperiencesByUserId: async (user_id: UUID): Promise<Experience[]> => {
+    try {
+      const response = await apiService.get(
+        `/experiences/get_experiences_by_user_id/${user_id}`
+      );
+      const experiences = response.data;
+      return experiences;
+    } catch (error) {
+      console.error("Error fetching user's experiences:", error);
+      throw error;
+    }
+  },
 };
 
 export default ExperiencesAPI;

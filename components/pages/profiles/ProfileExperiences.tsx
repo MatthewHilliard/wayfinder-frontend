@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
 import { Star } from "lucide-react";
 import CreateExperienceDialog from "@/components/pages/experiences/CreateExperienceDialog";
+import { formatLocation } from "@/lib/locationHelpers";
 
 type ProfileExperiencesProps = {
   experiences: Experience[] | null;
@@ -27,7 +28,7 @@ export default function ProfileExperiences({
               >
                 <h3 className="font-semibold">{experience.title}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {experience.location}
+                  {formatLocation(experience.location_info)}
                 </p>
                 <div className="flex items-center mt-1">
                   <Star

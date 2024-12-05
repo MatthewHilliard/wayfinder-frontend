@@ -6,8 +6,10 @@ import { User } from "./User";
 export interface Tip {
   tip_id: UUID;
   content: string;
-  country: Country;
-  city: City;
+  country: UUID;
+  country_info: Country;
+  city: UUID;
+  city_info: City;
   creator: UUID;
   creator_info: User;
   date_posted: Date;
