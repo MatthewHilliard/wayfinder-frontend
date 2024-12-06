@@ -8,8 +8,9 @@ export interface Experience {
   title: string;
   description: string;
   location: UUID;
-  location_info: Location; 
-  creator: User;
+  location_info: Location;
+  creator: UUID;
+  creator_info: User;
   average_rating: number;
   number_of_ratings: number;
   date_posted: Date;

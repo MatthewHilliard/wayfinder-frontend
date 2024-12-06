@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Star, MapPin, DollarSign } from "lucide-react";
+import { Star, MapPin, DollarSign, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -16,6 +16,15 @@ import LocationMap from "@/components/pages/experiences/[experience_id]/Location
 import RatingsAPI from "@/api/RatingsAPI";
 import CreateRatingDialog from "@/components/pages/experiences/[experience_id]/CreateRatingDialog";
 import AddToWishlistButton from "@/components/pages/experiences/[experience_id]/AddToWishlistButton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
+
+// Static user data for the example
+const staticUser = {
+  name: "John Doe",
+  username: "johndoe123",
+  avatar: "/placeholder-user.jpg",
+};
 
 export default function ExperiencePage() {
   // State variable to store experience
@@ -85,6 +94,24 @@ export default function ExperiencePage() {
         <div className="md:col-span-2">
           {/* Title of the Experience */}
           <h1 className="text-3xl font-bold mb-4">{experience.title}</h1>
+
+          {/* User who posted the experience */}
+          <div className="flex items-center mb-3">
+            <Link href={`/profiles/${experience.creator_info.id}`}>
+              <div className="flex items-center cursor-pointer">
+                <Avatar className="h-10 w-10 mr-3">
+                  <AvatarImage
+                    src={experience.creator_info.profile_picture_url}
+                    alt={experience.creator_info.name}
+                  />
+                  <AvatarFallback>
+                    {experience.creator_info.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="font-semibold">{experience.creator_info.name}</p>
+              </div>
+            </Link>
+          </div>
 
           {/* Image for the Experience, if it exists */}
           {experience.image_url && (
