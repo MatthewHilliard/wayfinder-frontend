@@ -17,7 +17,7 @@ export default function BrowseWishlists() {
   // State to store the wishlists fetched from the API
   const [wishlists, setWishlists] = useState<Wishlist[]>([]);
   // State to store the wishlist loading status
-  const [wishlistsLoading, setWishlistsLoading] = useState<boolean>(false);
+  const [wishlistsLoading, setWishlistsLoading] = useState<boolean>(true);
   const router = useRouter();
 
   // Use effect to run on component mount
@@ -38,8 +38,8 @@ export default function BrowseWishlists() {
     void fetchUserWishlists();
   }, []);
 
-  const handleWishlistClicked = (wishlist_id: UUID) => {
-    router.push(`/wishlists/${wishlist_id}`);
+  const handleWishlistClicked = (wishlist_id: UUID, title: string) => {
+    router.push(`/wishlists/${wishlist_id}?title=${encodeURIComponent(title)}`);
   };
 
   return (
@@ -63,8 +63,8 @@ export default function BrowseWishlists() {
             <Card
               key={wishlist.wishlist_id}
               className="cursor-pointer transition-transform transform hover:scale-105"
-              onClick={() => handleWishlistClicked(wishlist.wishlist_id)}
-            >
+              onClick={() => handleWishlistClicked(wishlist.wishlist_id, wishlist.title)}
+              >
               <CardHeader>
                 <CardTitle>{wishlist.title}</CardTitle>
                 <CardDescription>

@@ -13,6 +13,11 @@ type ProfileExperiencesProps = {
 export default function ProfileExperiences({
   experiences,
 }: ProfileExperiencesProps) {
+  const handleExperienceClick = (experience_id: string) => {
+    // Open the dynamic route in a new tab
+    window.open(`/experiences/${experience_id}`, "_blank");
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -24,7 +29,8 @@ export default function ProfileExperiences({
             {experiences.map((experience) => (
               <li
                 key={experience.experience_id}
-                className="border-b pb-4 last:border-b-0"
+                className="border-b pb-4 last:border-b-0 cursor-pointer hover:bg-secondary hover:rounded-lg transition-all duration-200"
+                onClick={() => handleExperienceClick(experience.experience_id)}
               >
                 <h3 className="font-semibold">{experience.title}</h3>
                 <p className="text-sm text-muted-foreground">

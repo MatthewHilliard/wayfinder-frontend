@@ -2,6 +2,7 @@ import { toast } from "@/hooks/use-toast";
 import { getUserId } from "@/lib/actions";
 import apiService from "@/services/apiService";
 import { WishlistItem, type Wishlist } from "@/types/Wishlist";
+import { UUID } from "crypto";
 
 const WishlistsAPI = {
   /**
@@ -118,6 +119,31 @@ const WishlistsAPI = {
       return wishlists;
     } catch (error) {
       console.error("Error fetching wishlists:", error);
+      throw error;
+    }
+  },
+  /**
+   * Fetches the wishlist items of the specified wishlist
+   * @param {string} wishlistId - ID of the wishlist
+   * @returns {Promise<WishlistItem[]>}
+   */
+  getWishlistItems: async (wishlistId: UUID): Promise<WishlistItem[]> => {
+    try {
+      // Await the resolved value of the userId
+      const userId = await getUserId();
+
+      // If the user is not logged in, return an empty array
+      if (!userId) {
+        return [];
+      }
+
+      const response = await apiService.get(
+        `/wishlists/get_wishlist_items/${wishlistId}`
+      );
+      const wishlistItems = response.data;
+      return wishlistItems;
+    } catch (error) {
+      console.error("Error fetching wishlist items:", error);
       throw error;
     }
   },
