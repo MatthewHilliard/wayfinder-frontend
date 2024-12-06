@@ -35,7 +35,7 @@ const AuthAPI = {
       });
 
       if (response.access) {
-        handleLogin(response.user.pk, response.access, response.refresh, response.user.profile_picture_url);
+        handleLogin(response.user.pk, response.access, response.refresh);
         toast({
           title: "Success!",
           description: "You have successfully registered.",
@@ -75,8 +75,7 @@ const AuthAPI = {
       });
 
       if (response.access) {
-        console.log(response)
-        handleLogin(response.user.pk, response.access, response.refresh, response.user.profile_picture_url);
+        handleLogin(response.user.pk, response.access, response.refresh);
         toast({
           title: "Success!",
           description: "You have successfully logged in.",

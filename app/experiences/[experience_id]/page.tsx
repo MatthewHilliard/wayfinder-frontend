@@ -63,10 +63,6 @@ export default function ExperiencePage() {
     void fetchRatings();
   }, [experience_id]);
 
-  const handleWishlistClicked = async () => {
-    console.log("Wishlist clicked");
-  };
-
   if (experienceLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
