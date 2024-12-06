@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,18 +13,39 @@ import Link from "next/link";
 import SignupPopup from "./SignupPopup";
 import LoginPopup from "./LoginPopup";
 import { LogoutButton } from "./LogoutButton";
+import { useEffect, useState } from "react";
+import UsersAPI from "@/api/UsersAPI";
+import { UUID } from "crypto";
+import { User } from "@/types/User";
 
 interface UserDropdownProps {
   userId: string | null;
 }
 
 export default function UserDropdown({ userId }: UserDropdownProps) {
+  const [user, setUser] = useState<User | null>(null); // State to store user data fetched from the API
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await UsersAPI.getUserById(userId as UUID);
+        setUser(user);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
+    };
+
+    if (userId) {
+      void fetchUser();
+    }
+  }, [userId]);
+
   return (
     <div className="hidden md:flex items-center">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer">
-            <AvatarImage alt="User avatar" />
+            <AvatarImage src={user?.profile_picture_url} alt="User avatar" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

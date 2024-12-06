@@ -57,6 +57,33 @@ const apiService = {
       headers,
     }).then((response) => response.json());
   },
+  put: async (
+    url: string,
+    data: any,
+    options?: { headers?: Record<string, string> }
+  ): Promise<any> => {
+    const token = await getAccessToken();
+    const defaultHeaders: Record<string, string> = {
+      Accept: "application/json",
+    };
+
+    if (token) {
+      defaultHeaders.Authorization = `Bearer ${token}`;
+    }
+
+    const isFormData = data instanceof FormData;
+    const headers = {
+      ...defaultHeaders,
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      ...(options?.headers || {}),
+    };
+
+    return fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+      method: "PUT",
+      body: isFormData ? data : JSON.stringify(data),
+      headers,
+    }).then((response) => response.json());
+  },
 };
 
 export default apiService;

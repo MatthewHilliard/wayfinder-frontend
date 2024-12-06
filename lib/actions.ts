@@ -53,7 +53,8 @@ export async function handleRefresh() {
 export async function handleLogin(
   userId: string,
   accessToken: string,
-  refreshToken: string
+  refreshToken: string,
+  profilePictureUrl: string
 ) {
   const cookieStore = await cookies();
   cookieStore.set("session_userid", userId, {
@@ -76,6 +77,13 @@ export async function handleLogin(
     maxAge: 60 * 60 * 24 * 7, // 1 week
     path: "/",
   });
+
+  // Additional user data
+  cookieStore.set("session_user_profile_picture_url", profilePictureUrl, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+  });
 }
 
 // Function to reset the auth cookies when the user logs out
@@ -84,6 +92,7 @@ export async function resetAuthCookies() {
   cookieStore.set("session_userid", "");
   cookieStore.set("session_access_token", "");
   cookieStore.set("session_refresh_token", "");
+  cookieStore.set("session_user_profile_picture_url", "");
 }
 
 //
@@ -107,8 +116,18 @@ export async function getAccessToken() {
   return accessToken;
 }
 
+// Function to get the refresh token from the session cookie
 export async function getRefreshToken() {
   const cookieStore = await cookies();
   let refreshToken = cookieStore.get("session_refresh_token")?.value;
   return refreshToken;
+}
+
+// Function to get the user profile picture URL from the session cookie
+export async function getUserProfilePictureUrl() {
+  const cookieStore = await cookies();
+  const profilePictureUrl = cookieStore.get(
+    "session_user_profile_picture_url"
+  )?.value;
+  return profilePictureUrl ?? null;
 }

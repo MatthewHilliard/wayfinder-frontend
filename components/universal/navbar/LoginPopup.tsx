@@ -22,7 +22,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import AuthAPI from "@/api/AuthAPI";
-import { toast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),

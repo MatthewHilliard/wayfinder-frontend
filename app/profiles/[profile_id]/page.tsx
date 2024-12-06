@@ -12,10 +12,13 @@ import ProfileTips from "@/components/pages/profiles/ProfileTips";
 import { Tip } from "@/types/Tips";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
 import TipsAPI from "@/api/TipsAPI";
+import { getUserId } from "@/lib/actions";
 
 export default function ProfilePage() {
   // State variable to store the user
   const [user, setUser] = useState<User | null>(null);
+  // State variable to store the current user ID
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   // State variable to store the user loading state
   const [userLoading, setUserLoading] = useState<boolean>(true);
   // State variable to store the user's experiences
@@ -44,6 +47,16 @@ export default function ProfilePage() {
       }
     };
 
+    // Function to fetch the current user ID
+    const fetchCurrentUserId = async () => {
+      try {
+        const fetchedCurrentUserId = await getUserId();
+        setCurrentUserId(fetchedCurrentUserId);
+      } catch (error) {
+        console.error("Failed to fetch current user ID:", error);
+      }
+    };
+
     // Function to fetch user's experiences from the API
     const fetchExperiencesByUserId = async () => {
       try {
@@ -67,6 +80,7 @@ export default function ProfilePage() {
     };
 
     void fetchUserById();
+    void fetchCurrentUserId();
     void fetchExperiencesByUserId();
     void fetchTipsByUserId();
   }, [profile_id]);
@@ -90,7 +104,7 @@ export default function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Profile Header */}
-      <ProfileHeader user={user} />
+      <ProfileHeader user={user} currentUserId={currentUserId} />
 
       <div className="grid md:grid-cols-2 gap-8">
         {/* Profile Experiences */}
