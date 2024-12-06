@@ -14,6 +14,7 @@ import { UUID } from "crypto";
 import { Wishlist } from "@/types/Wishlist";
 import WishlistsAPI from "@/api/WishlistsAPI";
 import { Button } from "@/components/ui/button";
+import CreateWishlistDialog from "../../wishlists/CreateWishlistDialog";
 
 export default function AddToWishlistButton({
   experienceId,
@@ -98,9 +99,7 @@ export default function AddToWishlistButton({
             </DropdownMenuItem>
           ))
         ) : (
-          <DropdownMenuItem className="cursor-pointer">
-            Make a Wishlist!
-          </DropdownMenuItem>
+          <CreateWishlistDialog />
         )}
       </DropdownMenuContent>
     </DropdownMenu>
