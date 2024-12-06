@@ -43,6 +43,7 @@ export default async function Navbar() {
                 width={0}
                 height={0}
                 sizes="60px"
+                priority
                 className="w-full h-auto"
               />
               <span className="ml-2 text-2xl font-bold text-primary-foreground">
