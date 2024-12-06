@@ -5,6 +5,49 @@ import { WishlistItem, type Wishlist } from "@/types/Wishlist";
 
 const WishlistsAPI = {
   /**
+   * Creates a new wishlist for the current user
+   * @param {string} title - Title of the wishlist
+   * @returns {Promise<Wishlist | string>}
+   */
+  createWishlist: async (title: string): Promise<Wishlist | string[]> => {
+    try {
+      const userId = await getUserId();
+
+      // Ensure the user is authenticated
+      if (!userId) {
+        throw new Error("User not authenticated");
+      }
+
+      const response = await apiService.post("/wishlists/create_wishlist", {
+        title,
+        user_id: userId,
+      });
+
+      if (response.data) {
+        toast({
+          title: "Success!",
+          description: "Wishlist created successfully.",
+        });
+        // Return the created wishlist on success
+        return response.data;
+      } else {
+        // Parse and return validation errors if provided
+        const tmpErrors: string[] = Object.values(response).flatMap(
+          (error: any) => (Array.isArray(error) ? error : [error])
+        );
+        // Validation errors
+        toast({
+          title: "Validation Error",
+          description: tmpErrors.join("\n"), // Join multiple errors into a single string
+          variant: "destructive",
+        });
+        throw new Error("An error occurred while creating the wishlist.");
+      }
+    } catch (error) {
+      throw error; // For unexpected errors
+    }
+  },
+  /**
    * Creates a new wishlist item for a specified wishlist and experience
    * @param {string} wishlistId - ID of the wishlist
    * @param {string} experienceId - ID of the experience to add

@@ -7,6 +7,7 @@ export interface Wishlist {
     user: UUID;
     user_info: User;
     title: string;
+    created_date: Date;
 }
 
 export interface WishlistItem {

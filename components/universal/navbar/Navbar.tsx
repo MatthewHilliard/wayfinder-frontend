@@ -6,18 +6,28 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, MessageCircle, Menu } from "lucide-react";
+import { Compass, MessageCircle, Menu, Heart } from "lucide-react";
 import Image from "next/image";
 import { getUserId } from "@/lib/actions";
 import UserDropdown from "./UserDropdown";
 
+type NavigationItem = {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+};
+
 export default async function Navbar() {
   // Get the user ID from the session cookie
   const userId = await getUserId();
+
   // Specify the navigation items to display in the navbar
-  const navigationItems = [
+  const navigationItems: NavigationItem[] = [
     { name: "Experiences", href: "/experiences/browse", icon: Compass },
     { name: "Tips & Advice", href: "/tips/browse", icon: MessageCircle },
+    ...(userId
+      ? [{ name: "Wishlists", href: "/wishlists/browse", icon: Heart }]
+      : []),
   ];
 
   return (
