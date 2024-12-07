@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Tag } from "@/types/Tag";
 import { Experience } from "@/types/Experience";
 import ExperiencesAPI from "@/api/ExperiencesAPI";
@@ -14,7 +14,16 @@ import { City } from "@/types/City";
 import TagsAPI from "@/api/TagsAPI";
 import CreateExperienceDialog from "@/components/pages/experiences/CreateExperienceDialog";
 
-export default function BrowseExperiences() {
+export default function BrowseExperiencesWrapper() {
+  // Wrap the page in Suspense to avoid linting errors due to using `useSearchParams` outside of a component
+  return (
+    <Suspense fallback={<div>Loading experiences...</div>}>
+      <BrowseExperiences />
+    </Suspense>
+  );
+}
+
+function BrowseExperiences() {
   const [experiences, setExperiences] = useState<Experience[]>([]); // State variable to store experiences fetched from the API
   const [tags, setTags] = useState<Tag[]>([]); // State variable to store tags fetched from the API
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]); // State variable to store selected tags
