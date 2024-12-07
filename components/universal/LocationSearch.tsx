@@ -29,7 +29,7 @@ export default function LocationSearch({
   const [searchValue, setSearchValue] = useState<string>(""); // Local state for search input
   const [selectedCity, setSelectedCity] = useState<City | null>(defaultCity); // State for the selected city
   const commandRef = useRef<HTMLDivElement | null>(null); // Ref to the command dropdown
-  
+
   // Use effect to close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -61,7 +61,7 @@ export default function LocationSearch({
   useEffect(() => {
     const debounceFetch = setTimeout(fetchCities, 150);
     return () => clearTimeout(debounceFetch);
-  }, [searchValue]);
+  }, [searchValue, fetchCities]);
 
   const handleSelectCity = (city: City) => {
     setSelectedCity(city);

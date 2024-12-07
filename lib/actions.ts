@@ -109,6 +109,6 @@ export async function getAccessToken() {
 // Function to get the refresh token from the session cookie
 export async function getRefreshToken() {
   const cookieStore = await cookies();
-  let refreshToken = cookieStore.get("session_refresh_token")?.value;
+  const refreshToken = cookieStore.get("session_refresh_token")?.value;
   return refreshToken;
 }

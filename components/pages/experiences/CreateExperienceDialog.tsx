@@ -273,7 +273,7 @@ function PaginatedExperienceForm({
             <FormField
               control={experienceForm.control}
               name="location"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>

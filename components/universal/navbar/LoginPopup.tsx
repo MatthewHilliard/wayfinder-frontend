@@ -57,7 +57,7 @@ export default function LoginPopup() {
     <>
       <Button
         variant="ghost"
-        onClick={(e) => {
+        onClick={() => {
           setIsLoginOpen(true);
         }}
         className="w-full text-left hover:bg-secondary"

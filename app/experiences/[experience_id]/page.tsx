@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Star, MapPin, DollarSign, User } from "lucide-react";
+import { Star, MapPin, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -18,13 +18,6 @@ import CreateRatingDialog from "@/components/pages/experiences/[experience_id]/C
 import AddToWishlistButton from "@/components/pages/experiences/[experience_id]/AddToWishlistButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
-
-// Static user data for the example
-const staticUser = {
-  name: "John Doe",
-  username: "johndoe123",
-  avatar: "/placeholder-user.jpg",
-};
 
 export default function ExperiencePage() {
   // State variable to store experience

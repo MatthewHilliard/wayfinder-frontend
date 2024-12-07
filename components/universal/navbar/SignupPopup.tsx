@@ -93,7 +93,7 @@ export default function SignupPopup() {
     <>
       <Button
         variant="ghost"
-        onClick={(e) => {
+        onClick={() => {
           setIsSignupOpen(true);
         }}
         className="w-full text-left hover:bg-secondary"

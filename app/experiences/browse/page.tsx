@@ -15,7 +15,6 @@ import TagsAPI from "@/api/TagsAPI";
 import CreateExperienceDialog from "@/components/pages/experiences/CreateExperienceDialog";
 
 export default function BrowseExperiences() {
-  const [experiencesLoading, setExperiencesLoading] = useState<boolean>(true); // State variable to store experiences loading state
   const [experiences, setExperiences] = useState<Experience[]>([]); // State variable to store experiences fetched from the API
   const [tags, setTags] = useState<Tag[]>([]); // State variable to store tags fetched from the API
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]); // State variable to store selected tags
@@ -31,8 +30,6 @@ export default function BrowseExperiences() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        setExperiencesLoading(true);
-
         // Fetch tags
         const fetchedTags = await TagsAPI.getAllTags();
         setTags(fetchedTags);
@@ -65,7 +62,6 @@ export default function BrowseExperiences() {
       } catch (error) {
         console.error("Error fetching initial data:", error);
       } finally {
-        setExperiencesLoading(false);
         setIsInitialMount(false);
       }
     };
@@ -79,8 +75,6 @@ export default function BrowseExperiences() {
 
     const fetchFilteredExperiences = async () => {
       try {
-        setExperiencesLoading(true);
-
         const tagNames = selectedTags.map((tag) => tag.name);
         const locationType = locationSearch?.type; // "city" or "country"
         const locationId = locationSearch?.city_id;
@@ -96,13 +90,11 @@ export default function BrowseExperiences() {
         setExperiences(fetchedExperiences || []);
       } catch (error) {
         console.error("Failed to fetch filtered experiences:", error);
-      } finally {
-        setExperiencesLoading(false);
       }
     };
 
     void fetchFilteredExperiences();
-  }, [selectedTags, debouncedSearchQuery, locationSearch]);
+  }, [selectedTags, debouncedSearchQuery, locationSearch, isInitialMount]);
 
   // Debounce search query
   useEffect(() => {

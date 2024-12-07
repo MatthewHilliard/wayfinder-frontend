@@ -23,7 +23,7 @@ export const LogoutButton = () => {
     <>
       <Button
         variant="ghost"
-        onClick={(e) => {
+        onClick={() => {
           submitLogout();
         }}
         className="w-full text-left hover:bg-secondary"
