@@ -22,7 +22,6 @@ export async function handleRefresh() {
 
     if (!response.ok) {
       // Handle HTTP errors
-      console.error("Refresh token error:", await response.text());
       resetAuthCookies();
       return null;
     }
