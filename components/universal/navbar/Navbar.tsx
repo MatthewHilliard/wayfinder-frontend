@@ -5,8 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Compass, MessageCircle, Menu, Heart } from "lucide-react";
+import { Compass, MessageCircle, Heart } from "lucide-react";
 import Image from "next/image";
 import { getUserId } from "@/lib/actions";
 import UserDropdown from "./UserDropdown";
@@ -43,7 +42,6 @@ export default async function Navbar() {
                 width={0}
                 height={0}
                 sizes="60px"
-                priority
                 className="w-full h-auto"
               />
               <span className="ml-2 text-2xl font-bold text-primary-foreground">
@@ -52,33 +50,8 @@ export default async function Navbar() {
             </Link>
           </div>
 
-          {/* Condensed Navigation */}
-          <div className="md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <button aria-label="Open menu">
-                  <Menu className="h-6 w-6" />
-                </button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4">
-                  {navigationItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="flex items-center px-4 py-2 text-sm font-medium rounded-md"
-                    >
-                      <item.icon className="mr-3 h-6 w-6" />
-                      {item.name}
-                    </Link>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-
           {/* Full Navigation */}
-          <NavigationMenu className="hidden md:flex ml-auto mr-6">
+          <NavigationMenu className="ml-auto mr-6">
             <NavigationMenuList>
               {navigationItems.map((item) => (
                 <NavigationMenuItem key={item.name}>
