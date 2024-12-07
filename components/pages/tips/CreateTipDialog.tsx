@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
@@ -100,7 +100,10 @@ export function TipForm({
   });
 
   // Function to handle location selection
-  const handleLocationSelect = (city: City | null, field: any) => {
+  const handleLocationSelect = (
+    city: City | null,
+    field: ControllerRenderProps<TipFormValues, "location">
+  ) => {
     if (city) {
       field.onChange({
         location_id: city.city_id,

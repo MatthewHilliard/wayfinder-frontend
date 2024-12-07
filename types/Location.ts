@@ -14,3 +14,11 @@ export interface Location {
   latitude: number;
   longitude: number;
 }
+
+export interface LocationDetails {
+  lat: number | null;
+  lng: number | null;
+  country?: string | null;
+  region?: string | null;
+  city?: string | null;
+};

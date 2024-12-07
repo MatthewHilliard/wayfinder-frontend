@@ -8,6 +8,12 @@ type Pin = {
   lng: number;
 };
 
+type AddressComponent = {
+  long_name: string;
+  short_name: string;
+  types: string[];
+};
+
 // Define libraries and Map ID as constants
 const LIBRARIES: ["marker"] = ["marker"];
 const MAP_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID as string;
@@ -57,7 +63,7 @@ export default function MapWithPinning({
       let country, region, city;
       if (data.results?.[0]) {
         const components = data.results[0].address_components;
-        components.forEach((component: any) => {
+        components.forEach((component: AddressComponent) => {
           if (component.types.includes("country")) {
             country = component.long_name;
           }

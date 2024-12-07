@@ -47,21 +47,21 @@ export default function LocationSearch({
     };
   }, []);
 
-  const fetchCities = async () => {
-    try {
-      const fetchedCities = await LocationsAPI.citySearch(searchValue);
-      setCities(fetchedCities);
-    } catch (error) {
-      console.error("Error fetching locations:", error);
-      setCities([]);
-    }
-  };
-
   // Fetch cities from the backend when the input value changes
   useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const fetchedCities = await LocationsAPI.citySearch(searchValue);
+        setCities(fetchedCities);
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+        setCities([]);
+      }
+    };
+
     const debounceFetch = setTimeout(fetchCities, 150);
     return () => clearTimeout(debounceFetch);
-  }, [searchValue, fetchCities]);
+  }, [searchValue]);
 
   const handleSelectCity = (city: City) => {
     setSelectedCity(city);

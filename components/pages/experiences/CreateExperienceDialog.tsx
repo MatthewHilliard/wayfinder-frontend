@@ -27,6 +27,7 @@ import { Tag } from "@/types/Tag";
 import TagFilter from "./TagFilter";
 import TagsAPI from "@/api/TagsAPI";
 import { PriceSelect } from "./PriceSelect";
+import { LocationDetails } from "@/types/Location";
 
 // Declare file restriction constants for file upload
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -65,7 +66,7 @@ export default function CreateExperienceDialog() {
 
   // Handle experience form submission
   const handleExperienceSubmit = async (
-    data: ExperienceFormValues & { locationDetails: any }
+    data: ExperienceFormValues & { locationDetails: LocationDetails }
   ) => {
     try {
       const { locationDetails, ...formData } = data;
@@ -136,7 +137,9 @@ export default function CreateExperienceDialog() {
 function PaginatedExperienceForm({
   onSubmit,
 }: {
-  onSubmit: (data: ExperienceFormValues & { locationDetails: any }) => void;
+  onSubmit: (
+    data: ExperienceFormValues & { locationDetails: LocationDetails }
+  ) => void;
 }) {
   const experienceForm = useForm<ExperienceFormValues>({
     resolver: zodResolver(experienceSchema),
@@ -342,7 +345,11 @@ function PaginatedExperienceForm({
               )}
             />
             <div className="flex justify-between mt-4">
-              <Button type="button" variant={"outline"} onClick={() => setCurrentPage(1)}>
+              <Button
+                type="button"
+                variant={"outline"}
+                onClick={() => setCurrentPage(1)}
+              >
                 Back
               </Button>
               <Button type="submit">Submit</Button>
