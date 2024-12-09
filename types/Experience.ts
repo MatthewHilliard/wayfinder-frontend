@@ -15,7 +15,7 @@ export interface Experience {
   number_of_ratings: number;
   date_posted: Date;
   tags: Tag[];
-  image_url?: string;
+  image?: string;
   price?: "free" | "cheap" | "moderate" | "expensive";
   start_time?: string; // Format: "HH:mm:ss" or "HH:mm"
   end_time?: string; // Format: "HH:mm:ss" or "HH:mm"

@@ -35,7 +35,7 @@ export default function ExperienceCard({ experience }: ExperienceCardProps) {
         {/* Image for the Experience */}
         <div className="relative w-full h-48">
           <Image
-            src={experience.image_url || "/city-placeholder.svg"}
+            src={experience.image || "/city-placeholder.svg"}
             alt={experience.title}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"

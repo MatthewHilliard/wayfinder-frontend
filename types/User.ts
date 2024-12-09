@@ -10,7 +10,7 @@ export interface User {
   is_staff: boolean;
   is_superuser: boolean;
   date_joined: Date;
-  profile_picture_url?: string;
+  profile_picture?: string;
   bio?: string;
   country: string;
   country_info: Country;

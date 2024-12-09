@@ -20,7 +20,7 @@ export function TipCard({ tip }: TipProps) {
           <div className="flex items-center gap-4 cursor-pointer">
             <Avatar>
               <AvatarImage
-                src={tip.creator_info.profile_picture_url}
+                src={tip.creator_info.profile_picture}
                 alt={tip.creator_info.name}
               />
               <AvatarFallback>{tip.creator_info.name[0]}</AvatarFallback>

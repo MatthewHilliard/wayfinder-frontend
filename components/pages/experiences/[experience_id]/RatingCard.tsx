@@ -17,7 +17,7 @@ export default function RatingCard({ rating }: RatingCardProps) {
             <div className="flex items-center cursor-pointer">
               <Avatar className="w-10 h-10 mr-4">
                 <AvatarImage
-                  src={rating.user_info.profile_picture_url}
+                  src={rating.user_info.profile_picture}
                   alt={rating.user_info.name}
                 />
                 <AvatarFallback>

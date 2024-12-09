@@ -45,7 +45,7 @@ export default function UserDropdown({ userId }: UserDropdownProps) {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Avatar className="cursor-pointer">
-            <AvatarImage src={user?.profile_picture_url} alt="User avatar" />
+            <AvatarImage src={user?.profile_picture} alt="User avatar" />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

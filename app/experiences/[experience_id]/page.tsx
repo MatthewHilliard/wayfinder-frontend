@@ -94,7 +94,7 @@ export default function ExperiencePage() {
               <div className="flex items-center cursor-pointer">
                 <Avatar className="h-10 w-10 mr-3">
                   <AvatarImage
-                    src={experience.creator_info.profile_picture_url}
+                    src={experience.creator_info.profile_picture}
                     alt={experience.creator_info.name}
                   />
                   <AvatarFallback>
@@ -107,10 +107,10 @@ export default function ExperiencePage() {
           </div>
 
           {/* Image for the Experience, if it exists */}
-          {experience.image_url && (
+          {experience.image && (
             <div className="mb-4 aspect-video w-full overflow-hidden rounded-lg">
               <Image
-                src={experience.image_url || "/city-placeholder.svg"}
+                src={experience.image || "/city-placeholder.svg"}
                 alt={experience.title}
                 width={1000}
                 height={562}

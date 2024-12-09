@@ -14,7 +14,7 @@ export default function ProfileHeader({
 }: ProfileHeaderProps) {
   const initialData = {
     name: user.name,
-    profilePicture: user.profile_picture_url || null,
+    profilePicture: user.profile_picture || null,
     city_info: user.city_info,
   };
 
@@ -22,7 +22,7 @@ export default function ProfileHeader({
     <Card className="mb-8">
       <CardContent className="flex flex-col md:flex-row items-center p-6">
         <Avatar className="w-32 h-32 md:w-48 md:h-48 mb-4 md:mb-0 md:mr-6">
-          <AvatarImage src={user.profile_picture_url} alt={user.name} />
+          <AvatarImage src={user.profile_picture} alt={user.name} />
           <AvatarFallback className="text-4xl">
             {user.name
               .split(" ")
