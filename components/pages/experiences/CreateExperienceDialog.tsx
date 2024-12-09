@@ -175,6 +175,7 @@ function PaginatedExperienceForm({
     region: null,
     city: null,
   });
+  const [loading, setLoading] = useState(false); // State to manage loading
 
   // Fetch tags on initial render
   useEffect(() => {
@@ -235,13 +236,20 @@ function PaginatedExperienceForm({
     }
   };
 
+  // Function that handles form submission, and makes the button disabled while loading
+  const handleSubmit = async (data: ExperienceFormValues) => {
+    setLoading(true);
+    try {
+      // Call the parent `onSubmit` with form data and `locationDetails`
+      await onSubmit({ ...data, locationDetails });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Form {...experienceForm}>
-      <form
-        onSubmit={experienceForm.handleSubmit((data) =>
-          onSubmit({ ...data, locationDetails })
-        )}
-      >
+      <form onSubmit={experienceForm.handleSubmit(handleSubmit)}>
         {currentPage === 1 && (
           <>
             <FormField
@@ -352,7 +360,9 @@ function PaginatedExperienceForm({
               >
                 Back
               </Button>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Loading..." : "Submit"}
+              </Button>
             </div>
           </>
         )}

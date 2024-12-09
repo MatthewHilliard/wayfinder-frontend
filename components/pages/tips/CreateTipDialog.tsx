@@ -86,6 +86,8 @@ export function TipForm({
 }: {
   onSubmit: (data: TipFormValues) => void;
 }) {
+  const [loading, setLoading] = useState(false); // State to manage loading
+
   // Use react-hook-form to manage the form state
   const tipForm = useForm<TipFormValues>({
     resolver: zodResolver(tipSchema),
@@ -117,9 +119,21 @@ export function TipForm({
     }
   };
 
+  // Function to handle form submission with loading state
+  const handleSubmit = async (data: TipFormValues) => {
+    setLoading(true); // Start loading state
+    try {
+      await onSubmit(data); // Submit the form
+    } catch (error) {
+      console.error("Error submitting tip:", error);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
+
   return (
     <Form {...tipForm}>
-      <form onSubmit={tipForm.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={tipForm.handleSubmit(handleSubmit)} className="space-y-6">
         <FormField
           control={tipForm.control}
           name="content"
@@ -153,8 +167,8 @@ export function TipForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="ml-auto">
-          Submit Tip
+        <Button type="submit" disabled={loading} className="ml-auto">
+          {loading ? "Loading..." : "Submit Tip"}
         </Button>
       </form>
     </Form>

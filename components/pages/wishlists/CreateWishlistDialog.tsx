@@ -74,6 +74,8 @@ export function WishlistForm({
 }: {
   onSubmit: (data: WishlistFormValues) => void;
 }) {
+  const [loading, setLoading] = useState<boolean>(false); // State to manage loading
+
   // Use react-hook-form to manage the form state
   const wishlistForm = useForm<WishlistFormValues>({
     resolver: zodResolver(wishlistSchema),
@@ -83,10 +85,22 @@ export function WishlistForm({
     },
   });
 
+  // Function to handle form submission with loading state
+  const handleSubmit = async (data: WishlistFormValues) => {
+    setLoading(true); // Start loading
+    try {
+      await onSubmit(data); // Wait for submission to complete
+    } catch (error) {
+      console.error("Error submitting wishlist:", error);
+    } finally {
+      setLoading(false); // Reset loading state
+    }
+  };
+
   return (
     <Form {...wishlistForm}>
       <form
-        onSubmit={wishlistForm.handleSubmit(onSubmit)}
+        onSubmit={wishlistForm.handleSubmit(handleSubmit)}
         className="space-y-6"
       >
         <FormField
@@ -102,8 +116,8 @@ export function WishlistForm({
             </FormItem>
           )}
         />
-        <Button type="submit" className="ml-auto">
-          Create
+        <Button type="submit" disabled={loading} className="ml-auto">
+          {loading ? "Loading..." : "Create"}
         </Button>
       </form>
     </Form>
