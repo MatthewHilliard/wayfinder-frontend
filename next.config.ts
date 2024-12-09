@@ -17,6 +17,13 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/media/**",
       },
+      // AWS S3 bucket
+      {
+        protocol: "https",
+        hostname: "wayfinder-storage.s3.us-east-2.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
