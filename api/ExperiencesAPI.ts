@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides an `ExperiencesAPI` object that handles CRUD operations and queries 
+ * related to experiences in the Wayfinder application. It includes methods for creating new experiences, 
+ * fetching all experiences, applying filters to retrieve specific experiences, and fetching experiences 
+ * by ID or user ID. Toast notifications are used to display success or error messages, and API service 
+ * interactions ensure seamless backend communication.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import apiService from "@/services/apiService";
 import { Experience } from "@/types/Experience";

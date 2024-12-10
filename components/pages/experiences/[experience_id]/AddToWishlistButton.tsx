@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a button to add an experience to a user's wishlist. It displays 
+ * a dropdown menu listing the user's existing wishlists and allows the user to add the selected experience 
+ * to a chosen wishlist. If no wishlists are available, the user is prompted to create one. The component 
+ * handles loading states and provides feedback upon successful addition.
+ */
+
 import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,

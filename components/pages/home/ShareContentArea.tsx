@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `ShareContentArea` component encourages users to contribute their experiences and tips 
+ * to the platform. It includes buttons that open dialogs for creating experiences and tips, helping build 
+ * a community-driven repository of local insights and hidden gems. The component is styled for a visually 
+ * appealing, centered layout.
+ */
+
 import CreateExperienceDialog from "../experiences/CreateExperienceDialog";
 import CreateTipDialog from "../tips/CreateTipDialog";
 

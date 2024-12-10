@@ -1,5 +1,14 @@
 "use server";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides server-side utility functions for managing user authentication and 
+ * session state in a Next.js application. It handles setting, refreshing, and resetting authentication cookies, 
+ * ensuring secure and seamless user session management. The module integrates with a backend API to refresh 
+ * tokens and retrieve user-specific session data, optimizing authentication workflows.
+ */
+
 import { cookies } from "next/headers";
 
 // Function to refresh the access token when it expires

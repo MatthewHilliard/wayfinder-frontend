@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This `ExploreByCategoryArea` component provides a visually engaging way for users to explore 
+ * experiences by popular categories. Each category is represented by a `MagicCard` with an icon and name, 
+ * and clicking a category redirects the user to a filtered browse page. The component integrates smoothly 
+ * with Next.js routing and features responsive design for various screen sizes.
+ */
+
 import { MagicCard } from "@/components/ui/magic-card";
 import { useRouter } from "next/navigation";
 

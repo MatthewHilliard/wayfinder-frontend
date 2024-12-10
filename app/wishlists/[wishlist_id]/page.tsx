@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a wishlist page, displaying the experiences saved in a specific wishlist. 
+ * It fetches the wishlist items dynamically based on the wishlist ID provided in the URL parameters. The page 
+ * features a responsive grid layout for displaying experiences and provides a fallback message if the wishlist 
+ * is empty.
+ */
+
 import WishlistsAPI from "@/api/WishlistsAPI";
 import ExperienceCard from "@/components/pages/experiences/browse/ExperienceCard";
 import { WishlistItem } from "@/types/Wishlist";

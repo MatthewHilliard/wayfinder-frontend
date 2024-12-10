@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `CreateTipDialog` component provides users with an intuitive interface to share travel tips. 
+ * Users can describe their tip and specify a location using a dynamic location search. 
+ * The `TipForm` component handles input validation with Zod and manages form state using React Hook Form. 
+ * A seamless and accessible dialog interface encourages community engagement and collaboration.
+ */
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

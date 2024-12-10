@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This `HomePageSearchArea` component serves as the main search section of the homepage. 
+ * It features an engaging text animation with `WordFadeIn` and a `LocationSearch` bar for users to 
+ * select a city. Upon selecting a city, users are redirected to a browse page filtered by the chosen 
+ * location, with the city details serialized as a query parameter.
+ */
+
 import WordFadeIn from "@/components/ui/word-fade-in";
 import LocationSearch from "@/components/universal/LocationSearch";
 import { City } from "@/types/City";

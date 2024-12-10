@@ -1,4 +1,11 @@
-// utils/locationHelpers.ts
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: Utility functions for handling location-related data, including formatting 
+ * readable location strings and generating unique keys for City objects. These helpers are 
+ * designed to streamline the processing of location information within the application.
+ */
+
 import { City } from "@/types/City";
 import { Location } from "@/types/Location";
 

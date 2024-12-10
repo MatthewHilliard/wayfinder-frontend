@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a search input field for filtering experiences 
+ * based on a user-provided query. The component is styled for accessibility and 
+ * responsiveness, featuring a placeholder for guidance and integration with a parent 
+ * component via controlled value and onChange handler.
+ */
+
 import { Input } from "@/components/ui/input";
 
 export default function ExperienceSearch({

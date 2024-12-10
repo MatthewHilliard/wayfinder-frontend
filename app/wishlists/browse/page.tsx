@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a page for browsing the user's wishlists. It fetches wishlists 
+ * dynamically from the backend and displays them in a responsive grid layout. Users can click on a wishlist 
+ * to view its contents or create a new wishlist using the provided dialog. The page handles loading states 
+ * and gracefully displays a message when no wishlists are found.
+ */
+
 import { Wishlist } from "@/types/Wishlist";
 import { useEffect, useState } from "react";
 import {

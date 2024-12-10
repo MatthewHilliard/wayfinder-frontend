@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders the "Browse Travel Tips" page, allowing users to explore travel tips 
+ * filtered by location. It features a location search filter and dynamically fetches tips based on the 
+ * selected location. Users can also create new tips via a dialog. The page provides a structured layout for 
+ * displaying tips in a grid format.
+ */
+
 import TipsAPI from "@/api/TipsAPI";
 import CreateTipDialog from "@/components/pages/tips/CreateTipDialog";
 import { TipCard } from "@/components/pages/tips/TipCard";

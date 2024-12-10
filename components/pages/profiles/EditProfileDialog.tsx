@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `EditProfileDialog` component provides a dialog interface for users to update 
+ * their profile information, including their name and profile picture. It validates the inputs using 
+ * Zod and integrates seamlessly with React Hook Form for form management. The component includes 
+ * restrictions on file size and type for profile picture uploads, ensuring robust input validation.
+ */
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {

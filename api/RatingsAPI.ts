@@ -1,7 +1,15 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides a `RatingsAPI` object for managing ratings in the Wayfinder application. 
+ * It includes methods to create new ratings for experiences (`createRating`) and fetch ratings for a specific 
+ * experience by its ID (`getExperienceRatings`). Toast notifications are used to display success or error messages, 
+ * and the module handles API interactions for seamless backend communication.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import apiService from "@/services/apiService";
 import { Rating } from "@/types/Rating";
-import { error } from "console";
 import { UUID } from "crypto";
 
 const RatingsAPI = {

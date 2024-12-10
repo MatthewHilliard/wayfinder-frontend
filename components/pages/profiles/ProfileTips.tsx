@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `ProfileTips` component displays a list of travel tips shared by the user. Each tip includes the content 
+ * and its associated location, if available. If no tips are present, a prompt to create a new tip is displayed via the 
+ * `CreateTipDialog` component. This component ensures a clear and organized view for users to share and explore travel insights.
+ */
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CreateTipDialog from "@/components/pages/tips/CreateTipDialog";
 import { Tip } from "@/types/Tips";

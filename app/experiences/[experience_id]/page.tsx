@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a detailed page for an individual experience. It includes 
+ * information such as the title, description, location, price, tags, average rating, and associated 
+ * user ratings. The page also features actions to add the experience to a wishlist and submit a rating, 
+ * as well as a map displaying the location of the experience. Data is dynamically fetched using APIs 
+ * for experiences and ratings.
+ */
+
 import Image from "next/image";
 import { Star, MapPin, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";

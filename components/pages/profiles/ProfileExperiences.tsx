@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `ProfileExperiences` component displays a list of experiences associated with a user profile. 
+ * Each experience is clickable and opens its details in a new tab. If no experiences are present, the component 
+ * provides a prompt to create a new experience via the `CreateExperienceDialog`. It uses a card layout for 
+ * consistent design and includes subtle hover effects for an enhanced user experience.
+ */
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Experience } from "@/types/Experience";
 import { Star } from "lucide-react";

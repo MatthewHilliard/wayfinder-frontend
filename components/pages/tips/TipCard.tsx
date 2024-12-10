@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a styled card (`TipCard`) displaying details of a tip, 
+ * including the content, creator's profile, date posted, and location. The card links to the 
+ * creator's profile and dynamically fetches user and location data for a visually appealing 
+ * presentation of tips.
+ */
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,

@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders the "Browse Experiences" page, allowing users to search, filter, 
+ * and explore experiences. It integrates location-based search, experience name search, and tag filtering 
+ * to refine results. The page dynamically fetches and displays experiences based on user-selected criteria 
+ * and supports creating new experiences via a dialog.
+ */
+
 import { Suspense, useEffect, useState } from "react";
 import { Tag } from "@/types/Tag";
 import { Experience } from "@/types/Experience";

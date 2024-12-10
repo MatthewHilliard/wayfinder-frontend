@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component displays a card for individual ratings, including the user profile 
+ * information, rating value, comment, and the date it was posted. It uses reusable components 
+ * such as `Avatar`, `Card`, and `Link` for a consistent UI. Star icons represent the numeric 
+ * rating visually, and the user profile links to their details. The component is styled for 
+ * responsiveness and accessibility.
+ */
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Rating } from "@/types/Rating";

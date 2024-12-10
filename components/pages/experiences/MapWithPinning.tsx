@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component integrates Google Maps into the application, allowing users to pin locations 
+ * on the map and retrieve detailed location data through reverse geocoding. The `MapWithPinning` component 
+ * provides an interactive map for selecting a location, capturing latitude, longitude, country, region, and 
+ * city information, and passing the selected location to a callback function. It also demonstrates the use 
+ * of Google's AdvancedMarkerElement for custom map markers.
+ */
+
 import React, { useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 

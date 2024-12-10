@@ -1,7 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a `LogoutButton` that handles user logout functionality. 
+ * It resets authentication cookies, redirects the user to the homepage, and displays a toast 
+ * notification confirming successful logout, ensuring a smooth and intuitive user experience.
+ */
 
+import { useRouter } from "next/navigation";
 import { resetAuthCookies } from "../../../lib/actions";
 import { Button } from "../../ui/button";
 import { toast } from "@/hooks/use-toast";

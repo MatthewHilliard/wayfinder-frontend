@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides a `WishlistsAPI` object for managing wishlists and their items in 
+ * the Wayfinder application. It includes methods for creating wishlists (`createWishlist`), adding items 
+ * to wishlists (`createWishlistItem`), fetching the user's wishlists (`getUserWishlists`), and retrieving 
+ * items from a specific wishlist (`getWishlistItems`). Toast notifications are used for feedback, ensuring 
+ * a user-friendly experience and robust error handling for backend interactions.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import { getUserId } from "@/lib/actions";
 import apiService from "@/services/apiService";

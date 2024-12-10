@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a card for individual travel experiences. 
+ * Each card includes an image, title, location details, tags, and rating information. 
+ * Clicking the card opens the experience's detailed page in a new tab. 
+ * The component is styled for responsiveness, interactivity, and consistent UI using 
+ * reusable components such as `Card`, `Badge`, and `Image`.
+ */
+
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import {

@@ -1,8 +1,15 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides an `AuthAPI` object that handles user authentication operations 
+ * for the Wayfinder application. It includes methods for user registration (`register`) and login (`login`) 
+ * by interacting with the backend API. Success and error notifications are displayed using the `toast` hook, 
+ * and the `handleLogin` utility is used to store user session details.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import { handleLogin } from "@/lib/actions";
 import apiService from "@/services/apiService";
-import { City } from "@/types/City";
-import { Tag } from "@/types/Tag";
 
 const AuthAPI = {
   /**

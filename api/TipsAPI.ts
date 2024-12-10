@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides a `TipsAPI` object for managing tips in the Wayfinder application. 
+ * It includes methods to create new tips (`createTip`), fetch tips with optional filters (`getTipsWithFilters`), 
+ * and retrieve all tips created by a specific user (`getTipsByUserId`). Toast notifications are used for 
+ * success or error feedback, and the module ensures seamless backend communication and error handling.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import apiService from "@/services/apiService";
 import { Tip } from "@/types/Tips";

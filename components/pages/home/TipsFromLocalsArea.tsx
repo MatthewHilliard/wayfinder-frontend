@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `TipsFromLocalsArea` component displays travel tips from locals in an engaging marquee-style 
+ * scrolling section. Each tip is shown inside a card with details like the contributor's name, location, and 
+ * their tip. This visually appealing section is designed to provide valuable insights while enhancing user 
+ * engagement on the page.
+ */
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,

@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a signup dialog (`SignupPopup`) for creating a new user account. 
+ * It includes a form validated with Zod and React Hook Form to collect user details like name, email, 
+ * password, and location. The `LocationSearch` component enables users to select a location, which is 
+ * dynamically handled and integrated with the signup data. The dialog ensures a smooth user experience 
+ * with error handling and responsive interaction.
+ */
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {

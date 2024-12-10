@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This file defines the root layout for the Wayfinder application. It includes global metadata, 
+ * global styles, and common components such as the navigation bar (`Navbar`) and a toast notification system 
+ * (`Toaster`). The layout also integrates the Inter font from Google Fonts and serves as a wrapper for 
+ * all child components in the application.
+ */
+
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/universal/navbar/Navbar";

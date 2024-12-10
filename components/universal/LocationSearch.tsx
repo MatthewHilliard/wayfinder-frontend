@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a `LocationSearch` input field that allows users to search for and 
+ * select a location (city or country) dynamically. It integrates with the `LocationsAPI` to fetch matching 
+ * locations based on user input, supports clearing the selection, and utilizes a debounced search mechanism 
+ * to optimize API requests. The selected location is passed to the parent component through the `onSelect` 
+ * callback, ensuring seamless integration into various application workflows.
+ */
+
 import LocationsAPI from "@/api/LocationsAPI";
 import {
   Command,

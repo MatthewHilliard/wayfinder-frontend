@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a user profile page, displaying the user's details, experiences, 
+ * and travel tips. It dynamically fetches the profile data, including the user's information, their 
+ * created experiences, and travel tips. The page also identifies if the current user is viewing their 
+ * own profile to allow for personalized interactions. Separate components (`ProfileHeader`, 
+ * `ProfileExperiences`, and `ProfileTips`) are used for structured presentation.
+ */
+
 import UsersAPI from "@/api/UsersAPI";
 import { User } from "@/types/User";
 import { UUID } from "crypto";

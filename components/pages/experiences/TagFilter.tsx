@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This `TagFilter` component renders a list of selectable tags in the form of badges. 
+ * It supports toggling tags for filtering or selection purposes and can be used in both forms and filters. 
+ * The component dynamically updates the appearance of selected tags and triggers the provided `onToggleTag` 
+ * callback when a tag is clicked.
+ */
+
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Tag } from "@/types/Tag";

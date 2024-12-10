@@ -1,3 +1,11 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component defines a 404 Not Found page for the Wayfinder application. It displays 
+ * a user-friendly message informing users that the requested page could not be found, along with a button 
+ * to navigate back to the home page. The layout is centered for visual appeal.
+ */
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 

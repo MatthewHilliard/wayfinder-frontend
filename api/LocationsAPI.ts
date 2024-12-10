@@ -1,3 +1,11 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides a `LocationsAPI` object that facilitates location-related operations. 
+ * The `citySearch` method allows fetching cities, regions, or countries matching a given query string 
+ * by interacting with the backend API. It returns an array of city objects and handles errors gracefully.
+ */
+
 import apiService from "@/services/apiService";
 import { City } from "@/types/City";
 

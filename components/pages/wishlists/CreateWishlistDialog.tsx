@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a dialog (`CreateWishlistDialog`) for creating a new wishlist 
+ * within the application. It uses a form validated with Zod and React Hook Form for input handling. 
+ * The form includes a title field, integrates with the `WishlistsAPI`, and ensures smooth user interaction 
+ * with loading and error handling states. The dialog promotes better organization and planning for users' experiences.
+ */
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

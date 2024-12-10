@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component defines the `Navbar` for the Wayfinder application. It dynamically 
+ * adjusts navigation items based on the user's authentication status, displaying options such as 
+ * "Experiences," "Tips & Advice," and "Wishlists" for logged-in users. The navbar includes a logo, 
+ * navigation links, and a user dropdown for account actions, ensuring an intuitive and responsive 
+ * user experience.
+ */
+
 import Link from "next/link";
 import {
   NavigationMenu,

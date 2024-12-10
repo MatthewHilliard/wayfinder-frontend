@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component, `PriceSelect`, renders a dropdown menu for selecting a price range 
+ * (Free, Cheap, Moderate, Expensive). It utilizes a customizable `Select` component from the UI library 
+ * and supports controlled inputs with `value` and `onChange` props for seamless integration with forms 
+ * or filters.
+ */
+
 import * as React from "react";
 import {
   Select,

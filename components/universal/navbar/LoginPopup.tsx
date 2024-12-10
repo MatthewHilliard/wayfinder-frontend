@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component provides a popup dialog (`LoginPopup`) for user login. 
+ * It features a form validated with Zod and React Hook Form, collecting the user's email 
+ * and password. The login request is handled via the `AuthAPI`, and the component includes 
+ * error handling and smooth interaction to enhance the user experience.
+ */
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {

@@ -1,3 +1,11 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: A service abstraction for making API calls with standardized headers, 
+ * including support for JSON and FormData payloads. Handles GET, POST, and PUT 
+ * requests with optional authorization tokens and customizable headers.
+ */
+
 import { getAccessToken } from "@/lib/actions";
 
 const apiService = {

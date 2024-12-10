@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description:
+ * This component facilitates the creation of travel experiences with an intuitive, paginated dialog interface.
+ * Users can provide details such as title, description, location (via map pinning), tags, an optional image, and price.
+ * It integrates with the backend API to submit the collected data.
+ */
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

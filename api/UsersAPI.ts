@@ -1,3 +1,12 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This module provides a `UsersAPI` object for managing user-related operations in the Wayfinder application. 
+ * It includes methods to fetch a user by their ID (`getUserById`) and update a user's profile (`updateProfile`). 
+ * Toast notifications are used for providing feedback on the success or failure of operations, and the module ensures 
+ * seamless communication with the backend and robust error handling.
+ */
+
 import { toast } from "@/hooks/use-toast";
 import { getUserId } from "@/lib/actions";
 import apiService from "@/services/apiService";

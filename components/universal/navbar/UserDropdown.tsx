@@ -1,5 +1,14 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a `UserDropdown` menu that dynamically adapts to the user's 
+ * authentication state. It displays profile and account options for logged-in users, including a link 
+ * to their profile and a logout button. For unauthenticated users, it provides options to log in or sign up. 
+ * The component fetches user details when a `userId` is provided and seamlessly integrates with the `UsersAPI`.
+ */
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,

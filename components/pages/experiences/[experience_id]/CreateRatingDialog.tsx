@@ -1,3 +1,13 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a dialog for users to leave a rating and comment for an experience. 
+ * It integrates form validation using Zod and React Hook Form, ensuring a seamless user experience. Users 
+ * can provide an optional numeric rating (1-5) and a required comment. Upon submission, the data is sent to 
+ * the backend API to create a new rating. The component handles dialog visibility, input validation, and 
+ * API interaction gracefully.
+ */
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

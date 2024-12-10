@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: This component renders a Google Map centered on a specific location, using the 
+ * Google Maps JavaScript API. It displays a static marker at the provided latitude and longitude. 
+ * The map integrates with the Google Maps API via the `@react-google-maps/api` library, with 
+ * configuration options for a customized map style and UI controls. The component also includes 
+ * error handling and loading states for seamless user experience.
+ */
+
 import React, { useRef } from "react";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { Location } from "@/types/Location";

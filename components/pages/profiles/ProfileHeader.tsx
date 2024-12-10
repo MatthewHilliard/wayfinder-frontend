@@ -1,3 +1,11 @@
+/**
+ * Author: Matthew Hilliard
+ * Email: mch2003@bu.edu
+ * Description: The `ProfileHeader` component renders a user's profile header, including their avatar, name, location, 
+ * and join date. If the profile belongs to the currently logged-in user, an `EditProfileDialog` is provided to allow 
+ * profile editing. This component uses a responsive card layout for an organized and visually appealing design.
+ */
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@/types/User";
